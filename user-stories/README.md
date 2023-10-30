@@ -5,3 +5,5 @@ The evaluation of each technology can be found in:
 * [linked-data-event-streams.md](linked-data-event-streams.md)
 * [sparql-endpoints.md](sparql-endpoints.md)
 * [shape-trees.md](shape-trees.md)
+* [shape-trees.md](shape-trees.md)
+* [dedicated-ltqp-languages.md](dedicated-ltqp-languages.md)
