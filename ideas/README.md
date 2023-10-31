@@ -20,3 +20,7 @@ This directory contains ideas that would pop up in my head.
 * Use something like `splitOnPredicate` to create some kind of index. (use virtual containers)\
   Maybe we can determine when to create an index like this based on the #read/#writes on a resource (But what predicate to split on?)
 * Define a distance metric between two shapes.
+* LDP does not say anything about physical containing. This means we have soft links? Containing is not exclusive, 
+  It also allows pagination. We should still be careful!
+  If we use this: how do we clarify to views/ indexes will give you the same resources at the bottom?
+* If you make your first indexing layer the auth types, you can easily give an accessible view over the pod.
