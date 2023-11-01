@@ -1,6 +1,15 @@
 # Thesis
 Repo for my thesis work. (Don't expect this to be too organized. It's just a way of sharing thoughts + backups)
 
+## Intro
+
+Right now research surrounding Solid focuses on the Read part of 
+[CRUD](https://en.wikipedia.org/wiki/Create%2C_read%2C_update_and_delete).
+The other components are, however, also vital for the effectiveness of the 
+[Solid specification](https://solidproject.org/).
+The question we ask ourselves in this thesis is:
+> How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?
+
 ## Qualitative study
 
 The purpose of my thesis is to evaluate methods of performing update queries on distributed, authenticated storage locations using linked data.

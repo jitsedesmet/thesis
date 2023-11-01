@@ -38,6 +38,10 @@ We construct the following requirements:
    2. Consistency
    3. Isolation
    4. Durability
+9. Storage should avoid data dependence
+   1. Ordering dependence
+   2. Indexing dependence
+   3. Access path dependence
 
 When just inserting, where to insert?
 When updating, where to update if variables/ subjects span multiple documents?
@@ -53,7 +57,7 @@ We will use a single, slightly complex example of a fictional person that has di
 Let's consider the story of a photographer named Florence and her husband Wally.
 Because of her profession, she wants fine-grained control over pictures she took.
 For each photo shoot, she wants to share some pictures with the paying party, but likes to keep the bad ones hidden.
-Pictures containing her children are always accessible to her wife and children.
+Pictures containing her children are always accessible to her husband and children.
 Pictures of company events are accessible by everyone currently employed by that company.
 Pictures that are hers, but are not taken by her (e.g. medical pictures) are not of interest to her.
 As a photographer, she creates blogposts that are for the world to see.

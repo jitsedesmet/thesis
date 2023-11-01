@@ -24,3 +24,5 @@ This directory contains ideas that would pop up in my head.
   It also allows pagination. We should still be careful!
   If we use this: how do we clarify to views/ indexes will give you the same resources at the bottom?
 * If you make your first indexing layer the auth types, you can easily give an accessible view over the pod.
+* Wikipedia states: maybe we can look at that to get ACID working?
+   > In the 2010s, commercial ACID graph databases that could be scaled horizontally became available.
