@@ -50,39 +50,39 @@ We will use a single, slightly complex example of a fictional person that has di
 
 ## Context
 
-Let's consider the story of a photographer named Arthur and his wife Billie.
-Because of his profession, he wants fine-grained control over pictures he took.
-For each photo shoot, he wants to share some pictures with the paying party, but likes to keep the bad ones hidden.
-Pictures containing his children are always accessible to his wife and children.
+Let's consider the story of a photographer named Florence and her husband Wally.
+Because of her profession, she wants fine-grained control over pictures she took.
+For each photo shoot, she wants to share some pictures with the paying party, but likes to keep the bad ones hidden.
+Pictures containing her children are always accessible to her wife and children.
 Pictures of company events are accessible by everyone currently employed by that company.
-Pictures that are his, but are not taken by him (e.g. medical pictures) are not of interest to him.
-As a photographer, he creates blogposts that are for the world to see.
-To create those blogposts, he sketches a lot in his notepad, this is obviously private.
+Pictures that are hers, but are not taken by her (e.g. medical pictures) are not of interest to her.
+As a photographer, she creates blogposts that are for the world to see.
+To create those blogposts, she sketches a lot in her notepad, this is obviously private.
 
-One day he buys a smartwatch, this produces data unlike any the pod has ever seen.
+One day she buys a smartwatch, this produces data unlike any the pod has ever seen.
 
-Clients refer to his pictures. When he moves things, it shouldn't break.
+Clients refer to his pictures. When she moves things, it shouldn't break.
 
-Arthur and Billie like to play [Calico](https://www.flatout.games/#/calico/),
+Florence and Wally like to play [Calico](https://www.flatout.games/#/calico/),
 a friendly board game where the winner gets to keep the "Quilt master" token.
 They like to brag around who has this token to friends and family.
 When a game is played, the token is to be passed around in a way that conforms to ACID.   
 
 // TODO: maybe this is not the best? Should I remove it? 
-With his friends, Arthur organizes a monthly competition, "best runner of the month."
+With her friends, Florence organizes a monthly competition, "runner of the month."
 They pass this token around based on who wins the competition.
-Notice that apposed to with his wife, the friend do not share some kind of update rights on their solid pod.
+Notice that apposed to with her husband, the friends do not share some kind of update rights on their solid pod.
 
 
 ## User story collection 1: update data I own
 
 ### Insert data
-As mentioned in the context, Arthur wants to insert different kinds of data.
+As mentioned in the context, Florence wants to insert different kinds of data.
 
-1. Pictures of his clients (paying party can access)
-2. Pictures of his kids (kids and wife can access (specific users, depending on the content of the picture))
+1. Pictures of her clients (paying party can access)
+2. Pictures of her kids (kids and husband can access (specific users, depending on the content of the picture))
 3. Pictures of company event (users that can prove to be affiliated with the company can access)
-4. Medical pictures (his doctor can access, and Arthur does not care how they are stored)
+4. Medical pictures (her doctor can access, and Florence does not care how they are stored)
 5. Blogposts (public)
 6. Notes (private)
 7. Smartwatch data
@@ -91,71 +91,69 @@ As mentioned in the context, Arthur wants to insert different kinds of data.
 
 ### Delete data
 
-Arthur can delete whatever he wants.
-But for each technology, the question is: How does he do it?
-Does he want some kind of protection to not accidentally delete his medical pictures? 
+Florence can delete whatever she wants.
+But for each technology, the question is: How does she do it?
+Does she want some kind of protection to not accidentally delete his medical pictures? 
 
 ### Non-significant update of subject
 
-This category means Arthur wants to edit a simple predicate in his data.
+This category means Florence wants to edit a simple predicate in her data.
 For example, the label of a picture. 
 
 ### Significant update of data
 
 Technology dependent:
 look for an update that would change where a resource is virtually located/ how it is indexed.
-For example, Arthur decides he wants to convert a note to a blogpost.
+For example, Florence decides she wants to convert a note to a blogpost.
 
 
 ## User story collection 2: update data I do not own, but can update directly
 
 ### Insert data
 
-Arthur helps copy the pictures from his wife's phone to her solid pod, he has permission to add pictures.
-His wife's solid pod can either be opinionated or not.
+Florence helps copy the pictures from her husband's phone to his solid pod, she has permission to add pictures.
+Her husband's solid pod can either be opinionated or not.
 
 ### Delete data
 
-Arthur deletes a picture owned by his wife. (Assume he has authority to do so)
+Florence deletes a picture owned by her husband. (Assume she has authority to do so)
 
 ### Non-significant update of subject
 
-Arthur changes the label of his wife's pictures.
+Florence changes the label of her husband's pictures.
 
 ### Significant update of data
 
-Arthur edits his wife's pictures in a way that the picture needs to change indexed location.
+Florence edits her husband's pictures in a way that the picture needs to change indexed location.
 
 ### Pass the quilt master badge
 
-Arthur manages the passing around of "quilt master" badge.
-He can take or give the badge; it should, however, abide to the rules of ACID.
+Florence manages the passing around of "quilt master" badge.
+She can take or give the badge; it should, however, abide to the rules of ACID.
 
 # User story collection 3: Update data I cannot update directly
 
 ### Insert data
 
 If a client pays enough,
-Arthur is willing to change ownership of the pictures and wants to insert pictures in a company's pod.
+Florence is willing to change ownership of the pictures and wants to insert pictures in a company's pod.
 
 ### Delete data
 
-Arthur is not allowed to remove someone else's data.
-
-He can either request the removal, or use something like subweb spec to change his view on the data.
-
-(Maybe he does want to change his view over this data. Not to see it presented anymore? (Subweb?))
+Florence is not allowed to remove someone else's data.
+She can either request the removal, or use something like subweb spec to change her view on the data.
+(Maybe she does want to change her view over this data. Not to see it presented anymore? (Subweb?))
 
 ### Non-significant update of subject
 
-Arthur notices a typo in the label of a picture he gave to a company. 
+Florence notices a typo in the label of a picture she gave to a company. 
 
 ### Significant update of data
 
-Arthur wants to change a picture he sold to a company, but this would change the indexed location of that picture.  
+Florence wants to change a picture she sold to a company, but this would change the indexed location of that picture.  
 
 ### Pass the runner of the month token
 
-When Arthur has the token, he needs to pass it one to the new "runner of the month."
+When Florence has the token, she needs to pass it one to the new "runner of the month."
 Again abiding to the rules of ACID.
  
