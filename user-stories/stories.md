@@ -38,10 +38,20 @@ We construct the following requirements:
    2. Consistency
    3. Isolation
    4. Durability
-9. Storage should avoid data dependence
-   1. Ordering dependence
-   2. Indexing dependence
-   3. Access path dependence
+9. Storage should avoid **data dependence**
+   If developers are to create interoperable applications using solid, we should make sure that this can be done easily. 
+   1. Ordering dependence: Applications should not rely on the order of subjects in a file.
+   2. Indexing dependence: Applications should not rely on a certain index to be present, user patterns change, and so do indexes.
+   3. Access path dependence: Applications should not rely on taking a certain path to discover data.
+      An application should never browse files itself.
+
+   These data independence requirements are what caused Codd to invent relational databases, and caused the creation of SQL.
+   A query abstraction layer might help to relieve developers from this complexity.
+   An example query engine currently developed for solid is
+   [comunica-solid](https://comunica.dev/docs/query/advanced/solid/).
+   Users can just write declarative sparql queries, and the query engine takes care of the rest.
+
+   
 
 When just inserting, where to insert?
 When updating, where to update if variables/ subjects span multiple documents?
