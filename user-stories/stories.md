@@ -6,7 +6,7 @@ We construct the following requirements:
 1. Data should remain consistent with the requirements posed by the **technology** (e.g., solid).
    An update should not be able to break your data storage or at least give you a warning before doing so.
 2. The data should have **easy access control**.
-   SOLID currently provides this functionality using a combination of LDP and WAC.
+   SOLID currently provides this fusing a combination of LDP and WAC.
    If a technology decides not to use a directory structure, the notion of 'location to save to' does not exist.
    Instead, we use 'permissions to save with.'
    In principle, access control is a function over the document and the user requesting access.
