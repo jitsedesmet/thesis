@@ -14,12 +14,12 @@ We construct the following requirements:
 3. References should remain consistent/ [**cool**](https://www.w3.org/Provider/Style/URI).\
    Careful considerations should be made when, for example, moving data, you, or someone else, might still reference it.
 4. The **owner is in control** of the data.\
-   Strategies should allow users to opinionated their data storage.
+   Strategies should allow users to opinionate their data storage.
    For example, if a user wants to store pictures by date, this decision should be respected.
 5. Data in a data storage should be **discoverable**:
    When inserting data, there should be a way to discover this data, 
    preferably without scanning through the whole dataset.
-   As of the time of writing solid uses, for example, the type index and LDP. 
+   For example, as of the time of writing, solid uses the type index and LDP. 
 6. Allow **profiles or strategies**:\
    Some users are not opinionated about where their data is stored and don't want to be bothered explaining a hierarchy.
    This preference can differ regarding the data.
@@ -65,27 +65,27 @@ We will use a single, slightly complex example of a fictional person that has di
 ## Context
 
 Let's consider the story of a photographer named Florence and her husband Wally.
-Because of her profession, she wants fine-grained control over pictures she took.
-For each photo shoot, she wants to share some pictures with the paying party, but likes to keep the bad ones hidden.
+Because of her profession, Florence wants fine-grained control over the pictures she took.
+For each photo shoot, she wants to share some pictures with the clients of that photo shoot, but likes to keep bad pictures hidden.
 Pictures containing her children are always accessible to her husband and children.
 Pictures of company events are accessible by everyone currently employed by that company.
 Pictures that are hers, but are not taken by her (e.g. medical pictures) are not of interest to her.
 As a photographer, she creates blogposts that are for the world to see.
 To create those blogposts, she sketches a lot in her notepad, this is obviously private.
 
-One day she buys a smartwatch, this produces data unlike any the pod has ever seen.
+One day she buys a smartwatch, this produces data unlike the pod has ever seen. //Terugkoppelen
 
-Clients refer to his pictures. When she moves things, it shouldn't break.
+Clients refer to their pictures. When she moves things, it shouldn't break. // Clients refer to their pictures moet ook teruggekopeld worden. Bij de zin erop: Things? She? it? vaag taalgebruik
 
 Florence and Wally like to play [Calico](https://www.flatout.games/#/calico/),
-a friendly board game where the winner gets to keep the "Quilt master" token.
-They like to brag around who has this token to friends and family.
+a family-friendly board game where the winner gets to keep the "Quilt master" token.
+They like to brag around about who has this token to friends and family.
 When a game is played, the token is to be passed around in a way that conforms to ACID.   
 
 // TODO: maybe this is not the best? Should I remove it? 
-With her friends, Florence organizes a monthly competition, "runner of the month."
+Florence organizes a monthly competition with her friends which they call "runner of the month." 
 They pass this token around based on who wins the competition.
-Notice that apposed to with her husband, the friends do not share some kind of update rights on their solid pod.
+Notice that apposed to with her husband, the friends do not share some kind of update rights on their solid pod. // some kind of, vaag taalgebruik
 
 
 ## User story collection 1: update data I own
