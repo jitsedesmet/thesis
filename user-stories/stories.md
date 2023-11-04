@@ -72,17 +72,17 @@ Pictures of company events are accessible by everyone currently employed by that
 Pictures that are hers, but are not taken by her (e.g. medical pictures) are not of interest to her.
 As a photographer, she creates blogposts that are for the world to see.
 To create those blogposts, she sketches a lot in her notepad, this is obviously private.
-Florence like to reorganize her pictures from time to time in a quest to find the ideal organization structure for her.
-When she reorganizes, clients should stay uneffected, meaning they should still find the pictures they paid for.
+Florence likes to reorganize her pictures from time to time in a quest to find the ideal organization structure for her.
+When she reorganizes, clients should stay unaffected, meaning they should still find the pictures they paid for.
 
 Florence and Wally like to play [Calico](https://www.flatout.games/#/calico/),
 a family-friendly board game where the winner gets to keep the "Quilt master" token.
 They like to brag around about who has this token to friends and family.
 When a game is played, the token is to be passed around in a way that conforms to ACID.   
 
-One day, Florence and her friends decide to start running. 
+One day, Florence and her friends decided to start running. 
 She buys a smartwatch to track her running performance. 
-The smart watch produces data unlike the storage space has ever seen, it should still handle the data according to the functional requirements.
+The smartwatch produces data unlike the storage space has ever seen, it should still handle the data according to the functional requirements.
 The friend group organizes a monthly competition which they call "runner of the month."
 The winner of last month gets to keep a token, which they pass around based on who wins the competition.
 Notice that apposed to with her husband, the friends do not share update rights on their storage space.

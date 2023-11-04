@@ -130,7 +130,6 @@ Same as above.
 Same as above. Not possible in ACID way.
 
 # Conclusion
-
 We now evaluate what functional requirements are met using :white_check_mark: and :x:.
 1. Data should remain consistent with the requirements posed by the **technology** (e.g., solid):
    :x:
@@ -140,6 +139,7 @@ We now evaluate what functional requirements are met using :white_check_mark: an
 5. Data in a data storage should be **discoverable**:
    :white_check_mark:/:x:, type index is not the best, shape tree is better.
 6. Allow **profiles or strategies**: :x:
-7. Storage ACL should consider **privacy**: :white_check_mark:
+7. Storage ACL should consider **privacy**: :x:
+   if the type index is a static resource, knowing the pod contains certain types can be a privacy invasion.
 8. Good old **ACID**: :x:
 9. Storage should avoid **data dependence**: :x:

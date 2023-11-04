@@ -26,3 +26,5 @@ This directory contains ideas that would pop up in my head.
 * If you make your first indexing layer the auth types, you can easily give an accessible view over the pod.
 * Wikipedia states: maybe we can look at that to get ACID working?
    > In the 2010s, commercial ACID graph databases that could be scaled horizontally became available.
+* users are used to directory systems or tags.
+* When adding a predicate using an insert `:knownSubject ?p ?o` the pod should check whether the subject is already present.
