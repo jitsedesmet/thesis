@@ -28,3 +28,7 @@ This directory contains ideas that would pop up in my head.
    > In the 2010s, commercial ACID graph databases that could be scaled horizontally became available.
 * users are used to directory systems or tags.
 * When adding a predicate using an insert `:knownSubject ?p ?o` the pod should check whether the subject is already present.
+* Why not use a solid collection and then make `LDP` like views using [Tree spec](https://treecg.github.io/specification/#overview)
+* Do you need meaningful shapes?
+  Or should shape trees/ indices just be seen as some sort of index, 
+  where a memory/ processing time consideration should be made,
