@@ -67,6 +67,7 @@ We will use a single, slightly complex example of a fictional person that has di
 Let's consider the story of a photographer named Florence and her husband Wally.
 Because of her profession, Florence wants fine-grained control over the pictures she took.
 For each photo shoot, she wants to share some pictures with the clients of that photo shoot, but likes to keep bad pictures hidden.
+When clients of a photo shoot pay enough, Florance is willing to transfer the owner rights of the pictures from that photo shoot to these clients.
 Pictures containing her children are always accessible to her husband and children.
 Pictures of company events are accessible by everyone currently employed by that company.
 Pictures that are hers, but are not taken by her (e.g. medical pictures) are not of interest to her.
@@ -87,87 +88,53 @@ The friend group organizes a monthly competition which they call "runner of the 
 The winner of last month gets to keep a token, which they pass around based on who wins the competition.
 Notice that apposed to with her husband, the friends do not share update rights on their storage space.
 
-
-## User story collection 1: update data I own
-
-### Insert data
-As mentioned in the context, Florence wants to insert different kinds of data.
-
-1. Pictures of her clients (paying party can access)
-2. Pictures of her kids (kids and husband can access (specific users, depending on the content of the picture))
-3. Pictures of company event (users that can prove to be affiliated with the company can access)
-4. Medical pictures (her doctor can access, and Florence does not care how they are stored)
-5. Blogposts (public)
-6. Notes (private)
-7. Smartwatch data
-   (never seen by the pod.
-   Maybe a good default is needed, maybe a notification, or an explicit location needs to be defined)
-
-### Delete data
-
-Florence can delete whatever she wants.
-But for each technology, the question is: How does she do it?
-Does she want some kind of protection to not accidentally delete his medical pictures? 
-
-### Non-significant update of subject
-
-This category means Florence wants to edit a simple predicate in her data.
-For example, the label of a picture. 
-
-### Significant update of data
-
-Technology dependent:
-look for an update that would change where a resource is virtually located/ how it is indexed.
-For example, Florence decides she wants to convert a note to a blogpost.
+## Extracted stories (As an X, I want Y, so that Z, …)
 
 
-## User story collection 2: update data I do not own, but can update directly
+1. As a pod owner, I want to insert a picture that is **accessible by other pod** owners designed by me,
+   so these people can access the pictures I took for them. 
+2. As a pod owner, I want to insert a picture that **no one else can see**, so that I can keep backups, but hide bad results.
+3. As a pod owner, I want to **transfer** pictures I have to someone else, so they now own that picture.\
+   Note that I do not have write permissions in the other solid pod!
+4. As a pod owner, I want to insert a picture with `ex:contains ex:child1` that is **accessible by my children** (`ex:child1` and `ex:child2`),
+   so we can all look back at old times.
+5. As a pod owner, I want to insert a picture that is **accessible by anyone that can prove** to be working at a certain company,
+   so that they have something to talk about at the coffee machine.
+6. As a medical professional, I want to **insert a picture in someone else's pod** abiding by the access control preferences they have,
+   so they own their medical picture and other professionals they contact can access it.
+7. As a pod owner, I want to have an **opinionated view** over my data, so I can easily access it and feel in control.
+8. As a pod owner, I want to create blog posts that **anyone can access**, so I get cloud.
+9. As a pod owner, I want to create **private notes**, so I can order my private thoughts before I launch them into the world.
+10. As a pod owner, I want to **reorganize the way I view** my data without breaking references made by other people,
+    so I can view my data from different angles, but not disturb the cloud I made.
+11. As a pod owner, I want to **transfer a token** to a pod I have **full access** to; the transfer should confirm to **ACID**,
+    so that there is always one person holding the token, and everyone can see who has it.
+12. As a pod owner, I want to upload **new kinds of data** (e.g. smartwatch),
+    so I can always stay up to date with the latest technology.  
+13. As a pod owner, I want to transfer a token to a pod I have **no access** to; the transfer should confirm to **ACID**,
+    so that there is always one person holding the token, and everyone can see who has it.
+14. As a smartwatch, I want to **upload time series data** to the solid pod, so the user can view their activities
+15. As a pod owner, I want to have **control over how much data I keep** from my smartwatch and when to aggregate,
+    so my pod's memory is not entirely consumed by a single aspect of my life.
+16. As a pod owner, I want to **insert an additional** property to an existing resource, so it becomes more self-descriptive.
+17. As a pod owner, I want to **modify a property** of an existing resource, so I can fix my mistakes.
+18. As a pod owner, I want to **delete a property** of an existing resource, so I can fix my mistakes.
+19. As a pod owner, I want to **remove an entire resource**, so I can clear space.\
+    Does she want some kind of protection to not accidentally delete his medical pictures?
+20. As a pod owner, I want to **modify a resource** in a way that alters the location of that resource in my current view,
+    so I don't need to be cautious when modifying resources.
+21. As a pod owner, I want to **insert an additional** property to an existing resource in **someone else's pod**,
+    so it becomes more self-descriptive.  
+    For example, I transferred a picture and forgot to add a description.
+22. As a pod owner, I want to **modify a property** of an existing resource in **someone else's pod**, so I can fix my mistakes.
+23. As a pod owner, I want to **delete a property** of an existing resource in **someone else's pod**, so I can fix my mistakes.
+24. As a pod owner, I want to **modify a resource** in **someone else's pod**,
+    in a way that alters the location of that resource in a view present,
+    so I don't need to be cautious when modifying resources.
+25. As a pod owner, I want to **remove** a resource in **someone else's pod**, so I don't see it anymore.
+26. As a pod owner, I want to **remove** a resource in **someone else's pod**, so no one can see it.\
+    I might want to send a suggestion.
 
-### Insert data
-
-Florence helps copy the pictures from her husband's phone to his solid pod, she has permission to add pictures.
-Her husband's solid pod can either be opinionated or not.
-
-### Delete data
-
-Florence deletes a picture owned by her husband. (Assume she has authority to do so)
-
-### Non-significant update of subject
-
-Florence changes the label of her husband's pictures.
-
-### Significant update of data
-
-Florence edits her husband's pictures in a way that the picture needs to change indexed location.
-
-### Pass the quilt master badge
-
-Florence manages the passing around of "quilt master" badge.
-She can take or give the badge; it should, however, abide to the rules of ACID.
-
-# User story collection 3: Update data I cannot update directly
-
-### Insert data
-
-If a client pays enough,
-Florence is willing to change ownership of the pictures and wants to insert pictures in a company's pod.
-
-### Delete data
-
-Florence is not allowed to remove someone else's data.
-She can either request the removal, or use something like subweb spec to change her view on the data.
-(Maybe she does want to change her view over this data. Not to see it presented anymore? (Subweb?))
-
-### Non-significant update of subject
-
-Florence notices a typo in the label of a picture she gave to a company. 
-
-### Significant update of data
-
-Florence wants to change a picture she sold to a company, but this would change the indexed location of that picture.  
-
-### Pass the runner of the month token
-
-When Florence has the token, she needs to pass it one to the new "runner of the month."
-Again abiding to the rules of ACID.
- 
+User stories can be constructed where instead of inserting in my own pod, I insert in a pod I have full access to, 
+but no new cases will come out of it.
+A pod owner in these scenarios is either the person/ company, or an application working for them.
