@@ -8,3 +8,4 @@
 * [Type Index](https://solid.github.io/type-indexes/)
 * [Linked Data Event Streams (LDES)](https://semiceu.github.io/LinkedDataEventStreams/)
 * [Linked Data Notifications (LDN)](https://solid.github.io/notifications/ldn-channel-2023)
+* [TREE](https://treecg.github.io/specification/)

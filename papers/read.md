@@ -12,3 +12,11 @@
 
 
 # Interesting papers
+
+## Real-time collaboration in Linked Data Systems
+
+- Use existing CRDT implementations that support JSON. We treat that JSON as JSON-LD.
+- Since these implementations use binary formats, we keep both a binary document with the whole change history,
+  and a textual representation of the latest state (so we have a view readable by anyone).
+- they created an ontology CRDO that, among other things,
+  allows you to discover where these two documents are located in a solid pod. 
