@@ -4,7 +4,7 @@ Here we describe updates as done by most of the
 [solid project developer tools](https://solidproject.org/developers/tools/). 
 
 The technology uses HTTP put/ patch updates using LDP and WAC or ACP for access control.
-[WAC already cannot support some user stories](../technologies/WAC.md#limitations-with-regard-to-user-stories)
+[WAC already cannot support some user stories](access-control/WAC.md#limitations-with-regard-to-user-stories)
 
 On the other hand, ACP is really strong.
 

@@ -1,18 +1,26 @@
 # User stories
 
-We describe the different user stories in [stories.md](stories.md).
+In [stories.md](stories.md) we introduce some functional requirements and user stories focussing on updates.
 
-After familiarizing yourself with the user stories and understanding the functional requirements,
-you can read the evaluation of the different technologies.
+Since there the solid spec is a collection of multiple specifications working together, I cannot review it as a whole.
+Instead, I will review each specification and state the relevance of that spec to the user story.
+In the end, we hope to get a good understanding of what specs should be working together to conform to our requirements.
 
-### [Solid Specification tools](https://solidproject.org/developers/tools/)
-As far as I can tell, all solid specification tools use LDP and WAC for updates.
-We evaluate these choices in 
-[LDP-WAC.md](LDP-WAC.md).
+The different reviews of specifications are given in dedicated directories.  
+We start with specifications focussing on access control:
+* [WAC.md](access-control/WAC.md)
+* [ACP.md](access-control/ACP.md)
 
+Storage/linking specifications:
+* [LDP.md](LDP.md).
+* [TREE.md](TREE.md)
 
+Data Discovery Specifications:
+* [type-index.md](type-index.md)
+* [shape-trees.md](shape-trees.md)
+
+Varia specs:
 * [linked-data-event-streams.md](linked-data-event-streams.md)
+* [solid-interoperability.md](solid-interoperability.md)
 * [sparql-endpoints.md](sparql-endpoints.md)
-* [shape-trees.md](shape-trees.md)
-* [shape-trees.md](shape-trees.md)
 * [dedicated-ltqp-languages.md](dedicated-ltqp-languages.md)

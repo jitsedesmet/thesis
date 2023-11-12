@@ -32,7 +32,7 @@ ex:appleTree
 ```
 
 # User stories
-The only difference as opposed to [LDP-WAC](LDP-WAC.md) is that,
+The only difference as opposed to [LDP-WAC](LDP.md) is that,
 in contrast to using LDP, we are not limited to using the `rdf:type` predicate when discovering where to insert data.
 
 OUr conclusion is thus the same.

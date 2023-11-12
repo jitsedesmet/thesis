@@ -14,8 +14,8 @@ We construct the following requirements:
 3. References should remain consistent/ [**cool**](https://www.w3.org/Provider/Style/URI).\
    Careful considerations should be made when, for example, moving data, you, or someone else, might still reference it.
 4. The **owner is in control** of the data.\
-   Strategies should allow users to opinionate their data storage.
-   For example, if a user wants to store pictures by date, this decision should be respected.
+   Strategies should allow users to opinionate their data storage view/access-path.
+   For example, if a user wants to store/view pictures by date, this decision should be respected.
 5. Data in a data storage should be **discoverable**:
    When inserting data, there should be a way to discover this data, 
    preferably without scanning through the whole dataset.
@@ -31,7 +31,7 @@ We construct the following requirements:
      * Value based?
    * Request using notifications and a temporary storage mechanism.
    * Don't allow
-7. Storage ACL should consider **privacy**.\
+7. Storage access control should consider **privacy**.\
    Even knowing a resource exists, whether you can access it or not, can be a privacy concern.
 8. Good old **ACID**
    1. Atomicity
@@ -89,7 +89,6 @@ The winner of last month gets to keep a token, which they pass around based on w
 Notice that apposed to with her husband, the friends do not share update rights on their storage space.
 
 ## Extracted stories (As an X, I want Y, so that Z, …)
-
 
 1. As a pod owner, I want to insert a picture that is **accessible by other pod** owners designed by me,
    so these people can access the pictures I took for them. 
