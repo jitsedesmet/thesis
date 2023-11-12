@@ -1,5 +1,6 @@
 # [Access Control Policy](https://solidproject.org/TR/acp)
 
+* The [Solid Application Interoperability](../solid-interop.md) spec enhances this with ways of requesting access.
 * Also explained by Inrupt: https://docs.inrupt.com/developer-tools/javascript/client-libraries/tutorial/manage-acp/
 * Seems to be the bigger sibling of WAC.
 * Policies are themselves LD (Idea: we only need to evaluate it once?).
