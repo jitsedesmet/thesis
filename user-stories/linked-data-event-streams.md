@@ -1,4 +1,4 @@
-# Linked Data Event Streams
+# Linked Data Event Streams (WIP)
 
 A linked data event stream is a collection of immutable objects.
 It seems like the main purposes are:

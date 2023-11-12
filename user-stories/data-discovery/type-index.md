@@ -12,3 +12,4 @@ This is a privacy concern.
 
 Since the type index clearly has privacy issues and is being replaced by [shape trees](shape-trees.md),
 we will not go into detail.
+(NOTE: sill used by: https://solid.github.io/webid-profile/)

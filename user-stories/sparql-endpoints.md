@@ -1,4 +1,4 @@
-# SPARQL endpoint
+# SPARQL endpoint (WIP)
 
 
 # User stories

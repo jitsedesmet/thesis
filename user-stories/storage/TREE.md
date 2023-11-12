@@ -1,4 +1,4 @@
-# TREE
+# [TREE](https://treecg.github.io/specification/) (WIP)
 
 The tree spec seems quite interesting. It is a way of describing views over a collection of resources.
 Each view allows you to access the whole collection.

@@ -19,7 +19,7 @@ You have the following [access modes](https://solidproject.org/TR/wac##access-mo
 
 Could use [Access Mode Extensions](https://solidproject.org/TR/wac#extension-acl-mode)
 to define a subclass of a default access mode, like for example `acl:read`,
-defining that the server shoud execute a random function that would than limit read access. 
+defining that the server should execute a random function that would than limit read access. 
 This is included in the spec, but far-fetched.
 
 Interesting considerations:
