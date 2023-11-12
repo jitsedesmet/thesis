@@ -12,12 +12,12 @@ We start with specifications focussing on access control:
 * [ACP.md](access-control/ACP.md)
 
 Storage/linking specifications:
-* [LDP.md](LDP.md).
-* [TREE.md](TREE.md)
+* [LDP.md](storage/LDP.md).
+* [TREE.md](storage/TREE.md)
 
 Data Discovery Specifications:
 * [type-index.md](type-index.md)
-* [shape-trees.md](shape-trees.md)
+* [shape-trees.md](data-discovery/shape-trees.md)
 
 Varia specs:
 * [linked-data-event-streams.md](linked-data-event-streams.md)

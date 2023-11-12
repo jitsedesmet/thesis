@@ -1,4 +1,4 @@
-# Shape Trees
+# Shape Trees(http://shapetrees.org/)
 
 Shape trees are the proposed replacement to the original type index.
 It uses shape descriptions like
@@ -25,28 +25,35 @@ The "physical" relates to how LDP defines contains, however `ldp:contains` does 
 The shape tree spec also defines `virtual containment`, this is just another way of realizing directories above the underlying LDP spec.
 It means you don't need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
 Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appeTree`:
+
+LDP does not state anything about IRI form of subjects.
+That means that even though containers often have an IRI in the form of `:parent/child/child` this is not required. 
+
 ```turtle
 @prefix ex: <http://example.org/> .
 ex:appleTree
     ex:hasFruits ex:apple1, ex:apple2.
 ```
 
-# User stories
-The only difference as opposed to [LDP-WAC](LDP.md) is that,
-in contrast to using LDP, we are not limited to using the `rdf:type` predicate when discovering where to insert data.
+## Stories evaluations
+The story evaluation can be ignored since this just allows you to find a resource.
+We describe it for completeness. Shape trees do not specify where to write data, only where to find it.
+It is still interesting to consider, because we could get ideas from this spec on where to write data.
 
-OUr conclusion is thus the same.
+## Conclusion
+We now evaluate what functional requirements are met using:
+* :white_check_mark: when the requirement is met
+* :x: when the requirement is not met
+* :black_square_button: when the requirement is not in the scope of this spec
 
-# Conclusion
-We now evaluate what functional requirements are met using :white_check_mark: and :x:.
 1. Data should remain consistent with the requirements posed by the **technology** (e.g., solid):
-   :x:
-2. The data should have **easy access control**: :white_check_mark:
-3. References should remain consistent/ [**cool**](https://www.w3.org/Provider/Style/URI): :x:
-4. The **owner is in control** of the data: :x:
-5. Data in a data storage should be **discoverable**:
-   :white_check_mark:/:x:, type index is not the best, shape trees are better.
-6. Allow **profiles or strategies**: :x:
+   :white_check_mark: if the server enforces the shape trees.
+   :x: if clients still do what they desire.
+2. The data should have **easy access control**: :black_square_button:
+3. References should remain **consistent/cool**: :black_square_button:
+4. The **owner is in control** of the data: :black_square_button:
+5. Data in a data storage should be **discoverable**: :white_check_mark:
+6. Allow **profiles or strategies**: :black_square_button:
 7. Storage ACL should consider **privacy**: :white_check_mark:
    Shape trees can still be static as long as the identifiers are non-meaningful,
    and containing resources correctly use access control to not reveal their content.
