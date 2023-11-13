@@ -28,7 +28,7 @@ I think we should construct these right before looking into an own alternative? 
 
 ## Using shapes
 
-To test our implemntation, we will use [SolidBench.js](https://github.com/SolidBench/SolidBench.js).
+To test our implementation, we will use [SolidBench.js](https://github.com/SolidBench/SolidBench.js).
 Shape descriptions for each object can be found [here](https://github.com/jitsedesmet/SolidBench.js/blob/feat/add-shapes/shape-descriptions.ttl).
 
 

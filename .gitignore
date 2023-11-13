@@ -1,3 +1,6 @@
 *.pdf
 # Desided not to include the document it cites papers and I don't want to be sued for copyright infringements.
 papers/notes.md
+_site
+.sass-cache
+.jekyll-metadata

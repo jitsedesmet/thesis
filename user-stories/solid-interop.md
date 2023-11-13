@@ -13,3 +13,6 @@ Authorization flows:
 
 Agents can describe their [Access needs](https://solid.github.io/data-interoperability-panel/specification/#needs).
 
+Access authorization records that you have given grant access to an agent, these are not shared, you share an Access grant.
+
+In the end, this spec allows applications to request/grant access to shape tree instances. 
