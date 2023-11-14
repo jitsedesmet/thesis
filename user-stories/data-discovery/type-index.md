@@ -1,4 +1,8 @@
-# [Type Index](https://solid.github.io/type-indexes/)
+---
+title: Type Index
+---
+
+[spec](https://solid.github.io/type-indexes/)
 
 The type index specification was a way of discovering data within a solid pod.
 Now it has been replaced by [shape trees](shape-trees.md).

@@ -1,4 +1,6 @@
-# Ideas
+---
+title: Ideas
+---
 
 This directory contains ideas that would pop up in my head.
 

@@ -1,4 +1,6 @@
-# SPARQL endpoint (WIP)
+---
+title: SPARQL endpoint (WIP)
+---
 
 
 # User stories

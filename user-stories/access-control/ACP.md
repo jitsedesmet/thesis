@@ -1,4 +1,8 @@
-# [Access Control Policy](https://solidproject.org/TR/acp)
+---
+title: Access Control Policy
+---
+
+[spec](https://solidproject.org/TR/acp)
 
 * The [Solid Application Interoperability](../solid-interop.md) spec enhances this with ways of requesting access.
 * Also explained by Inrupt: https://docs.inrupt.com/developer-tools/javascript/client-libraries/tutorial/manage-acp/

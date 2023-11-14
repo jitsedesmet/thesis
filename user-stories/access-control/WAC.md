@@ -1,4 +1,8 @@
-# [WAC](https://solidproject.org/TR/wac)
+---
+title: WAC
+---
+
+[spec](https://solidproject.org/TR/wac)
 
 You use Linked Data's [acl ontology](http://www.w3.org/ns/auth/acl#).
 

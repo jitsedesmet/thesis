@@ -1,4 +1,6 @@
-# User stories
+---
+title: Stories Overview
+---
 
 In [stories.md](stories.md) we introduce some functional requirements and user stories focussing on updates.
 
@@ -16,11 +18,11 @@ Storage/linking specifications:
 * [TREE.md](storage/TREE)
 
 Data Discovery Specifications:
-* [type-index.md](type-index)
+* [type-index.md](data-discovery/type-index)
 * [shape-trees.md](data-discovery/shape-trees)
 
 Varia specs:
-* [linked-data-event-streams.md](linked-data-event-streams.md)
-* [solid-interoperability.md](solid-interoperability.md)
-* [sparql-endpoints.md](sparql-endpoints.md)
-* [dedicated-ltqp-languages.md](dedicated-ltqp-languages.md)
+* [linked-data-event-streams.md](linked-data-event-streams)
+* [solid-interoperability.md](solid-interop)
+* [sparql-endpoints.md](sparql-endpoints)
+* [dedicated-ltqp-languages.md](dedicated-ltqp-languages)

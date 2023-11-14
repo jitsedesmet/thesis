@@ -19,7 +19,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Repo for my thesis work. (Don't expect this to be too organized. It's just a way of sharing thoughts)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: /
+# twitter_username: /
 github_username:  jitsedesmet
 
 # Build settings
@@ -31,6 +31,11 @@ plugins:
 
 kramdown:
   syntax_highlighter: coderay
+
+header_pages:
+  - user-stories/index.md
+  - achievements/index.md
+  - ideas/index.md
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

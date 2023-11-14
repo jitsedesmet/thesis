@@ -1,4 +1,8 @@
-# Shape Trees(http://shapetrees.org/)
+---
+title: Shape Trees
+---
+
+[spec](http://shapetrees.org/)
 
 Shape trees are the proposed replacement to the original type index.
 It uses shape descriptions like

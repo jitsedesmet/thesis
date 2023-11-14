@@ -1,4 +1,6 @@
-# Shape trees
+---
+title: Shape tree ideas
+---
 
 My ideas surrounding shape trees
 

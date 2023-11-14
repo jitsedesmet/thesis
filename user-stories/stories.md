@@ -1,3 +1,8 @@
+---
+title: stories
+---
+
+
 Question to ask people regarding expectations on:
 * If you had taken a picture and would ask your smart device to place it somewhere on your computer, what would you expect?
 

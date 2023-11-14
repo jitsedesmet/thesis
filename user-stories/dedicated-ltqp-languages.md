@@ -1,6 +1,8 @@
-# Dedicated LTQP languages (WIP)
+---
+title: Dedicated LTQP languages (WIP)
+---
 
-When reading this: nite that sparql updates git introduces only in SPARQL 1.1 in mar.2013
+When reading this: note that sparql updates git introduces only in SPARQL 1.1 in mar.2013
 
 ## The linked media framework: Integrating and interlinking enterprise media content and data
 > This immediately gives rise to the question how to update and interact with the Linked Data

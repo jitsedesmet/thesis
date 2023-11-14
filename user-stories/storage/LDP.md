@@ -1,4 +1,8 @@
-# [LDP](https://www.w3.org/TR/ldp/) (WIP)
+---
+title: LDP (WIP)
+---
+
+[spec](https://www.w3.org/TR/ldp/)
 
 LDP is used either explicitly, e.g. in 
 [SOLID Interoperability](https://solid.github.io/data-interoperability-panel/specification/#data-registration)
