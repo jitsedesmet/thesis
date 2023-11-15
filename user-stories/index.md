@@ -10,19 +10,19 @@ In the end, we hope to get a good understanding of what specs should be working 
 
 The different reviews of specifications are given in dedicated directories.  
 We start with specifications focussing on access control:
-* [WAC.md](access-control/WAC)
-* [ACP.md](access-control/ACP)
+* [WAC.md](access-control/WAC.md)
+* [ACP.md](access-control/ACP.md)
 
 Storage/linking specifications:
-* [LDP.md](storage/LDP).
-* [TREE.md](storage/TREE)
+* [LDP.md](storage/LDP.md).
+* [TREE.md](storage/TREE.md)
 
 Data Discovery Specifications:
-* [type-index.md](data-discovery/type-index)
-* [shape-trees.md](data-discovery/shape-trees)
+* [type-index.md](data-discovery/type-index.md)
+* [shape-trees.md](data-discovery/shape-trees.md)
 
 Varia specs:
-* [linked-data-event-streams.md](linked-data-event-streams)
-* [solid-interoperability.md](solid-interop)
-* [sparql-endpoints.md](sparql-endpoints)
-* [dedicated-ltqp-languages.md](dedicated-ltqp-languages)
+* [linked-data-event-streams.md](linked-data-event-streams.md)
+* [solid-interoperability.md](solid-interop.md)
+* [sparql-endpoints.md](sparql-endpoints.md)
+* [dedicated-ltqp-languages.md](dedicated-ltqp-languages.md)
