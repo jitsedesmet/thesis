@@ -11,15 +11,17 @@ The question we ask ourselves in this thesis is:
 
 ## Qualitative study
 
-The purpose of my thesis is to evaluate methods of performing update queries on distributed, authenticated storage locations using linked data.
-Since no well-established technology exists, a quantitative study is not possible because there is no baseline to compare our solution against.
+Since no well-established technology exists,
+a quantitative study is not possible because there is no baseline to compare our solution against.
 Instead, we will [construct user stories](/user-stories) and evaluate whether current technologies satisfy the requirements.
 
 ## Metrics
 
 If the qualitative study shows that no existing solution is sufficient,
 we plan on researching a way to effectively satisfy the requirement of our user stories.
-We can measure performance of our alternative based on how well it satisfies the requirements. 
+We can measure the performance of our alternative based on how well it satisfies the requirements.
+
+The solution we suggest is described in a [solution section](solution/index.md)
 
 ## Hypotheses
 

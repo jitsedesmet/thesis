@@ -35,7 +35,9 @@ The problem with property path querying we face is that it breaks the `Access pa
 ## NautiLOD: A formal language for the web of data graph
 
 ## SPARQL with property paths on the Web
-
+Already mentioned above.
+In this context, it would be used more for querying.
+In regard to updates, it has the same issues as normal SPARQL, which has a [dedicated page](SPARQL.md). 
 
 # User stories
 ## User story collection 1: update data I own
