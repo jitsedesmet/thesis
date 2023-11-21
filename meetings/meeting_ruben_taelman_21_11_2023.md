@@ -34,5 +34,33 @@ Sort of like the subscription model that exists for LDNChannel2023, but automate
 
 ## During the meeting
 
+You cannot just say "I link to something" because a resource does not always have to be the whole file.
+That's what LDP still allows easily; you can have multiple resources contained within one file.
+
+A solution would describe whether a storage location/ container is, for example:
+1. canonical
+2. derived
+3. only-stored-when-not-redundant
+4. always stored
+5. other?
+
+And the different storage locations could be seen as special cases of each-other.
+The Broadest way of storage would be LDP:
+![LDP visualisation](static/LDP.jpeg)
+
+A SPARQL endpoint could be seen as a special case of LDP where
+each resource has their own file and hard- /soft-links are always used.
+![SPARQL endpoint visualisation](static/endpoint.jpeg)
+
+Going further, LDES could be seen as an alternative where the client just stores in a certain location.
+The server uses the technology that would otherwise be used by the clint in the case of LDP and SPARQL endpoint.
+![LDES visulisation](static/LDES.jpeg)
+
+Read: [What's in a Pod?–A knowledge graph interpretation for the Solid ecosystem](https://imec-publications.be/bitstream/handle/20.500.12860/40806/DS582.pdf?sequence=1) 
 
 ## Conclusions
+
+Next, we should think about an ontology/ description of the different ways
+we want to guide a client into making the correct decisions as to where we would store data.
+
+

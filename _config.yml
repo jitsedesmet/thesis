@@ -36,6 +36,7 @@ header_pages:
   - user-stories/index.md
   - achievements/index.md
   - ideas/index.md
+  - meetings/index.md
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

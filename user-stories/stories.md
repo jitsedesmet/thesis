@@ -43,7 +43,7 @@ We construct the following requirements:
    2. Consistency
    3. Isolation
    4. Durability
-9. Storage should avoid **data dependence**
+9. Storage should **avoid data dependence**
    If developers are to create interoperable applications using solid, we should make sure that this can be done easily. 
    1. Ordering dependence: Applications should not rely on the order of subjects in a file.
    2. Indexing dependence: Applications should not rely on a certain index to be present, user patterns change, and so do indexes.

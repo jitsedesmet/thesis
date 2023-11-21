@@ -22,7 +22,7 @@ Data Discovery Specifications:
 * [shape-trees.md](data-discovery/shape-trees.md)
 
 Varia specs:
-* [linked-data-event-streams.md](linked-data-event-streams.md)
+* [linked-data-event-streams.md](storage/linked-data-event-streams.md)
 * [solid-interoperability.md](solid-interop.md)
-* [sparql-endpoints.md](sparql-endpoints.md)
-* [dedicated-ltqp-languages.md](dedicated-ltqp-languages.md)
+* [sparql-endpoints.md](storage/sparql-endpoints.md)
+* [dedicated-ltqp-languages.md](query-languages/dedicated-ltqp-languages.md)
