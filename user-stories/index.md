@@ -1,5 +1,5 @@
 ---
-title: Stories Overview
+title: Stories & Technologies
 ---
 
 In [stories.md](stories.md) we introduce some functional requirements and user stories focussing on updates.
@@ -9,20 +9,24 @@ Instead, I will review each specification and state the relevance of that spec t
 In the end, we hope to get a good understanding of what specs should be working together to conform to our requirements.
 
 The different reviews of specifications are given in dedicated directories.  
-We start with specifications focussing on access control:
-* [WAC.md](access-control/WAC.md)
-* [ACP.md](access-control/ACP.md)
+
+Access control:
+* [WAC](access-control/WAC.md)
+* [ACP](access-control/ACP.md)
 
 Storage/linking specifications:
-* [LDP.md](storage/LDP.md).
-* [TREE.md](storage/TREE.md)
+* [LDP](storage/LDP.md).
+* [TREE](storage/TREE.md)
+* [linked-data-event-streams](storage/linked-data-event-streams.md)
+* [sparql-endpoints](storage/sparql-endpoints.md)
 
 Data Discovery Specifications:
-* [type-index.md](data-discovery/type-index.md)
-* [shape-trees.md](data-discovery/shape-trees.md)
+* [type-index](data-discovery/type-index.md)
+* [shape-trees](data-discovery/shape-trees.md)
+
+Query languages:
+* [SPARQL](query-languages/SPARQL.md)
+* [The linked media framework, and others](query-languages/dedicated-ltqp-languages.md)
 
 Varia specs:
-* [linked-data-event-streams.md](storage/linked-data-event-streams.md)
 * [solid-interoperability.md](solid-interop.md)
-* [sparql-endpoints.md](storage/sparql-endpoints.md)
-* [dedicated-ltqp-languages.md](query-languages/dedicated-ltqp-languages.md)
