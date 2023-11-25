@@ -19,7 +19,8 @@ Resource description:
 
 container description:
 * groupsBy << ?s ?p ?o >>
-* groupByEqualObject somePredicate
+* groupByEqualObject somePredicate    
+  -> TODO: find a ways to say more complex things like: sort first on predicateX, then predicateY. 
 * for time series: can say it has a cutoff just like in LDES?
 
 What if no preference matches the new resource?
