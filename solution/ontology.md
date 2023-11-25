@@ -40,7 +40,8 @@ The ontology we created could work on different storage mechanisms with differen
 We do not consider data-discovery mechanism as this is actively being researched by query experts,
 and we believe an index should provide update mechanism themselves.
 In future research, it might be beneficial to also consider updating the index as part of the update query. 
-We further assume the use of SPARQL as it allows users to enter broad queries that are in line with our data dependence requirements. 
+We further assume the use of SPARQL as it allows users to enter broad queries that are in line with our
+[data dependence requirements](../user-stories/stories.md). 
 
 
 ### LDP
