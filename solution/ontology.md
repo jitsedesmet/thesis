@@ -2,7 +2,7 @@
 title: ontology description (WIP)
 ---
 
-After the [meeting of 21 november 2023](/meetings/meeting_ruben_taelman_21_11_2023.md)
+After the [meeting of 21 november 2023](../meetings/meeting_ruben_taelman_21_11_2023.md)
 we can start writing an ontology that guides automated clients in performing updates as instructed by pod owners.
 
 Do we save?
