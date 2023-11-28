@@ -95,7 +95,7 @@ Notice that apposed to with her husband, the friends do not share update rights 
 
 ## Extracted stories (As an X, I want Y, so that Z, …)
 
-1. As a pod owner, I want to insert a picture that is **accessible by other pod** owners designed by me,
+1. As a pod owner, I want to insert a picture that is **accessible by other pod** owners decided by me,
    so these people can access the pictures I took for them. 
 2. As a pod owner, I want to insert a picture that **no one else can see**, so that I can keep backups, but hide bad results.
 3. As a pod owner, I want to **transfer** pictures I have to someone else, so they now own that picture.\

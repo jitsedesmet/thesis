@@ -2,7 +2,8 @@
 title: Shape Trees
 ---
 
-[spec](http://shapetrees.org/)
+[spec](http://shapetrees.org/). [Domain does not resolve](https://github.com/shapetrees/specification/issues/78),
+so try [my self-hosted fork](https://jitsedesmet.github.io/shape-trees-spec/) instead.
 
 Shape trees are the proposed replacement to the original type index.
 It uses shape descriptions like

@@ -2,6 +2,8 @@
 title: Linked Data Event Streams (WIP)
 ---
 
+[spec](https://semiceu.github.io/LinkedDataEventStreams/)
+
 A linked data event stream is a collection of immutable objects.
 It seems like the main purposes are:
 - Creating views
