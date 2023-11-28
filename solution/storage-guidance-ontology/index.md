@@ -11,12 +11,12 @@ or express the relation of your ontology to existing ones as much as possible.
 
 We can use most parts of [shape trees](https://jitsedesmet.github.io/shape-trees-spec/).
 
-### Retention Policy
+### OPTIONAL Retention Policy
 A user can define [LDES](https://semiceu.github.io/LinkedDataEventStreams/#retention)
 inspired retention policy and warn writers of event streams, for example,
 that they should regularly aggregate their stream data.
 This could work just like a garbage collector.
-Based on a certain time attribute, a garbage collector cleans event streaming data. 
+Based on a certain time attribute, a garbage collector cleans event streaming data.
 
 
 ## Adding new components
@@ -32,55 +32,84 @@ It could also describe a construct query in the case of SPARQL endpoints.
 #### sgo:only-stored-when-not-redundant
 Stores only when no one else stores it, a dedicated container could be set up instead of falling back to an exception.
 
-### Resource Description:
+Q: What if multiple containers say this about a resource?  
+A: Pick a random container.
+
+
+### Resource Description `sgo:shape-selector`
+The shape selector can either be equal to the shape of the shape tree or can be more loose than it.
+This allows containers to dynamically allow for stretching the shape description.
+
 Shape description needs to be able to say both
   1. picture contains son or daughter
   2. picture contains son and daughter
+
 
 ### Container Description `sgo:group-strategy`
 #### sgo:groupsBy ?GroupDescription
 `?GroupDescription` should be a SPARQL select query over the resources in the scoped collection returning `?key` and `?value`
 The key is the resource identifier, the value an `xsd:string` representing the directory name.
 For this allows for complex splits like: `rome-23-07-2023`?
+Would be a restriction to `xsd:string` that defines a sparql query with format,
+that allows only bind and property path starting from ?key.
+The query would be executed over all members of the container, and the first result would be for each.
+For example
+```sparql
+PREFIX ex: <http://example.org/>
+SELECT ?key ?value where {
+    BIND(CONCAT(STR(?name), "-", STR(?date)) as ?value) .
+    ?key ex:creationDate ?date;
+    ?key ex:location [
+        ex:locatedIn* [
+            a ex:city ;
+            ex:label ?name ;
+        ] .
+    ] .
+}
+LIMIT 1
+```
 
 Maybe this poses a security issue (execution of queries), and we should also add a description?
 
 
-#### LDES inspired retention policy `sgo:retention-policy`
-https://semiceu.github.io/LinkedDataEventStreams/#retention
+### Client control `sgo:client-control`
+Client control can be given in certain strength to ensure freedom of clients or prefer more stable pods. 
 
-
-### What if no preference matches the new resource?
-#### Notification
-
-
-#### Assume
-
-
-#### Deny
-
-### Client control
 #### `sgo:free-client`
 Client is free to do what they desire
+
 
 #### `sgo:additional-allowed`
 Additional replications are allowed.
 
+
+#### `sgo:allowed-when-not-preffered`
+The client can decide where to store something if no one else explicitly wants it.
+
+
 #### `sgo:allow-when-not-claimed`
-The client can decide where to store something if no one else wants it
+The client can decide where to store something if no one else wants it.
+
+The difference with `sgo:allowed-when-not-preffered` is that here we do not have control over resources matched using
+`sgo:only-stored-when-not-redundant`.
+
 
 #### `sgo:no-control`
 The client is not allowed to express any opinion.
 
 
 ### ACID
-We probably need some more complex sync system for this?
+TODO: We probably need some more complex sync system for this?
 
-### VARIA
-#### sgo:resourceSeperated
+
+### VARIA (`sgo:flags`)
+#### sgo:resource-seperated
 Describes that each resource has its own file and no multiple resources reside in one file.
 This essentially means that resources in this container are free of
-[fragments](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment)
+[fragments](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment).
+As a result, we do not need to duplicate any data, and the notion of storage location fades.
+We can use pure linked data to express relations between resources.
+This flag is always set in a SPARQL endpoint.
 
 ## Visual representation
 ```mermaid
@@ -98,11 +127,28 @@ classDiagram
     class client-control {
         free-client
         additional-allowed
+        allowed-when-not-preffered
         allow-when-not-claimed
         no-control
     }
+    class flags {
+        resource-seperated
+    }
 ```
 
+## Use cases
+### What if no preference matches the new resource?
+#### Notification
+You would describe a notification container with a `save-condition` as `only-stored-when-not-redundant` with a
+shape selector that is empty (matches anything).
+`sgo:client-control` would be `sgo:allow-when-not-claimed`.
+
+#### Assume
+Same as above but more relaxed client control.
+
+#### Deny
+Do not declare a notification container so no one matches the insert and do not allow client opinions by using a
+`sgo:client-control` of `sgo:no-control`.
 
 ## Shape:
 ```turtle
