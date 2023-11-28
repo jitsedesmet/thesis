@@ -102,14 +102,18 @@ The client is not allowed to express any opinion.
 TODO: We probably need some more complex sync system for this?
 
 
-### VARIA (`sgo:flags`)
-#### sgo:resource-seperated
+### resource materialization (`sgo:materialization`)
+#### sgo:one-file-one-resource
 Describes that each resource has its own file and no multiple resources reside in one file.
 This essentially means that resources in this container are free of
 [fragments](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment).
 As a result, we do not need to duplicate any data, and the notion of storage location fades.
 We can use pure linked data to express relations between resources.
 This flag is always set in a SPARQL endpoint.
+
+#### sgo:one-file-multiple-resources
+States that each file in the sub-directry can contain multiple files.
+Forces duplication in many systems.
 
 ## Visual representation
 ```mermaid
@@ -131,8 +135,9 @@ classDiagram
         allow-when-not-claimed
         no-control
     }
-    class flags {
-        resource-seperated
+    class materialization {
+        one-file-one-resource
+        one-file-multiple-resources
     }
 ```
 
