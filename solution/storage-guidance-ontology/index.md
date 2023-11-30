@@ -5,7 +5,53 @@ title: storage guidance ontology (sgo) (WIP)
 After the [meeting of 21 november 2023](../../meetings/meeting_ruben_taelman_21_11_2023.md)
 we can start writing an ontology that guides automated clients in performing updates as instructed by pod owners.
 
-## Reusing existing ontologies
+## Visual representation
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'forest', securityLevel: 'loose' });
+</script>
+
+<pre class="mermaid">
+classDiagram
+    SG "1" -- "1..*" SC
+    SG "1" -- "1..*" GS
+    SG "1" -- "1..*" CC
+    SG "1" -- "1..*" M
+    class SG["Storage Guidance"]{
+        Save Condition
+        Group Strategy
+        Client Control
+        Materialization
+    }
+namespace StorageGuidanceOntology{
+    class SC["Save Condition"]{
+      Always
+      Derived `from?`
+      Only Stored When Not Redundant
+    }
+    class GS["Group Strategy"]{
+        SPARQL Description
+    }
+    class CC["Client Control"] {
+        Free Client
+        Additional Allowd
+        Allowed When Not Prefferd
+        Allow When Not Claimed
+        No Control
+    }
+    class M["Materialization"] {
+        One File One Resource
+        One File multiple Resources
+    }
+}
+link SG "#"
+link SC "#save-condition"
+link GS "#group-strategy"
+link CC "#client-control"
+link M "#resource-materialization"
+</pre>
+
+## Reusing Existing Ontologies
 When writing a new ontology, it is important to use existing ontologies as much as possible,
 or express the relation of your ontology to existing ones as much as possible.
 
@@ -20,7 +66,8 @@ Based on a certain time attribute, a garbage collector cleans event streaming da
 
 
 ## Adding new components
-### Do we save? (`sgo:save-condition`)
+### Save Condition
+`sgo:save-condition`
 #### sgo:always-stored/ sgo:canonicalContainer
 Just stores the data in case the description matches.
 
@@ -45,7 +92,8 @@ Shape description needs to be able to say both
   2. picture contains son and daughter
 
 
-### Container Description `sgo:group-strategy`
+### Group Strategy
+`sgo:group-strategy`
 #### sgo:groupsBy ?GroupDescription
 `?GroupDescription` should be a SPARQL select query over the resources in the scoped collection returning `?key` and `?value`
 The key is the resource identifier, the value an `xsd:string` representing the directory name.
@@ -72,7 +120,8 @@ LIMIT 1
 Maybe this poses a security issue (execution of queries), and we should also add a description?
 
 
-### Client control `sgo:client-control`
+### Client Control
+`sgo:client-control`  
 Client control can be given in certain strength to ensure freedom of clients or prefer more stable pods. 
 
 #### `sgo:free-client`
@@ -102,7 +151,8 @@ The client is not allowed to express any opinion.
 TODO: We probably need some more complex sync system for this?
 
 
-### resource materialization (`sgo:materialization`)
+### resource materialization 
+`sgo:materialization`
 #### sgo:one-file-one-resource
 Describes that each resource has its own file and no multiple resources reside in one file.
 This essentially means that resources in this container are free of
@@ -112,34 +162,8 @@ We can use pure linked data to express relations between resources.
 This flag is always set in a SPARQL endpoint.
 
 #### sgo:one-file-multiple-resources
-States that each file in the sub-directry can contain multiple files.
-Forces duplication in many systems.
-
-## Visual representation
-```mermaid
-classDiagram
-    class save-condition{
-      always-stored
-      derived-container
-      only-stored-when-not-redundant
-    }
-    class group-strategy{
-      sparql-description
-    }
-    class retention-policy{
-    }
-    class client-control {
-        free-client
-        additional-allowed
-        allowed-when-not-preffered
-        allow-when-not-claimed
-        no-control
-    }
-    class materialization {
-        one-file-one-resource
-        one-file-multiple-resources
-    }
-```
+States that each file in the subdirectory can contain multiple files.
+Forces duplication in many systems, which can cause data quality issues.
 
 ## Use cases
 ### What if no preference matches the new resource?
