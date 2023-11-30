@@ -20,26 +20,29 @@ classDiagram
     SG "1" -- "1..*" M
     class SG["Storage Guidance"]{
         Save Condition
+        Resource Description
         Group Strategy
         Client Control
         Materialization
     }
 namespace StorageGuidanceOntology{
     class SC["Save Condition"]{
-      Always
-      Derived `from?`
-      Only Stored When Not Redundant
-      None
+        Always
+        Derived `from?`
+        `Hierarchical?`
+        Only Stored When Not Redundant
+        None
     }
     class RD["Resource Description"] {
         SHACL
     }
     class GS["Group Strategy"]{
         SPARQL Description
+        `END NODE?`
     }
     class CC["Client Control"] {
         Free Client
-        Additional Allowd
+        Additional Allowed
         Allowed When Not Prefferd
         Allow When Not Claimed
         No Control
