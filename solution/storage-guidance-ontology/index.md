@@ -14,6 +14,7 @@ we can start writing an ontology that guides automated clients in performing upd
 <pre class="mermaid">
 classDiagram
     SG "1" -- "1..*" SC
+    SG "1" -- "1..*" RD
     SG "1" -- "1..*" GS
     SG "1" -- "1..*" CC
     SG "1" -- "1..*" M
@@ -28,6 +29,10 @@ namespace StorageGuidanceOntology{
       Always
       Derived `from?`
       Only Stored When Not Redundant
+      None
+    }
+    class RD["Resource Description"] {
+        SHACL
     }
     class GS["Group Strategy"]{
         SPARQL Description
@@ -46,6 +51,7 @@ namespace StorageGuidanceOntology{
 }
 link SG "#"
 link SC "#save-condition"
+link RD "#resource-description"
 link GS "#group-strategy"
 link CC "#client-control"
 link M "#resource-materialization"
@@ -82,9 +88,15 @@ Stores only when no one else stores it, a dedicated container could be set up in
 Q: What if multiple containers say this about a resource?  
 A: Pick a random container, the user does not care.
 
+#### sgo:none
+Stores only when no one else stores it, a dedicated container could be set up instead of falling back to an exception.
 
-### Resource Description `sgo:shape-selector`
-[SHACL](https://www.w3.org/TR/shacl/)  
+Q: What if multiple containers say this about a resource?  
+A: Pick a random container, the user does not care.
+
+### Resource Description
+`sgo:shape-selector`
+#### [SHACL](https://www.w3.org/TR/shacl/)  
 The shape selector can either be equal to the shape of the shape tree or can be more loose than it.
 This allows containers to dynamically allow for stretching the shape description.
 
