@@ -1,5 +1,5 @@
 ---
-title: storage guidance ontology (sgo) (WIP)
+title: Storage Guidance Ontology (SGO) (WIP)
 ---
 
 After the [meeting of 21 november 2023](../../meetings/meeting_ruben_taelman_21_11_2023.md)
@@ -80,16 +80,23 @@ It could also describe a construct query in the case of SPARQL endpoints.
 Stores only when no one else stores it, a dedicated container could be set up instead of falling back to an exception.
 
 Q: What if multiple containers say this about a resource?  
-A: Pick a random container.
+A: Pick a random container, the user does not care.
 
 
 ### Resource Description `sgo:shape-selector`
+[SHACL](https://www.w3.org/TR/shacl/)  
 The shape selector can either be equal to the shape of the shape tree or can be more loose than it.
 This allows containers to dynamically allow for stretching the shape description.
 
-Shape description needs to be able to say both
-  1. picture contains son or daughter
+Shape description needs to be able to say both.
+-> You can use [logical constraint components](https://www.w3.org/TR/shacl/#core-components-logical)
+  1. Picture contains son or daughter: 
   2. picture contains son and daughter
+
+Should be able to state dates after x
+-> You can use 
+[Property Pair Constraint Components](https://www.w3.org/TR/shacl/#core-components-property-pairs)
+more precisely the [lessThan rule](https://www.w3.org/TR/shacl/#LessThanConstraintComponent).
 
 
 ### Group Strategy
