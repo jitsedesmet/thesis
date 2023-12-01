@@ -18,7 +18,7 @@ email: jitse.desmet@ugent.be
 description: >- # this means to ignore newlines until "baseurl:"
   Repo for my thesis work. (Don't expect this to be too organized. It's just a way of sharing thoughts)
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://thesis.jitsedesmet.be" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: /
 github_username:  jitsedesmet
 
@@ -28,6 +28,8 @@ theme: minima
 plugins:
   - jekyll-feed
   - jemoji
+  - jekyll-sidemap
+  - jekyll-seo-tag
 
 kramdown:
   syntax_highlighter: coderay
@@ -37,6 +39,8 @@ header_pages:
   - achievements/index.md
   - ideas/index.md
   - meetings/index.md
+
+google_site_verification: "cBYpSqc17Jx3NXWnR6gz8v8d7Gs7lRmBOXAHTUqdOyM"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
