@@ -5,7 +5,7 @@ title: Storage Guidance Ontology (SGO) (WIP)
 After the [meeting of 21 november 2023](../../meetings/meeting_ruben_taelman_21_11_2023.md)
 we can start writing an ontology that guides automated clients in performing updates as instructed by pod owners.
 
-## Visual representation
+## Visual Representation
 <script type="module">
     import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: 'forest', securityLevel: 'loose' });
