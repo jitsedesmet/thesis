@@ -18,17 +18,19 @@ classDiagram
     SG "1" -- "1..*" GS
     SG "1" -- "1..*" CC
     SG "1" -- "1..*" M
+    SG "1" -- "1..*" RP
     class SG["Storage Guidance"]{
         Save Condition
         Resource Description
         Group Strategy
         Client Control
         Materialization
+        Retention Policy
     }
 namespace StorageGuidanceOntology{
     class SC["Save Condition"]{
         Always
-        Derived `from?`
+        Derived `from ?source`
         `Hierarchical?`
         Only Stored When Not Redundant
         None
@@ -38,7 +40,6 @@ namespace StorageGuidanceOntology{
     }
     class GS["Group Strategy"]{
         SPARQL Description
-        `END NODE?`
     }
     class CC["Client Control"] {
         Free Client
@@ -50,6 +51,10 @@ namespace StorageGuidanceOntology{
     class M["Materialization"] {
         One File One Resource
         One File multiple Resources
+        As Container 
+    }
+    class RP["Retention Policy (opt)"] {
+        DurationAgoPolicy
     }
 }
 link SG "#"
@@ -58,7 +63,9 @@ link RD "#resource-description"
 link GS "#group-strategy"
 link CC "#client-control"
 link M "#resource-materialization"
+link RP "#retention-policy"
 </pre>
+[Multiple pods?](#multiple-pods)
 
 ## Reusing Existing Ontologies
 When writing a new ontology, it is important to use existing ontologies as much as possible,
@@ -66,7 +73,8 @@ or express the relation of your ontology to existing ones as much as possible.
 
 We can use most parts of [shape trees](https://jitsedesmet.github.io/shape-trees-spec/).
 
-### OPTIONAL Retention Policy
+### Retention Policy
+OPTIONAL  
 A user can define [LDES](https://semiceu.github.io/LinkedDataEventStreams/#retention)
 inspired retention policy and warn writers of event streams, for example,
 that they should regularly aggregate their stream data.
@@ -186,6 +194,12 @@ This flag is always set in a SPARQL endpoint.
 #### sgo:one-file-multiple-resources
 States that each file in the subdirectory can contain multiple files.
 Forces duplication in many systems, which can cause data quality issues.
+
+
+### Multiple Pods
+Multiple pods can work just like with a single pod.
+When you have some kinds of modifying permissions, you should be able to request the storage guidance description.
+
 
 ## Use cases
 ### What if no preference matches the new resource?
