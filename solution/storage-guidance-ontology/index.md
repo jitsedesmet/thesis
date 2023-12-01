@@ -71,15 +71,26 @@ link RP "#retention-policy"
 When writing a new ontology, it is important to use existing ontologies as much as possible,
 or express the relation of your ontology to existing ones as much as possible.
 
-We can use most parts of [shape trees](https://jitsedesmet.github.io/shape-trees-spec/).
+### Shape trees
+This spec can be seen as an extension to [shape trees](https://shapetrees.org/TR/specification/),
+but is not limited to it.
+Implements are free to link the guidance system on index leven, like on shape trees, or on data level like with LDP.
+
+The examples provided will start from shape trees,
+because I like the idea of shape trees and still want to provide context.
+I think coupling storage guidance with shape trees allows for clearer management since it reduces the user complexity.
+Additionally, it allows users to use the shape descriptions created for shape trees to inspire
+resource descriptors for the storage guidance system.
+
 
 ### Retention Policy
 OPTIONAL  
 A user can define [LDES](https://semiceu.github.io/LinkedDataEventStreams/#retention)
-inspired retention policy and warn writers of event streams, for example,
-that they should regularly aggregate their stream data.
+inspired retention policy and warn applications that generate a lot of data (e.g. event streams),
+that they should regularly aggregate their data.
 This could work just like a garbage collector.
-Based on a certain time attribute, a garbage collector cleans event streaming data.
+Based on a certain time attribute, a garbage collector cleans the data.
+Currently, only DurationAgoPolicy seems like a nice addition.
 
 
 ## Adding new components
