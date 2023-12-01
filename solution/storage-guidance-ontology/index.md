@@ -7,7 +7,7 @@ we can start writing an ontology that guides automated clients in performing upd
 
 ## Visual representation
 <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: 'forest', securityLevel: 'loose' });
 </script>
 
