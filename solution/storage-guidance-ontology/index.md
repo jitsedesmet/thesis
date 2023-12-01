@@ -13,11 +13,11 @@ we can start writing an ontology that guides automated clients in performing upd
 
 <pre class="mermaid">
 classDiagram
-    SG "1" -- "1..*" SC
-    SG "1" -- "1..*" RD
-    SG "1" -- "1..*" GS
-    SG "1" -- "1..*" CC
-    SG "1" -- "1..*" M
+    SG "1" -- "1" SC
+    SG "1" -- "1" RD
+    SG "1" -- "1" GS
+    SG "1" -- "1" CC
+    SG "1" -- "1" M
     SG "1" -- "1..*" RP
     class SG["Storage Guidance"]{
         Save Condition
