@@ -124,7 +124,6 @@ That means the picture contains metadata like:
 
 
 
-# User stories
 ## User story collection 1: update data I own
 ### Insert data
 When Florence loads the pictures onto her computer, we assume that they are marked using the appropriate metadata.
@@ -202,7 +201,7 @@ No new problem.
 ### Pass the quilt master badge
 There is no real way of doing this with conformance to ACID.
 
-# User story collection 3: Update data I cannot update directly
+## User story collection 3: Update data I cannot update directly
 ### Insert data
 Not possible. Would need [Solid Notifications Protocol](https://solidproject.org/TR/notifications-protocol)
 
@@ -218,7 +217,7 @@ Same as above.
 ### Pass the runner of the month token
 Same as above. Not possible in ACID way.
 
-# Conclusion
+## Conclusion
 We now evaluate what functional requirements are met using :white_check_mark: and :x:.
 1. Data should remain consistent with the requirements posed by the **technology** (e.g., solid):
    :x:

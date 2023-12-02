@@ -6,7 +6,7 @@ title: stories
 Question to ask people regarding expectations on:
 * If you had taken a picture and would ask your smart device to place it somewhere on your computer, what would you expect?
 
-# Functional requirements
+## Functional requirements
 We construct the following requirements:
 1. Data should remain consistent with the requirements posed by the **technology** (e.g., solid).
    An update should not be able to break your data storage or at least give you a warning before doing so.
@@ -64,10 +64,10 @@ When updating, where to update if variables/ subjects span multiple documents?
 * Determine the scope given the type you have? `Medical pictures` vs `personal pictures`.\
   -> Virtual container? -> GroupedBy
 
-# User stories
+## User stories
 We will use a single, slightly complex example of a fictional person that has different, complex ways of handling data.
 
-## Context
+### Context
 
 Let's consider the story of a photographer named Florence and her husband Wally.
 Because of her profession, Florence wants fine-grained control over the pictures she took.
@@ -93,7 +93,7 @@ The friend group organizes a monthly competition which they call "runner of the 
 The winner of last month gets to keep a token, which they pass around based on who wins the competition.
 Notice that apposed to with her husband, the friends do not share update rights on their storage space.
 
-## Extracted stories (As an X, I want Y, so that Z, …)
+### Extracted stories (As an X, I want Y, so that Z, …)
 
 1. As a pod owner, I want to insert a picture that is **accessible by other pod** owners decided by me,
    so these people can access the pictures I took for them. 

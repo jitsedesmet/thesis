@@ -28,7 +28,7 @@ theme: minima
 plugins:
   - jekyll-feed
   - jemoji
-  - jekyll-sidemap
+  - jekyll-sitemap
   - jekyll-seo-tag
 
 kramdown:
