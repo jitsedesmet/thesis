@@ -11,57 +11,128 @@ we can start writing an ontology that guides automated clients in performing upd
     mermaid.initialize({ startOnLoad: true, theme: 'forest', securityLevel: 'loose' });
 </script>
 
+Legend
 <pre class="mermaid">
 classDiagram
-    SG "1" -- "1" SC
-    SG "1" -- "1" RD
-    SG "1" -- "1" GS
-    SG "1" -- "1" CC
-    SG "1" -- "1" M
-    SG "1" -- "1..*" RP
-    class SG["Storage Guidance"]{
-        Save Condition
-        Resource Description
-        Group Strategy
-        Client Control
-        Materialization
-        Retention Policy
-    }
-namespace StorageGuidanceOntology{
-    class SC["Save Condition"]{
-        Always
-        Derived `from ?source`
-        `Hierarchical?`
-        Only Stored When Not Redundant
-        None
-    }
-    class MOVE["Move"] {
-        Always keep/ widen current
-        Prefer static
-        move to best matched
-    }
-    class RD["Resource Description"] {
-        SHACL
-    }
-    class GS["Group Strategy"]{
-        SPARQL Description
-    }
-    class CC["Client Control"] {
-        Free Client
-        Additional Allowed
-        Allowed When Not Prefferd
-        Allow When Not Claimed
-        No Control
-    }
-    class M["Materialization"] {
-        One File One Resource
-        One File multiple Resources
-        As Container 
-    }
-    class RP["Retention Policy (opt)"] {
-        DurationAgoPolicy
-    }
-}
+  A --> B
+  class A {
+    A ldp:contains B
+  }
+
+  AA ..> BB
+  class AA {
+    Type AA is supertype of type BB 
+  }
+
+  AAA --o BBB
+  class AAA {
+    Type AAA has property of type BBB
+  }
+</pre>
+
+<pre class="mermaid">
+classDiagram
+  C ..> MC
+  C ..> SC
+  class C["Container"] {
+    "Super type of all containers"
+    + one-file-one-resource
+    + Client Control
+  }
+
+  MC --> MC
+  MC --> SC
+  class MC["Mixed Containers"] {
+    "Can link to any where"
+  }
+
+  SC ..> CC
+  SC ..> DC
+  SC ..> View
+  SC ..> GC
+  class SC["Structured Container"] {
+    "Any container that is a tree and not a graph"
+    + Materialization
+    + Update Condition
+    + Retention Policy
+  }
+
+  CC --> CC
+  CC --> GC
+  class CC["Canonical Container"] {
+    "Stores data matching the shape"
+    + Resource desccription
+    + Save Condition
+  }
+
+  DC --> GC
+  class DC["Derived Container"] {
+    "Contains data from one or more Canonical containers"
+    + Save Condition
+  }
+
+  View --> GC
+  class View {
+    "Contains all data from in one or more containers"
+  }
+
+  GC --> GC
+  class GC["Grouping Container"] {
+    "Groups data in different containers"
+    + Group strategy
+  }
+
+  SC --o RP
+  class RP["Retention Policy"] {
+    + duration ago 
+  }
+
+  CC --o RD
+  class RD["Resource Description"] {
+    + shacl-descriptor
+  }
+
+  GC --> GS
+  class GS["Group Strategy"] {
+    + sparql-map
+  }
+
+  SC --o M  
+  class M["Materialization"] {
+    + file
+    + container
+    + force container
+  }
+
+  CC --o SaveCond
+  DC --o SaveCond
+  class SaveCond["Save Condition"] {
+    + state-required
+    + always-stored
+    + prefer-other
+    + only-stored-when-not-redunant
+    + never
+  }
+
+  SC --o UC
+  class UC["Update Condition"] {
+    + Always keep & widen index
+    + Prefer static
+    + Move to best matched
+    + Disallow
+  }
+
+  C --o CControl
+  class CControl["Client Control"] {
+    "From least to most restricted,
+    can only become more restricted":
+    + Free Client
+    + Additional Allowed
+    + Allow when not preffered
+    + Allow when not claimed
+    + No control
+  }
+
 link SG "#"
 link SC "#save-condition"
 link RD "#resource-description"
@@ -70,13 +141,17 @@ link CC "#client-control"
 link M "#resource-materialization"
 link RP "#retention-policy"
 </pre>
+
 [Multiple pods?](#multiple-pods)
 
 ## Reusing Existing Ontologies
 When writing a new ontology, it is important to use existing ontologies as much as possible,
 or express the relation of your ontology to existing ones as much as possible.
 
-### Shape Trees
+### LDP
+LDP containers allow any graph-linking structure of containers.
+
+### Shape trees
 This spec can be seen as an extension to [shape trees](https://shapetrees.org/TR/specification/),
 but is not limited to it.
 Implements are free to link the guidance system on index leven, like on shape trees, or on data level like with LDP.
@@ -116,9 +191,10 @@ We will ask ourselves different questions and provide answers to them.
 
 ### Resource Description
 This section answers the question "What resources are of interest to us?"
-We therefore introduce a predicate:`sgo:shape-selector`
+We therefore introduce a type: `sgo:resource-description`
 
 #### [SHACL](https://www.w3.org/TR/shacl/)
+`sgo:shacl-descriptor`
 The shape selector can either be equal to the shape of the shape tree or can be more loose than it.
 This allows containers to dynamically allow for stretching the shape description.
 Both SHACL and SHEX are viable options, but we focus on SHACL since it is a W3C recommendation.
@@ -140,6 +216,7 @@ In this second section, we provide an answer to the question "How should those r
 The predicate we use is:`sgo:group-strategy`.
 
 #### sgo:groupsBy ?GroupDescription
+`sgo:sparql-map`
 `?GroupDescription` should be a SPARQL select query over the resources in the scoped collection returning `?key` and `?value`
 The key is the resource identifier, the value an `xsd:string` representing the directory name.
 This construction, mimicking a map function, allows for complex splits like: `rome-23-07-2023`?
@@ -215,12 +292,8 @@ Stores only when no one else stores it, a dedicated container could be set up in
 Q: What if multiple containers say this about a resource?  
 A: Pick a random container, the user does not care.
 
-#### sgo:none
-Stores only when no one else stores it, a dedicated container could be set up instead of falling back to an exception.
-
-Q: What if multiple containers say this about a resource?  
-A: Pick a random container, the user does not care.
-
+#### sgo:never
+Do not allow storage
 
 ### Dynamic Resource Behavior
 In this section, we answer the question "How do we react to the change of a resource?"
@@ -268,7 +341,8 @@ The client is not allowed to express any opinion.
 
 
 ### ACID
-TODO: We probably need some more complex sync system for this?
+Requires a smart server and might be out of scope of this thesis work.
+Nevertheless, we make the exercise of describing a transactional system using the storage guidance ontology.
 
 ACID can be implemented using the garbage collector and some rules that ACID enabled clients should follow.
 An ACID enabled container can proclaim that a transaction can be started and that a transaction can take a certain time.
@@ -283,7 +357,7 @@ Two solid pods Alice and Bob: As Alice, move resource from Alice to Bob:
 * The client now creates a new resource in each pod that is used to add describes the modifications made.
   The resources have a property `sgo:acid-force-when` that forces the garbage collector
   to finish the resource in case the condition is matched.
-  This condiction will be: if the changes came through in the other container.
+  This condition will be: if the changes come through in the other container.
 * Again, we wait on the creation of both resources.
 * When both are created, now change both resources.
   In case one update fails, the garbage collector will need to materialize the changes because the other update passed.
