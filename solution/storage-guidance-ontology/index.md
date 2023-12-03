@@ -276,7 +276,17 @@ It can use a `Retention Policy` to enforce the duration.
 
 Two solid pods Alice and Bob: As Alice, move resource from Alice to Bob:
 * Create a `sgo:start-transaction` on both alice and bob. the creation of this acts as a lock.
-* Only if it is created we proceed -> DEAD-LOCK possible? 
+  A lock has a creation data and a list of containers and resources it locks.
+  An agent should request a lock on all resources it wants to access during the transaction,
+  this solves death locks, because servers can check whether requesting locks would create circular dependencies.   
+* The client waits until both are created, a server can garbage collect the resource.
+* The client now creates a new resource in each pod that is used to add describes the modifications made.
+  The resources have a property `sgo:acid-force-when` that forces the garbage collector
+  to finish the resource in case the condition is matched.
+  This condiction will be: if the changes came through in the other container.
+* Again, we wait on the creation of both resources.
+* When both are created, now change both resources.
+  In case one update fails, the garbage collector will need to materialize the changes because the other update passed.
 
 ACID support can also be done by a server that allows storage in case some `sgo:state-requirements` match.
 
