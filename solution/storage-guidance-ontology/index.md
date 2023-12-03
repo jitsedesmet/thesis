@@ -288,6 +288,8 @@ Two solid pods Alice and Bob: As Alice, move resource from Alice to Bob:
 * When both are created, now change both resources.
   In case one update fails, the garbage collector will need to materialize the changes because the other update passed.
 
+Always use `sgo:state-requirements` to validate that locks have not been garbage collected!
+
 ACID support can also be done by a server that allows storage in case some `sgo:state-requirements` match.
 
 It might be better to handle this at a lower level.
