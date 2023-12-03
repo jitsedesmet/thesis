@@ -16,7 +16,7 @@
 title: Thesis Jitse De Smet
 email: jitse.desmet@ugent.be
 description: >- # this means to ignore newlines until "baseurl:"
-  Repo for my thesis work. (Don't expect this to be too organized. It's just a way of sharing thoughts)
+  (Not very organized, just sharing thoughts)
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://thesis.jitsedesmet.be" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: /
