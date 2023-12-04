@@ -122,6 +122,7 @@ classDiagram
     + state-required
     + always-stored
     + prefer-other
+    + prefer-most-specifc
     + only-stored-when-not-redunant
     + never
   }
@@ -300,7 +301,7 @@ There are different instantiations of `sgo:save-condition`:
 * `sgo:always-stored`: Store the data in case the description matches.
 * `sgo:prefer-other`: Only save when none of the containers found by following
   `sgo:prefer-other` one or more times stores the resource.
-  Could dynamically be constructed using shape containment and `sgo:prefer-most-specifc`.
+* `sgo:prefer-most-specifc`: Dynamic generation of `sgo:prefer-other`.
 * `sgo:only-stored-when-not-redundant`: Stores only when no one else stores it,
    a dedicated container could be set up instead of falling back to an exception.
    If multiple containers match using this condition, choose a random one to store it in.
