@@ -78,8 +78,7 @@ classDiagram
     + Update Condition
     + Retention Policy
   }
-
-  CC --> CC
+ 
   CC --> GC
   class CC["Canonical Container"] {
     "Stores data matching the shape"
