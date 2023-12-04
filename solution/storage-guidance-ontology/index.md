@@ -90,7 +90,7 @@ classDiagram
   DC --> GC
   class DC["Derived Container"] {
     "Contains data from one or more Canonical containers"
-    + Save Condition
+    + Resource Description
   }
 
   GC --> GC
