@@ -20,6 +20,8 @@ We will ask ourselves different questions and provide answers to them.
 6. How much control do client applications have in regard to storing resources?
 7. How do we handle ACID requirements?
 
+CHECK: https://link.springer.com/article/10.1007/s41870-023-01583-2
+
 ## Visual Representation
 <script type="module">
     import mermaid from '/static/mermaid/mermaid.esm.min.mjs';
@@ -104,7 +106,7 @@ classDiagram
   }
 
 
-  GC --> GS
+  GC --o GS
   class GS["Group Strategy"] {
     + sparql-map
   }
@@ -169,6 +171,7 @@ link GS "#group-strategy"
 
 
 [Multiple pods?](#multiple-pods)
+
 
 ## Containers
 We differentiate between different kinds of containers.
@@ -366,6 +369,9 @@ Do not declare a notification container so no one matches the insert and do not 
 `sgo:client-control` of `sgo:no-control`.
 
 ### ACID
+
+MAYBE: https://www.yugabyte.com/blog/yes-we-can-distributed-acid-transactions-with-high-performance/
+
 What follows can be dismmised, CAP theorem tells us we need to choose
 what we want. Typical options are either ACID or BASE.
 Distributed databases typically choose BASE. I wonder whether solid can go for ACID?  
