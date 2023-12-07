@@ -1,5 +1,5 @@
 ---
-title: sgo evaluation over LDES
+title: sgv evaluation over LDES
 ---
 TODO: is a TREE evaluation still needed? 
 
