@@ -20,7 +20,11 @@ We will ask ourselves different questions and provide answers to them.
 6. How much control do client applications have in regard to storing resources?
 7. How do we handle ACID requirements?
 
-CHECK: https://link.springer.com/article/10.1007/s41870-023-01583-2
+<!-- CHECK: https://link.springer.com/article/10.1007/s41870-023-01583-2 
+TODO: add motivation
+-->
+
+
 
 ## Visual Representation
 <script type="module">
@@ -256,12 +260,19 @@ The available options are:
    the operation should error.
 * `sgv:materialize-container`: This container contains only containers.
 
+It might be beneficial to state that the resource should still be a UUID,
+and that the mapping received is just a substitution that can be used by the user.
+When using materialize file,
+it might be nice to have an access point that gives all the content of the directory (optimization).
+It could be a file that uses sparql star like `file-x contains triple`
+
 #### Update Condition
 In this section, we answer the question "How do we react to the change of a resource?"
 
 Instances of `sgv:update-condition`:
-* `sgv:update-keep`: No matter how the resource is updated, leave it where it is.
+* `sgv:update-keep-always`: No matter how the resource is updated, leave it where it is.
    As a result, the index and widen the resource selection shapes might need to be updated.
+* `sgv:update-keep ?distance`: Allow to specify a distance metric of the resource shape to the resource description. 
 * `sgv:update-prefer-static`: Prefer to keep the resource where it is,
    but change the location in case the shape description does not match anymore. 
    In that case, remove the resource and add it again.
@@ -318,11 +329,12 @@ When exploring data in this container, the canonical containers need not be chec
 A derived container could choose its CAP handling: `cp`, or `ap`
 (note, it's not always black and white, so maybe different setting can apply)
 
+<!-- TODO: can a derived container span other containers? If yes, how to resolve updates? -->
 
 #### Grouping Container
 A grouping container allows to group resources selected by container this is in (or is equal to).
 
-##### Group Strategy
+##### SPARQL Group Strategy
 Currently, only one instance of `sgv:group-strategy` exist.
 It specifies a group strategy using a SPARQL query that acts like a map function.
 
@@ -351,6 +363,14 @@ LIMIT 1
 
 Maybe this poses a security issue (execution of queries), and we should also add a description?
 
+##### URI template group strategy
+[URI templates](https://datatracker.ietf.org/doc/html/rfc6570)
+could be used.
+Scoped over the identifiers used in the shape description, you could specify how to create a value.
+This type of description is more limited as opposed to SPARQL queries,
+since you can only use data contained in every resource.
+The sparql query notation would be harder to implemebt but allows access to the world.
+
 ### Multiple Pods
 Multiple pods can work just like with a single pod.
 When you have some kinds of modifying permissions, you should be able to request the storage guidance description.
@@ -362,6 +382,8 @@ When you have some kinds of modifying permissions, you should be able to request
 You would describe a notification container with a `save-condition` as `only-stored-when-not-redundant` with a
 shape selector that is empty (matches anything).
 `sgv:client-control` would be `sgv:allow-when-not-claimed`.
+A UI interface asking the user to specify the location of a naw resource migt be desired.
+This way, the application can operate as if the resource type is not new. 
 
 #### Assume
 Same as above but more relaxed client control.
@@ -409,6 +431,8 @@ B has no way of knowing whether A committed or not.
 
 Always use `sgv:state-requirements` to validate that locks have not been garbage collected!
 
+Maybe a consensus algorithm + execute after timeout (so everyone switches at same time) can help? 
+
 ACID support can also be done by a server that allows storage in case some `sgv:state-requirements` match.
 
 It might be better to handle this at a lower level.
@@ -432,3 +456,4 @@ We further assume the use of SPARQL as it allows users to enter broad queries th
 * [LDP](LDP-evaluation.md)
 * [SPARQL endpoint](SPARQL-endpoint-evaluation.md)
 * [LDES](LDES-evaluation.md)
+* Smart LDP server?
