@@ -34,172 +34,242 @@
 
 
 
-        <section data-auto-animate>
-            <H3 data-id="old-title">Analyzing Security when Querying over Decentralized Environments</H3>
-            <p>
-                Jitse De Smet
-            </p>
-            <aside class="notes">
-                Good afternoon everyone, and welcome to my intermediate thesis defense.
-            </aside>
-        </section>
+<section data-auto-animate>
+    <H3 data-id="old-title">Analyzing Security when Querying over Decentralized Environments</H3>
+    <p>
+        Jitse De Smet
+    </p>
+    <aside class="notes">
+        Good afternoon everyone, and welcome to my intermediate thesis defense.
+    </aside>
+</section>
 
 
-        <section data-auto-animate>
-            <h3 data-id="old-title"><del>Analyzing Security when Querying over Decentralized Environments</del></h3>
-            <h3>How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?</h3>
-            <p>Jitse De Smet</p>
-            <aside class="notes" data-markdown>
-                Starting of, I'll announce that I changed my subject from
-                "analyzing security when querying over decentralized environments"
-                to "How can we abstract data updates in a permissioned decentralized environment behind a query abstraction layer."
-            </aside>
-        </section>
+<section data-auto-animate>
+    <h3 data-id="old-title"><del>Analyzing Security when Querying over Decentralized Environments</del></h3>
+    <h3>How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?</h3>
+    <p>Jitse De Smet</p>
+    <aside class="notes" data-markdown>
+        Starting of, I'll announce that I changed my subject from
+        "analyzing security when querying over decentralized environments"
+        to "How can we abstract data updates in a permissioned decentralized environment behind a query abstraction layer."
+    </aside>
+</section>
 
-        <section data-auto-animate>
-            <h3>How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?</h3>
+<section data-auto-animate>
+    <h3>How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?</h3>
+    <ul>
+        <li>Situate Thesis</li>
+        <li>Research Question and Hypothesis</li>
+        <li>The Past</li>
+        <li>The Future</li>
+    </ul>
+    <aside class="notes" data-markdown>
+        I will start by situating my thesis in the broader landscape.
+        This will allow me to explain the research question better and introduce over the research hypothesis.
+        When everyone understands the goals of my thesis, I will tell you what I've done so far to accomplish those goals.
+        Ending of this presentation I take a glimpse at the future, going over the work that is still planned.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3>Situate Thesis</h3>
+    <ul>
+        <li>Decentralization Efforts
+            (like <a href="https://solidproject.org/">Solid</a>
+            <img style="height: 1em; transform: translate(0, 0.5em)" src="https://solidproject.org/assets/img/solid-emblem.svg" alt="Solid project icon">
+            )
             <ul>
-                <li>Situate Thesis</li>
-                <li>Research Question and Hypothesis</li>
-                <li>The Past</li>
-                <li>The Future</li>
+                <li>Heterogeneity of Interfaces<br>(SPARQL-endpoint, LDP, ...)</li>
+                <li>Heterogeneity of Data<br>(I might have a smartwatch, you might not)</li>
+                <li>Heterogeneity of Structure<br>(I sort pictures by date, you by location)</li>
             </ul>
-            <aside class="notes" data-markdown>
-                I will start by situating my thesis in the broader landscape.
-                This will allow me to explain the research question better and introduce over the research hypothesis.
-                When everyone understands the goals of my thesis, I will tell you what I've done so far to accomplish those goals.
-                Ending of this presentation I take a glimpse at the future, going over the work that is still planned.
-            </aside>
-        </section>
+        </li>
+        <li>Query Processing using SPARQL</li>
+    </ul>
+    <aside class="notes" data-markdown>
+        As of right now, data on the Web is increasingly centralized in organizations like Google and Amazon.
+        This centralization is at the root of privacy scandals and acts as a vendor lock-in for consumers.
+        Legislation like GDPR opens the path for the adoption of decentralization initiatives.
+        One of the initiatives is Solid,
+        and this initiative in particular is the talk of the town since the Flemish government heavily invests in it.
+        Solid allows users to host their own data through something called a Solid Pod.
+        Rooted in the Solid project is the belief that we should build upon the existing web technologies.
+        A single Solid pod can thus be seen part of a node in a decentralized graph database, where each link in a pod can be any URI.
+        Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
+        leaving us with a permisioned decentralized graph database.
+        Since different users have different requirements, of their storage, different kinds of heterogeneity arise.
+        In no particular order, we have the heterogeneity in interfaces, the heterogeneity of data and the heterogeneity of Structure.
 
-        <section data-auto-animate>
-            <h3>Situate Thesis</h3>
+        The sentiment of supporting heterogeneity is what sparked the creation of the Comunica query engine developed within this research unit.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3>Situate Thesis: Solid Spec</h3>
+    <ul>
+        <li><a href="https://www.w3.org/TR/ldp/">LDP</a> Interface (acts as a file system)</li>
+        <li>Index
             <ul>
-                <li>Decentralization Efforts
-                    (like <a href="https://solidproject.org/">Solid</a>
-                    <img style="height: 1em; transform: translate(0, 0.5em)" src="https://solidproject.org/assets/img/solid-emblem.svg" alt="Solid project icon">
-                    olid)
-                    <ul>
-                        <li>Heterogeneity of Interfaces<br>(SPARQL-endpoint, LDP, ...)</li>
-                        <li>Heterogeneity of Data<br>(I might have a smartwatch, you might not)</li>
-                        <li>Heterogeneity of Structure<br>(I sort pictures by date, you by location)</li>
-                    </ul>
-                </li>
-                <li>Query Processing using SPARQL</li>
+                <li><a href="https://solid.github.io/type-indexes/">Type Index</a></li>
+                <li><a href="https://shapetrees.org/">Shape Trees</a></li>
             </ul>
-            <aside class="notes" data-markdown>
-                As of right now, data on the Web is increasingly centralized in organizations like Google and Amazon.
-                This centralization is at the root of privacy scandals and acts as a vendor lock-in for consumers.
-                Legislation like GDPR opens the path for the adoption of decentralization initiatives.
-                One of the initiatives is Solid,
-                and this initiative in particular is the talk of the town since the Flemish government heavily invests in it.
-                Solid allows users to host their own data through something called a Solid Pod.
-                Rooted in the Solid project is the belief that we should build upon the existing web technologies.
-                A single Solid pod can thus be seen part of a node in a decentralized graph database, where each link in a pod can be any URI.
-                Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
-                leaving us with a permisioned decentralized graph database.
-                Since different users have different requirements, of their storage, different kinds of heterogeneity arise.
-                In no particular order, we have the heterogeneity in interfaces, the heterogeneity of data and the heterogeneity of Structure.
-
-                The sentiment of supporting heterogeneity is what sparked the creation of the Comunica query engine developed within this research unit.
-            </aside>
-        </section>
-
-        <section data-auto-animate>
-            <h3>Situate Thesis: Solid Spec</h3>
-            <ul>
-                <li><a href="https://www.w3.org/TR/ldp/">LDP</a> Interface (acts as a file system)</li>
-                <li>Index
-                    <ul>
-                        <li><a href="https://solid.github.io/type-indexes/">Type Index</a></li>
-                        <li><a href="https://shapetrees.org/">Shape Trees</a></li>
-                    </ul>
-                </li>
-                <li>Query Processing using SPARQL
-                    <pre><code class="language-html">
+        </li>
+        <li>Query Processing using SPARQL
+            <pre><code class="language-html">
 SELECT DISTINCT * WHERE {
-	?item wdt:P31/wdt:P279* wd:Q16917;
-		wdt:P625 ?geo .
+?item wdt:P31/wdt:P279* wd:Q16917;
+wdt:P625 ?geo .
 }
-		</code></pre>
-                </li>
-            </ul>
-            <aside class="notes" data-markdown>
-                To narrow the scope of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
-                Without any indexing, data consumers would need to hard code their required data locations.
-                To avoid this, the Solid spec describes two ways of indexing the data in a pod.
-                One is the type index, the other one is shape trees.
+</code></pre>
+        </li>
+    </ul>
+    <aside class="notes" data-markdown>
+        To narrow the scope of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
+        Without any indexing, data consumers would need to hard code their required data locations.
+        To avoid this, the Solid spec describes two ways of indexing the data in a pod.
+        One is the type index, the other one is shape trees.
 
-                Now, to retrieve data, you access the index giving you a list of locations that are of interest to you.
+        Now, to retrieve data, you access the index giving you a list of locations that are of interest to you.
 
-                The LDP interface by itself allows you to read the whole web document and write to it.
-                To ease the development experience, efforts exist to enable SPARQL queries over Solid pods.
+        The LDP interface by itself allows you to read the whole web document and write to it.
+        To ease the development experience, efforts exist to enable SPARQL queries over Solid pods.
 
-                The focus of that research is about read-queries and there exists no research enabling update-queries.
-            </aside>
-        </section>
+        The focus of that research is about read-queries and there exists no research enabling update-queries.
+    </aside>
+</section>
 
-        <section data-auto-animate>
-            <h3>Research Question and Hypothesis</h3>
-            <p>
-                "How to
-                <span class="fragment highlight-current-red" data-fragment-index="1">
-		abstract data updates
-	</span> in a
-                <span class="fragment highlight-current-red" data-fragment-index="2">
-		permissioned
-	</span>
-                <span class="fragment highlight-current-red" data-fragment-index="3">
-		decentralized environment
-	</span>
-                behind a
-                <span class="fragment highlight-red" data-fragment-index="4">
-		query abstraction layer
-	</span>?"
-            </p>
-            <div class="r-stack fragment fade-in" data-fragment-index="1" style="border: red solid 2px; margin-top: 20px">
-                <p class="fragment fade-in-then-out" data-fragment-index="1">
-                    Data consumers don't interact with the interfaces directly.
-                </p>
-                <p class="fragment fade-in-then-out" data-fragment-index="2">
-                    Data stores can reject the actions of data consumers.
-                </p>
-                <p class="fragment fade-in-then-out" data-fragment-index="3">
-                    Data stores are small, distributed, and the owner is in control.
-                </p>
-                <p class="fragment fade-in" data-fragment-index="4">
-                    We use a query language (think SPARQL, SQL, ...) to add the abstraction.
-                </p>
-            </div>
+<section data-auto-animate>
+    <h3>Research Question and Hypothesis</h3>
+    <p>
+        "How to
+        <span class="fragment highlight-current-red" data-fragment-index="1">
+abstract data updates
+</span> in a
+        <span class="fragment highlight-current-red" data-fragment-index="2">
+permissioned
+</span>
+        <span class="fragment highlight-current-red" data-fragment-index="3">
+decentralized environment
+</span>
+        behind a
+        <span class="fragment highlight-red" data-fragment-index="4">
+query abstraction layer
+</span>?"
+    </p>
+    <div class="r-stack fragment fade-in" data-fragment-index="1" style="border: red solid 2px; margin-top: 20px">
+        <p class="fragment fade-in-then-out" data-fragment-index="1">
+            Data consumers don't interact with the interfaces directly.
+        </p>
+        <p class="fragment fade-in-then-out" data-fragment-index="2">
+            Data stores can reject the actions of data consumers.
+        </p>
+        <p class="fragment fade-in-then-out" data-fragment-index="3">
+            Data stores are small, distributed, and the owner is in control.
+        </p>
+        <p class="fragment fade-in" data-fragment-index="4">
+            We use a query language (think SPARQL, SQL, ...) to add the abstraction.
+        </p>
+    </div>
 
-            <aside class="notes" data-markdown>
-                I therefore ask the question: "How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?"
-                Let's investigate that question, in more detail ...
-            </aside>
-        </section>
-
-
-        <section data-auto-animate>
-            <h3>Research Question and Hypothesis</h3>
-            <ul>
-                <li>
-                    The efforts of a developer to update data in two data stores with the same interface,
-                    but different structures will be significantly lower.
-                </li>
-                <li>
-                    The number of http requests required by an update-query engine will
-                    be at most a few (<10) requests more than hard-coded updates.
-                </li>
-            </ul>
+    <aside class="notes" data-markdown>
+        I therefore ask the question: "How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?"
+        Let's investigate that question, in more detail ...
+    </aside>
+</section>
 
 
-            <aside class="notes" data-markdown>
-                My hypothesis is... hmmm, yes
-            </aside>
-        </section>
+<section data-auto-animate>
+    <h3>Research Question and Hypothesis</h3>
+    <ul>
+        <li>
+            The efforts of a developer to update data in a single data stores
+            can be significantly lowered by adding a query abstraction layer.
+        </li>
+        <li>
+            The efforts of a developer to update data in two data stores with the same interface,
+            but different structures can be significantly lowered by adding a query abstraction layer.
+        </li>
+        <li>
+            The number of additional http requests required by an update-query engine will be small (<10).
+        </li>
+    </ul>
 
 
+    <aside class="notes" data-markdown>
+        My hypothesis is...
 
+        I will explain the metrics and measurements that I will use to validate or contradict the hypothesis in the section about the future.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="past">The Past:</span> step-by-step</h3>
+    <ol>
+        <li class="fragment">Start by leaving the original idea</li>
+        <li class="fragment">Read about querying</li>
+        <li class="fragment">Think you will work on query optimization based on structural knowledge</li>
+        <li class="fragment">Write shape descriptions for SolidBench</li>
+        <li class="fragment">Read about it</li>
+        <li class="fragment">Meet with promoter, get the "update query" hint</li>
+        <li class="fragment">Read about update queries</li>
+        <li class="fragment">Solidify the idea</li>
+        <li class="fragment">Read some more spec</li>
+        <li class="fragment">Get to work</li>
+    </ol>
+
+    <aside class="notes" data-markdown>
+        Just quickly go over the step-by-step plan.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="past">The Past:</span> Getting to Work</h3>
+
+    <ul>
+        <li>Make a website, so you can write about the things you read and share your thoughts.</li>
+        <li>Create the
+            <a href="https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/">
+                Storage Guidance Vocabulary (SGV)
+            </a>
+        </li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+        I will click on the link and maybe give an overview of the different components?
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h3><span data-id="future">The Future:</span> Overview</h3>
+
+    <ul>
+        <li>Adapt Comunica to allow update queries by interpreting SGV</li>
+        <li>Alter SolidBench, so we can measure</li>
+        <li>Measure and Adapt feedback loop</li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="future">The Future:</span> Evaluation Metrics</h3>
+
+    <div style="text-align: left">
+        Possible metrics:
+        <ul>
+            <li>Execution time</li>
+            <li>Number of http requests</li>
+            <li>String difference between queries that want the same modification over different data stores</li>
+            <li>What ratio of queries leaves the data store inconsistent when introducing random server failures</li>
+        </ul>
+    </div>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
 
 
 
