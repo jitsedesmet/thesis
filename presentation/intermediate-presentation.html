@@ -12,7 +12,7 @@
 
     <!-- Theme used for syntax highlighted code -->
     <!--		<link rel="stylesheet" href="plugin/highlight/monokai.css">-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" href="/static/revieljs/plugin/highlight/default.min.css">
 </head>
 <body>
 <div class="reveal">
@@ -116,7 +116,7 @@
             </ul>
         </li>
         <li>Query Processing using SPARQL
-            <pre><code class="language-html">
+            <pre><code class="language-plaintext">
 SELECT DISTINCT * WHERE {
 ?item wdt:P31/wdt:P279* wd:Q16917;
 wdt:P625 ?geo .
@@ -191,7 +191,9 @@ query abstraction layer
             but different structures can be significantly lowered by adding a query abstraction layer.
         </li>
         <li>
-            The number of additional http requests required by an update-query engine will be small (<10).
+            The number of additional http requests,
+            compared to manually performing POST the required resources,
+            required by an update-query engine will be small (<5).
         </li>
     </ul>
 
@@ -203,7 +205,7 @@ query abstraction layer
     </aside>
 </section>
 
-<section data-auto-animate>
+<section data-visibility="hidden" data-auto-animate>
     <h3><span data-id="past">The Past:</span> step-by-step</h3>
     <ol>
         <li class="fragment">Start by leaving the original idea</li>
@@ -214,7 +216,7 @@ query abstraction layer
         <li class="fragment">Meet with promoter, get the "update query" hint</li>
         <li class="fragment">Read about update queries</li>
         <li class="fragment">Solidify the idea</li>
-        <li class="fragment">Read some more spec</li>
+        <li class="fragment">Read some more specs</li>
         <li class="fragment">Get to work</li>
     </ol>
 
@@ -227,7 +229,12 @@ query abstraction layer
     <h3><span data-id="past">The Past:</span> Getting to Work</h3>
 
     <ul>
-        <li>Make a website, to write about what I read and share my thoughts</li>
+        <li>Focus on the Solid spec
+            <ul>
+                <li>What is LDP?</li>
+                <li>Can we use Shape Trees for updates?</li>
+            </ul>
+        </li>
         <li>Create the
             <a href="https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/">
                 Storage Guidance Vocabulary (SGV)
@@ -235,7 +242,107 @@ query abstraction layer
         </li>
     </ul>
 
+    <div class="r-stack" style="font-size: 20pt">
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: LDP Container
+            <pre style="margin-top: 0;"><code class="language-plaintext">
+&lthttp://example.org/c1/&gt
+   a ldp:BasicContainer;
+   dcterms:title "A very simple container";
+   ldp:contains &ltr1>, &ltr2&gt, &ltr3&gt.
+            </code></pre>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: LDP Structure
+            <div style="display: grid; grid-gap: 5px; grid-template-columns: 1fr 1fr">
+            <pre style="margin-top: 0; padding: 20px">
+pictures/
+  |- Valentia/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- Ghent/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- Paris/
+  |  |- one.ttl
+  |  |- two.ttl
+  |  |- three.ttl
+  |- missing.ttl
+            </pre>
+            <pre style="margin-top: 0; padding: 20px">
+pictures/
+  |- 30-01-2024/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- 14-02-2024/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- 17-05-2023/
+  |  |- one.ttl
+  |  |- two.ttl
+  |  |- three.ttl
+  |  |- four.ttl
+            </pre>
+            </div>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: SHACL Shape Description
+            <pre style="margin-top: 0;"><code class="language-plaintext" style="padding: 0 20px; margin: 0; overflow-y: clip">
+ex:PictureShape
+    a sh:NodeShape;
+    sh:targetClass ex:Picture ;
+    sh:property [
+       sh:path ex:depicts ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path ex:contains ;
+        sh:nodeKind sh:IRI ;
+    ] .
+            </code></pre>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: Shape Trees
+            <pre style="margin-top: 0;"><code class="language-plaintext" style="padding: 0 20px; margin: 0; overflow-y: clip">
+<#PicturesTree>
+  a st:ShapeTree ;
+  st:expectsType st:Container ;
+  st:shape ex:PicturesShape ;
+  st:contains <#PicturesByCityTree> .
+
+<#PicturesByCityTree>
+  a st:ShapeTree ;
+  st:expectsType st:Container ;
+  st:shape ex:PicturesByCityShape ;
+  st:contains <#PictureTree> .
+
+<#PictureTree>
+  a st:ShapeTree ;
+  st:expectsType st:Resource ;
+  st:shape ex:PictureShape .
+            </code></pre>
+        </div>
+        <div style="width: 100%;" class="fragment fade-in-then-out">
+            Why is that not enough?
+        </div>
+
+    </div>
+
+
     <aside class="notes" data-markdown>
+        As I've mentioned before, to limit the scope of my thesis, I focus on the current tech stack of Solid.
+        Solid uses the LDP interface and adds structural information through Shape Trees used as an index.
+        LDP provides some nice interface to essentially model a file system using Linked Data.
+        Such a file system can structure files in a variety of ways.
+        With the help of Shape Trees we can understand the structure.
+        Shape Trees use shape descriptions like SHACL, or ShEx to describe resources.
+        Put plainly, Shape trees are the natural extension of shape descriptions to LDP.
+        Since "Shape Trees" provide structural information for read queries, they are a good start to discover where we should write data.
+
+        TODO: motivate why we need SGV.
+
         I will click on the link and maybe give an overview of the different components?
     </aside>
 </section>
@@ -255,7 +362,27 @@ query abstraction layer
 </section>
 
 <section data-auto-animate>
-    <h3><span data-id="future">The Future:</span> Evaluation Metrics</h3>
+    <h3 data-id="eval"><span data-id="future">The Future:</span> Evaluation</h3>
+
+    <div style="text-align: left">
+        Experiments using SolidBench:
+        <ul>
+            <li>Implement manual update scripts for each structure</li>
+            <li>Reason how I could generalize the different script</li>
+            <li>Evaluate updating a single pod using queries</li>
+            <li>Evaluate updating multiple pods using queries</li>
+        </ul>
+    </div>
+
+    <aside class="notes" data-markdown>
+        SolidBench is an existing Benchmark that can generate many data stores with different structures.
+        For the different structures, I will add the SGV.
+        I will then perform multiple experiments.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3 data-id="eval"><span data-id="future">The Future:</span> Evaluation</h3>
 
     <div style="text-align: left">
         Possible metrics:
@@ -270,6 +397,7 @@ query abstraction layer
     <aside class="notes" data-markdown>
     </aside>
 </section>
+
 
 <section data-auto-animate>
     <h3>Time for Questions</h3>
