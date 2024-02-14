@@ -66,9 +66,9 @@
     </ul>
     <aside class="notes" data-markdown>
         I will start by situating my thesis in the broader landscape.
-        This will allow me to explain the research question better and introduce over the research hypothesis.
+        This will allow me to explain the research question better and introduce the research hypothesis.
         When everyone understands the goals of my thesis, I will tell you what I've done so far to accomplish those goals.
-        Ending of this presentation I take a glimpse at the future, going over the work that is still planned.
+        Afterwards, I will end this presentation by taking a glimpse at the future, going over the work that is still planned.
     </aside>
 </section>
 
@@ -95,7 +95,7 @@
         and this initiative in particular is the talk of the town since the Flemish government heavily invests in it.
         Solid allows users to host their own data through something called a Solid Pod.
         Rooted in the Solid project is the belief that we should build upon the existing web technologies.
-        A single Solid pod can thus be seen part of a node in a decentralized graph database, where each link in a pod can be any URI.
+        A single Solid pod can thus be seen as part of a node in a decentralized graph database, where each link in a pod can be any URI.
         Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
         leaving us with a permisioned decentralized graph database.
         Since different users have different requirements, of their storage, different kinds of heterogeneity arise.
@@ -116,17 +116,22 @@
             </ul>
         </li>
         <li>Query Processing using SPARQL
-            <pre><code class="language-plaintext">
+            <div style="text-align: center; border: black solid 2px">
+                <span style="font-size: 25pt">
+                    Example: SPARQL Query
+                </span>
+                <pre><code class="language-plaintext">
 SELECT DISTINCT * WHERE {
 ?item wdt:P31/wdt:P279* wd:Q16917;
 wdt:P625 ?geo .
 }
-</code></pre>
+                </code></pre>
+            </div>
         </li>
     </ul>
     <aside class="notes" data-markdown>
         To narrow the scope of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
-        Without any indexing, data consumers would need to hard code their required data locations.
+        Further, without any indexing, data consumers would need to hard code their required data locations.
         To avoid this, the Solid spec describes two ways of indexing the data in a pod.
         One is the type index, the other one is shape trees.
 
@@ -135,7 +140,7 @@ wdt:P625 ?geo .
         The LDP interface by itself allows you to read the whole web document and write to it.
         To ease the development experience, efforts exist to enable SPARQL queries over Solid pods.
 
-        The focus of that research is about read-queries and there exists no research enabling update-queries.
+        The focus of that research is on read-queries and there exists no research enabling update-queries.
     </aside>
 </section>
 
@@ -181,21 +186,26 @@ query abstraction layer
 
 <section data-auto-animate>
     <h3>Research Question and Hypothesis</h3>
-    <ul>
+    <ol style="font-size: 20pt">
         <li>
-            The efforts of a developer to update data in a single data stores
+            The efforts of a developer to update data in a <b>single data store</b>
             can be significantly lowered by adding a query abstraction layer.
         </li>
         <li>
-            The efforts of a developer to update data in two data stores with the same interface,
-            but different structures can be significantly lowered by adding a query abstraction layer.
+            The efforts of a developer to update data in <b>two data stores separately</b>,
+            where data stores have the <b>same interface</b>,
+            but <b>different structures</b> can be significantly lowered by adding a query abstraction layer.
         </li>
         <li>
-            The number of additional http requests,
-            compared to manually performing POST the required resources,
-            required by an update-query engine will be small (<5).
+            The efforts of a developer to perform a <b>cross-data-store</b> update where data stores can have <b>different interfaces</b>
+            and <b>different structures</b>, can be significantly lowered by adding a query abstraction layer.
         </li>
-    </ul>
+        <li>
+            The number of <b>additional http requests</b>,
+            compared to manually performing POST the required resources,
+            required by an update-query engine will be small <b>(<5)</b>.
+        </li>
+    </ol>
 
 
     <aside class="notes" data-markdown>
@@ -325,9 +335,48 @@ ex:PictureShape
             </code></pre>
         </div>
         <div style="width: 100%;" class="fragment fade-in-then-out">
-            Why is that not enough?
+            Is this enough?
+            <br>
+            To check that,
+            I listed some <a href="https://thesis.jitsedesmet.be/user-stories/stories.html#functional-requirements">
+            functional requirements and user stories</a>.
+            <br>
+            The answer: <b>NO</b>.
+            <br>
         </div>
 
+        <div style="width: 100%; border: red solid 2px; font-size: 15pt" class="fragment fade-in-then-out">
+            <ol style="column-count: 2; padding: 5px">
+                <li>What if multiple directories match?
+                    <ul>
+                        <li>Do I duplicate?</li>
+                        <li>Is one canonical and the other one links to the resource saved in the canonical?</li>
+                        <li>And how do I decide which one is canonical?</li>
+                    </ul>
+                </li>
+                <li>What if no directories match?</li>
+                <li>How are resources grouped?
+                <ul>
+                    <li>Can I just infer that picture-by-date example is just that?</li>
+                    <li>What if I need to create a new date directory?</li>
+                </ul>
+                </li>
+                <li>
+                    Is that new directory I created a leaf?
+                    <ul>
+                        <li>Or should I make even more directories? (Can be inferred from Shape Tree)</li>
+                    </ul>
+                </li>
+                <li>What to do if a resource is changed?
+                    <ul>
+                        <li>Should I alter the Shape Tree?</li>
+                        <li>Should I move the resource?</li>
+                        <li>Do I have a distance metric, and do I move when the distance is to great?</li>
+                    </ul>
+                </li>
+                6. Should all clients abide to the structural information?
+            </ol>
+        </div>
     </div>
 
 
@@ -335,13 +384,17 @@ ex:PictureShape
         As I've mentioned before, to limit the scope of my thesis, I focus on the current tech stack of Solid.
         Solid uses the LDP interface and adds structural information through Shape Trees used as an index.
         LDP provides some nice interface to essentially model a file system using Linked Data.
+
         Such a file system can structure files in a variety of ways.
         With the help of Shape Trees we can understand the structure.
         Shape Trees use shape descriptions like SHACL, or ShEx to describe resources.
         Put plainly, Shape trees are the natural extension of shape descriptions to LDP.
-        Since "Shape Trees" provide structural information for read queries, they are a good start to discover where we should write data.
+        Since "Shape Trees" provide structural information for read queries,
+        they might be a good start to discover where we should write data.
 
-        TODO: motivate why we need SGV.
+        Well, I'm here to tell you, Shape Trees do not suffice.
+        They simply lack the expressive power required to determine when and where to store.
+        If I want to insert a resource, I can see what Shape Tree would match and put it there, but...
 
         I will click on the link and maybe give an overview of the different components?
     </aside>
@@ -368,7 +421,7 @@ ex:PictureShape
         Experiments using SolidBench:
         <ul>
             <li>Implement manual update scripts for each structure</li>
-            <li>Reason how I could generalize the different script</li>
+            <li>Reason how to generalize the different scripts</li>
             <li>Evaluate updating a single pod using queries</li>
             <li>Evaluate updating multiple pods using queries</li>
         </ul>
@@ -435,11 +488,14 @@ ex:PictureShape
     // - https://revealjs.com/config/
     Reveal.initialize({
         hash: true,
-
+        controlsTutorial: true,
+        showSlideNumber: "print",
+        showNotes: false,
         // Learn about plugins: https://revealjs.com/plugins/
         plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
     });
-    Reveal.configure({ showNotes: true });
+    // Reveal.configure({ showNotes: true });
+    Reveal.configure({ showNotes: false  });
 </script>
 </body>
 </html>
