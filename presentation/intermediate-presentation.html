@@ -68,12 +68,12 @@
         I will start by situating my thesis in the broader landscape.
         This will allow me to explain the research question better and introduce the research hypothesis.
         When everyone understands the goals of my thesis, I will tell you what I've done so far to accomplish those goals.
-        Afterwards, I will end this presentation by taking a glimpse at the future, going over the work that is still planned.
+        Afterward, I will end this presentation by taking a glimpse at the future, going over the work that is still planned.
     </aside>
 </section>
 
 <section data-auto-animate>
-    <h3>Situate Thesis</h3>
+    <h3><span data-id="situate">Situate Thesis</span></h3>
     <ul>
         <li>Decentralization Efforts
             (like <a href="https://solidproject.org/">Solid</a>
@@ -85,7 +85,7 @@
                 <li>Heterogeneity of Structure<br>(I sort pictures by date, you by location)</li>
             </ul>
         </li>
-        <li>Query Processing using SPARQL</li>
+        <li><span data-id="SPARQL">Query Processing using SPARQL</span></li>
     </ul>
     <aside class="notes" data-markdown>
         As of right now, data on the Web is increasingly centralized in organizations like Google and Amazon.
@@ -95,7 +95,7 @@
         and this initiative in particular is the talk of the town since the Flemish government heavily invests in it.
         Solid allows users to host their own data through something called a Solid Pod.
         Rooted in the Solid project is the belief that we should build upon the existing web technologies.
-        A single Solid pod can thus be seen as part of a node in a decentralized graph database, where each link in a pod can be any URI.
+        A single Solid pod can thus be seen as a node in a decentralized graph database, where each link in a pod can be any URI.
         Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
         leaving us with a permisioned decentralized graph database.
         Since different users have different requirements, of their storage, different kinds of heterogeneity arise.
@@ -106,41 +106,78 @@
 </section>
 
 <section data-auto-animate>
-    <h3>Situate Thesis: Solid Spec</h3>
+    <h3><span data-id="situate">Situate Thesis</span>: <span data-id="SPARQL">Query Processing using SPARQL</span></h3>
+    <div>
+        Heterogeneity is hard for developers
+    </div>
+    <br>
+    <div class="r-stack">
+        <div class="fragment fade-out" data-fragment-index="1">
+            <div>
+                Example: SPARQL Query for my selfies with Alice
+            </div>
+            <pre><code class="language-plaintext">
+SELECT * where
+{
+    ?picture a ex:picture ;
+             ex:contains ex:Alice, ex:Bob ;
+             ex:taken-by ex:Bob .
+}
+        </code></pre>
+        </div>
+        <div class="fragment fade-in" data-fragment-index="1">
+            <div>
+                Example: SPARQL Query to add my selfie
+            </div>
+            <pre><code class="language-plaintext">
+INSERT DATA
+{
+    # a ex:picture ;
+      ex:contains ex:Alice, ex:Bob ;
+      ex:taken-by ex:Bob .
+}
+        </code></pre>
+        </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+        To ease the development experience, efforts exist to enable SPARQL queries over
+        permisioned decentralized graph databases.
+        An example of such a query can be seen on screen.
+        The focus of that research is on read-queries, and there exists no research enabling update-queries.
+
+        The purpose of my thesis is thus,
+        to allow the following update-query in such a system regardless of the interface or the structure of the data.
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h3><span data-id="situate">Situate Thesis</span>: Solid Spec</h3>
     <ul>
-        <li><a href="https://www.w3.org/TR/ldp/">LDP</a> Interface (acts as a file system)</li>
-        <li>Index
+        <li>Interface: <a href="https://www.w3.org/TR/ldp/">LDP</a> (RESTfull)</li>
+        <li>Index:
             <ul>
                 <li><a href="https://solid.github.io/type-indexes/">Type Index</a></li>
                 <li><a href="https://shapetrees.org/">Shape Trees</a></li>
             </ul>
         </li>
-        <li>Query Processing using SPARQL
-            <div style="text-align: center; border: black solid 2px">
-                <span style="font-size: 25pt">
-                    Example: SPARQL Query
-                </span>
-                <pre><code class="language-plaintext">
-SELECT DISTINCT * WHERE {
-?item wdt:P31/wdt:P279* wd:Q16917;
-wdt:P625 ?geo .
-}
-                </code></pre>
-            </div>
+        <li>Access Control:
+            <ul>
+                <li><a href="https://solidproject.org/TR/wac">WAC</a></li>
+                <li><a href="https://solidproject.org/TR/acp">ACP</a></li>
+            </ul>
         </li>
     </ul>
     <aside class="notes" data-markdown>
         To narrow the scope of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
-        Further, without any indexing, data consumers would need to hard code their required data locations.
+
+        We also need indexing, without it data-consumers would need to hard-code their required data locations.
         To avoid this, the Solid spec describes two ways of indexing the data in a pod.
         One is the type index, the other one is shape trees.
+        To retrieve data, you access the index giving you a list of locations that are of interest to you.
 
-        Now, to retrieve data, you access the index giving you a list of locations that are of interest to you.
-
-        The LDP interface by itself allows you to read the whole web document and write to it.
-        To ease the development experience, efforts exist to enable SPARQL queries over Solid pods.
-
-        The focus of that research is on read-queries and there exists no research enabling update-queries.
+        Solid also defines two ways of handling access control, but those can be ignored for this presentation.
     </aside>
 </section>
 
@@ -258,7 +295,7 @@ query abstraction layer
             <div style="display: grid; grid-gap: 5px; grid-template-columns: 1fr 1fr">
             <pre style="margin-top: 0; padding: 20px">
 pictures/
-  |- Valentia/
+  |- Valencia/
   |  |- one.ttl
   |  |- two.ttl
   |- Ghent/
@@ -351,7 +388,7 @@ ex:PictureShape
         they might be a good start to discover where we should write data.
 
         Well, I'm here to tell you, Shape Trees do not suffice.
-        They simply lack the expressive power required to determine when and where to store.
+        They simply lack the expressive power required to determine when and where to store data.
 
     </aside>
 </section>
@@ -360,7 +397,7 @@ ex:PictureShape
     <h3><span data-id="past">The Past:</span> Getting to Work</h3>
 
     <div>
-        <ol style="column-count: 2; padding: 5px; font-size: 20pt">
+        <ol style="column-count: 2; padding: 5px; font-size: 20pt; list-style-position: inside">
             <li>What if multiple directories match?
                 <ul>
                     <li>Do I duplicate?</li>
@@ -375,6 +412,7 @@ ex:PictureShape
                     <li>What if I need to create a new date directory?</li>
                 </ul>
             </li>
+
             <li>
                 Is that new directory I created a leaf?
                 <ul>
@@ -389,8 +427,6 @@ ex:PictureShape
                 </ul>
             </li>
             <li>Should all clients abide to the structural information?</li>
-<!--            Ugly br fix to keep top-level point together-->
-            <br>
         </ol>
     </div>
     <div class="fragment fade-in">
@@ -411,8 +447,8 @@ ex:PictureShape
     <h3><span data-id="future">The Future:</span> Overview</h3>
 
     <ul>
-        <li>Adapt Comunica to allow update queries by interpreting SGV</li>
-        <li>Alter SolidBench, so we can measure</li>
+        <li>Adapt <a href="https://comunica.dev/">Comunica</a> to allow update queries by interpreting SGV</li>
+        <li>Alter <a href="https://github.com/SolidBench/SolidBench.js">SolidBench</a>, so we can measure</li>
         <li>Feedback Loop: Measure and Adapt</li>
     </ul>
 
