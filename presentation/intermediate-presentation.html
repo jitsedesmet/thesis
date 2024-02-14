@@ -239,21 +239,12 @@ query abstraction layer
     <h3><span data-id="past">The Past:</span> Getting to Work</h3>
 
     <ul>
-        <li>Focus on the Solid spec
-            <ul>
-                <li>What is LDP?</li>
-                <li>Can we use Shape Trees for updates?</li>
-            </ul>
-        </li>
-        <li>Create the
-            <a href="https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/">
-                Storage Guidance Vocabulary (SGV)
-            </a>
-        </li>
+        <li>What is LDP?</li>
+        <li>Can we use Shape Trees for updates?</li>
     </ul>
 
     <div class="r-stack" style="font-size: 20pt">
-        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-out" data-fragment-index="1">
             Example: LDP Container
             <pre style="margin-top: 0;"><code class="language-plaintext">
 &lthttp://example.org/c1/&gt
@@ -262,7 +253,7 @@ query abstraction layer
    ldp:contains &ltr1>, &ltr2&gt, &ltr3&gt.
             </code></pre>
         </div>
-        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out" data-fragment-index="1">
             Example: LDP Structure
             <div style="display: grid; grid-gap: 5px; grid-template-columns: 1fr 1fr">
             <pre style="margin-top: 0; padding: 20px">
@@ -344,39 +335,6 @@ ex:PictureShape
             The answer: <b>NO</b>.
             <br>
         </div>
-
-        <div style="width: 100%; border: red solid 2px; font-size: 15pt" class="fragment fade-in-then-out">
-            <ol style="column-count: 2; padding: 5px">
-                <li>What if multiple directories match?
-                    <ul>
-                        <li>Do I duplicate?</li>
-                        <li>Is one canonical and the other one links to the resource saved in the canonical?</li>
-                        <li>And how do I decide which one is canonical?</li>
-                    </ul>
-                </li>
-                <li>What if no directories match?</li>
-                <li>How are resources grouped?
-                <ul>
-                    <li>Can I just infer that picture-by-date example is just that?</li>
-                    <li>What if I need to create a new date directory?</li>
-                </ul>
-                </li>
-                <li>
-                    Is that new directory I created a leaf?
-                    <ul>
-                        <li>Or should I make even more directories? (Can be inferred from Shape Tree)</li>
-                    </ul>
-                </li>
-                <li>What to do if a resource is changed?
-                    <ul>
-                        <li>Should I alter the Shape Tree?</li>
-                        <li>Should I move the resource?</li>
-                        <li>Do I have a distance metric, and do I move when the distance is to great?</li>
-                    </ul>
-                </li>
-                6. Should all clients abide to the structural information?
-            </ol>
-        </div>
     </div>
 
 
@@ -394,12 +352,60 @@ ex:PictureShape
 
         Well, I'm here to tell you, Shape Trees do not suffice.
         They simply lack the expressive power required to determine when and where to store.
+
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="past">The Past:</span> Getting to Work</h3>
+
+    <div>
+        <ol style="column-count: 2; padding: 5px; font-size: 20pt">
+            <li>What if multiple directories match?
+                <ul>
+                    <li>Do I duplicate?</li>
+                    <li>Is one canonical and the other one links to the resource saved in the canonical?</li>
+                    <li>And how do I decide which one is canonical?</li>
+                </ul>
+            </li>
+            <li>What if no directories match?</li>
+            <li>How are resources grouped?
+                <ul>
+                    <li>Can I just infer that picture-by-date example is just that?</li>
+                    <li>What if I need to create a new date directory?</li>
+                </ul>
+            </li>
+            <li>
+                Is that new directory I created a leaf?
+                <ul>
+                    <li>Or should I make even more directories? (Can be inferred from Shape Tree)</li>
+                </ul>
+            </li>
+            <li>What to do if a resource is changed?
+                <ul>
+                    <li>Should I alter the Shape Tree?</li>
+                    <li>Should I move the resource?</li>
+                    <li>Do I have a distance metric, and do I move when the distance is to great?</li>
+                </ul>
+            </li>
+            <li>Should all clients abide to the structural information?</li>
+<!--            Uly br fix to keep top-level point together-->
+            <br>
+        </ol>
+    </div>
+    <div class="fragment fade-in">
+        Introducing:
+        <a href="https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/">
+            Storage Guidance Vocabulary (SGV)
+        </a>
+    </div>
+
+    <aside class="notes" data-markdown>
         If I want to insert a resource, I can see what Shape Tree would match and put it there, but...
 
         I will click on the link and maybe give an overview of the different components?
     </aside>
 </section>
-
 
 <section data-auto-animate>
     <h3><span data-id="future">The Future:</span> Overview</h3>
