@@ -113,6 +113,7 @@ classDiagram
   GC --o GS
   class GS["Group Strategy"] {
     + sparql-map
+    + URI templates
   }
 
   SC --o M  
