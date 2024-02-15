@@ -39,8 +39,8 @@
     <p>
         Jitse De Smet
     </p>
-    <aside class="notes">
-        Good afternoon everyone, and welcome to my intermediate thesis defense.
+    <aside class="notes" data-markdown>
+        **Good afternoon everyone**, and welcome to my intermediate thesis defense.
     </aside>
 </section>
 
@@ -50,7 +50,7 @@
     <h3>How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?</h3>
     <p>Jitse De Smet</p>
     <aside class="notes" data-markdown>
-        Starting of, I'll announce that I changed my subject from
+        Starting of, I'll announce that I **changed my subject** from
         "analyzing security when querying over decentralized environments"
         to "How can we abstract data updates in a permissioned decentralized environment behind a query abstraction layer."
     </aside>
@@ -65,7 +65,7 @@
         <li>The Future</li>
     </ul>
     <aside class="notes" data-markdown>
-        I will start by situating my thesis in the broader landscape.
+        I will start by situating my thesis **in the broader landscape**.
         This will allow me to explain the research question better and introduce the research hypothesis.
         When everyone understands the goals of my thesis, I will tell you what I've done so far to accomplish those goals.
         Afterward, I will end this presentation by taking a glimpse at the future, going over the work that is still planned.
@@ -88,20 +88,20 @@
         <li><span data-id="SPARQL">Query Processing using SPARQL</span></li>
     </ul>
     <aside class="notes" data-markdown>
-        As of right now, data on the Web is increasingly centralized in organizations like Google and Amazon.
-        This centralization is at the root of privacy scandals and acts as a vendor lock-in for consumers.
-        Legislation like GDPR opens the path for the adoption of decentralization initiatives.
+        As of right now, data on the Web is **increasingly centralized** in organizations like Google and Amazon.
+        This centralization is at the root of privacy scandals and acts as a **vendor lock-in for consumers**.
+        **Legislation** like GDPR opens the path for the adoption of decentralization initiatives.
         One of the initiatives is Solid,
-        and this initiative in particular is the talk of the town since the Flemish government heavily invests in it.
+        and this initiative in particular is the talk of the town since the **Flemish government heavily invests** in it.
         Solid allows users to host their own data through something called a Solid Pod.
         Rooted in the Solid project is the belief that we should build upon the existing web technologies.
         A single Solid pod can thus be seen as a node in a decentralized graph database, where each link in a pod can be any URI.
         Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
         leaving us with a permisioned decentralized graph database.
-        Since different users have different requirements, of their storage, different kinds of heterogeneity arise.
+        Since different users have **different requirements**, of their storage, different kinds of heterogeneity arise.
         In no particular order, we have the heterogeneity in interfaces, the heterogeneity of data and the heterogeneity of Structure.
 
-        The sentiment of supporting heterogeneity is what sparked the creation of the Comunica query engine developed within this research unit.
+        The **sentiment of supporting heterogeneity** is what sparked the creation of the Comunica query engine developed within this research unit.
     </aside>
 </section>
 
@@ -141,12 +141,12 @@ INSERT DATA
     </div>
 
     <aside class="notes" data-markdown>
-        To ease the development experience, efforts exist to enable SPARQL queries over
+        To ease the development experience, **efforts exist to enable SPARQL queries** over
         permisioned decentralized graph databases.
         An example of such a query can be seen on screen.
         The focus of that research is on read-queries, and there exists no research enabling update-queries.
 
-        The purpose of my thesis is thus,
+        **The purpose of my thesis** is thus,
         to allow the following update-query in such a system regardless of the interface or the structure of the data.
     </aside>
 </section>
@@ -170,14 +170,14 @@ INSERT DATA
         </li>
     </ul>
     <aside class="notes" data-markdown>
-        To narrow the scope of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
+        To **narrow the scope** of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
 
-        We also need indexing, without it data-consumers would need to hard-code their required data locations.
+        We also need **indexing**, without it data-consumers would need to **hard-code** their required **data locations**.
         To avoid this, the Solid spec describes two ways of indexing the data in a pod.
         One is the type index, the other one is shape trees.
         To retrieve data, you access the index giving you a list of locations that are of interest to you.
 
-        Solid also defines two ways of handling access control, but those can be ignored for this presentation.
+        Solid also defines two ways of **handling access control**, but those can be **ignored for this presentation**.
     </aside>
 </section>
 
@@ -215,7 +215,7 @@ query abstraction layer
     </div>
 
     <aside class="notes" data-markdown>
-        I therefore ask the question: "How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?"
+        I therefore **ask the question**: "How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?"
         Let's investigate that question, in more detail ...
     </aside>
 </section>
@@ -246,9 +246,9 @@ query abstraction layer
 
 
     <aside class="notes" data-markdown>
-        My hypothesis is...
+        **My hypothesis is...**
 
-        I will explain the metrics and measurements that I will use to validate or contradict the hypothesis in the section about the future.
+<!--        I will explain the metrics and measurements that I will use to validate or contradict the hypothesis in the section about the future.-->
     </aside>
 </section>
 
@@ -377,19 +377,17 @@ ex:PictureShape
 
     <aside class="notes" data-markdown>
         As I've mentioned before, to limit the scope of my thesis, I focus on the current tech stack of Solid.
-        Solid uses the LDP interface and adds structural information through Shape Trees used as an index.
+        Solid uses the **LDP interface** and **adds structural information** through Shape Trees used as an index.
         LDP provides some nice interface to essentially model a file system using Linked Data.
 
-        Such a file system can structure files in a variety of ways.
+        Such a **file system can structure files in a variety of ways**.
         With the help of Shape Trees we can understand the structure.
         Shape Trees use shape descriptions like SHACL, or ShEx to describe resources.
-        Put plainly, Shape trees are the natural extension of shape descriptions to LDP.
+        Put plainly, Shape trees are the **natural extension of shape descriptions to LDP**.
         Since "Shape Trees" provide structural information for read queries,
         they might be a good start to discover where we should write data.
 
-        Well, I'm here to tell you, Shape Trees do not suffice.
-        They simply lack the expressive power required to determine when and where to store data.
-
+        **Is this enough?**
     </aside>
 </section>
 
@@ -437,9 +435,9 @@ ex:PictureShape
     </div>
 
     <aside class="notes" data-markdown>
-        If I want to insert a resource, I can see what Shape Tree would match and put it there, but...
+        If I want to insert a resource, I can **see what Shape Tree would match** and put it there, **but...**
 
-        I will click on the link and maybe give an overview of the different components?
+        Click on the SGV link.
     </aside>
 </section>
 
@@ -462,6 +460,7 @@ ex:PictureShape
     <div style="text-align: left">
         Experiments using SolidBench:
         <ul>
+            <li>Extend SolidBench with SGV descriptions</li>
             <li>Implement manual update scripts for each structure</li>
             <li>Reason how to generalize the different scripts</li>
             <li>Evaluate updating a single pod using queries</li>
@@ -470,8 +469,8 @@ ex:PictureShape
     </div>
 
     <aside class="notes" data-markdown>
-        SolidBench is an existing Benchmark that can generate many data stores with different structures.
-        For the different structures, I will add the SGV.
+        **SolidBench** is an existing Benchmark that can **generate many data stores with different structures**.
+        For the different structures, **I will add the SGV**.
         I will then perform multiple experiments.
     </aside>
 </section>
@@ -537,7 +536,7 @@ ex:PictureShape
         plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
     });
     // Reveal.configure({ showNotes: true });
-    Reveal.configure({ showNotes: false  });
+    Reveal.configure({ showNotes: true  });
 </script>
 </body>
 </html>
