@@ -11,6 +11,23 @@ It uses shape descriptions like
 these shapes can be used to validate RDF graphs against a set of conditions.
 Applications can use shapes to validate that a Things of a certain type has the expected properties.
 It has a strong set of predicates to model relations and cardinalities between entities.
+Shape descriptors like SHACL even allow you to validate the content of data.
+You can, for example, validate you data matches: `ex:published "true"^^xsd:boolean`.
+Like:
+```SHACL
+ex:publishmentCheck
+    a sh:NodeShape;
+    sh:targetClass ex:Picture ;
+    sh:property [
+       sh:path ex:published ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:datatype xsd:boolean ;
+       sh:hasValue "true"^^boolean
+    ] ;
+ ```
+but, note that matching of literals needs to be exact, e.g. "04"^^xsd:byte does not match "4"^^xsd:integer.
+
 
 Shape trees can be used in combination with protocols that organize linked data graphs into resource hierarchies,
 expressing the layout of the resources and associating those resources with their respective shapes. 

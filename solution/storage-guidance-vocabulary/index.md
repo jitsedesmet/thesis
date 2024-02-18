@@ -273,7 +273,7 @@ In this section, we answer the question "How do we react to the change of a reso
 Instances of `sgv:update-condition`:
 * `sgv:update-keep-always`: No matter how the resource is updated, leave it where it is.
    As a result, the index and widen the resource selection shapes might need to be updated.
-* `sgv:update-keep ?distance`: Allow to specify a distance metric of the resource shape to the resource description. 
+* `sgv:update-keep ?distance`: Allow specifying a distance metric of the resource shape to the resource description. 
 * `sgv:update-prefer-static`: Prefer to keep the resource where it is,
    but change the location in case the shape description does not match anymore. 
    In that case, remove the resource and add it again.
@@ -383,15 +383,20 @@ When you have some kinds of modifying permissions, you should be able to request
 You would describe a notification container with a `save-condition` as `only-stored-when-not-redundant` with a
 shape selector that is empty (matches anything).
 `sgv:client-control` would be `sgv:allow-when-not-claimed`.
-A UI interface asking the user to specify the location of a naw resource migt be desired.
+A UI interface asking the user to specify the location of a naw resource might be desired.
 This way, the application can operate as if the resource type is not new. 
 
 #### Assume
 Same as above but more relaxed client control.
+A client deviating should always add an sgv description as to how this deviation is allowed.
 
 #### Deny
 Do not declare a notification container so no one matches the insert and do not allow client opinions by using a
 `sgv:client-control` of `sgv:no-control`.
+
+#### SPARQL-endpoint as canonical container
+An interesting idea comes from allowing SPARQL endpoints to be canonical containers.
+An LDP view could then be derived by using derived containers over the SPARQL endpoint.
 
 ### ACID
 
@@ -441,6 +446,11 @@ Enabling ACID on http2 enabled connections where a transaction needs to happen i
 The server is in those cases sure that a server is still responsive (open connection).
 ACID over the web?
 
+## Future work
+SGV selects data based on the content, ACP does not have this functionality.
+If we want to extract policies from the permissions given to a directory, ACP is not sufficient.
+As mentioned in my [ACP](/user-stories/access-control/ACP.md) post, a possible alternative would be
+[UAC](https://www.bergnet.org/people/bergi/files/documents/2014-02-14/index.html#/). 
 
 ## Shape descriptions
 

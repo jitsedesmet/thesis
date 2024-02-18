@@ -12,31 +12,15 @@ title: Access Control Policy
 
 The problem is currently is that not all servers support it.
 
-Question is: Can ACL decide what verifiable credential it requests based on the content of a thing
-ANSWER: YES: for each picture we need a matcher that matches all users in it.
- This might seem inefficient since we would need a lot of matchers.
-It does, however, create the opportunity for matchers to be shared,
-these shared matchers are not content dependent,
-and therefore need only to be evaluated once,
-and you can have a list of accessible resources.
-The matchers also allow specifying the resources, so you would say:
-Bob and Freya can read when they are proven to be them by an issuer,
-and this rule counts for all pictures containing them.
+Question: Can ACL decide what verifiable credential it requests based on the content of a thing
+ANSWER: NO: for each picture we would need a matcher that matches all users in it. But matchers are independent of data content.
+It is thus NOT possible to define something like:
+> Allow Boby and Freya to access resources that matches `?resource contains ex:Boby, ex:Freya`.
 
-// TODO: might be wrong
-```turtle
-@prefix ex: <http://example.org/> .
-@prefix acp: <http://www.w3.org/ns/solid/acp#> .
-@prefix acl: <http://www.w3.org/ns/auth/acl#> .
+ACP thus lacks access control based on triple content.
+This shortcoming has been noticed by Thomas Bergwinkl, who described 
+[Universal Access Control (UAC)](https://www.bergnet.org/people/bergi/files/documents/2014-02-14/index.html#/).
 
-ex:policy1
-    acp:allow acl:Read ;
-    acp:agent ex:Boby, ex:Freya ;
-    acp:issuer ex:IdentityProviderB ;
-    acp:anyOf [
-       ex:contains ex:Boby, ex:Freya ;
-    ] .
-```
 
 ## Stories evaluations
 
