@@ -99,6 +99,7 @@ classDiagram
   }
 
   GC --> GC
+  M --o GC
   class GC["Grouping Container"] {
     "Groups data in different containers"
     + Group strategy
@@ -137,6 +138,7 @@ classDiagram
   DC --o RD
   class RD["Resource Description"] {
     + shacl-descriptor
+    + URI template
   }
 
   SC --o UCond

@@ -101,21 +101,40 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
 @prefix dbo: <https://dbpedia.org/ontology> .
 
 :pod a ldp:Container, sgv:unstructured-container ;
-    ldp:contains :posts_container .
+    sgv:client-control
+        [
+            a sgv:allow-when-not-claimed ;
+        ] ;
+    sgv:one-file-one-resource "false"^^xsd:boolean .
 
-:postFile a ldp:Container, sgv:grouping-container ;
-    sgv:materialization sgv:materialize-file ;
-    sgv:update-condition sgv:update-prefer-static ;
-#   The variables accessible by the uri template are the ones that match the shape-description.
-    sgv:group-strategty-uri-template
-        '{base}/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' .
-
-:posts_container a ldp:Container, sgv:canonical-container ;
-    sgv:save-condition sgv:always_stored ;
-    sgv:materilization sgv:materialize-containers ;
-    sgv:update-condition sgv:always-stored ;
+# An unstructured container contains a structured container "posts"
+:posts-container a ldp:Container, sgv:structured-container .
+# And we describe that container...
+:posts-container a sgv:canonical-container ;
+    sgv:save-condition
+        [
+            a sgv:always-stored ;
+        ] ;
+    sgv:update-condition
+        [
+            a sgv:update-prefer-static ;
+        ] ;
 #   I link to the large shape tree just to show that this is a possibility.
-    sgv:shacl-descriptor ex:postsShape .
+    sgv:resource-description
+        [
+            a sgv:shacl-descriptor ;
+            sgv:shacl-shape ex:postsShape ;
+        ] ;
+    sgv:materilization
+        [
+            a sgv:materialize-file ;
+            sgv:group-strategy
+                [
+                    a sgv:group-strategty-uri-template ;
+                    sgv:uri-template
+                        '{base}/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' ;
+                ] ;
+        ] .
 
 ex:postShapeSmall
     a sh:NodeShape ;
