@@ -119,7 +119,6 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
         [
             a sgv:update-prefer-static ;
         ] ;
-#   I link to the large shape tree just to show that this is a possibility.
     sgv:resource-description
         [
             a sgv:shacl-descriptor ;
@@ -136,23 +135,12 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
                 ] ;
         ] .
 
-ex:postShapeSmall
+ex:postShape
     a sh:NodeShape ;
     sh:property
         [
             sh:path rdfs:type ;
             sh:class ldbc:Post ;
-        ] .
-
-ex:postShape
-    a sh:NodeShape ;
-    sh:targetClass ldbc:Post ;
-    sh:property
-        [
-            sh:path ldbc:browserUsed ;
-            sh:datatype xsd:string ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
         ] ;
     sh:property
         [
@@ -160,76 +148,6 @@ ex:postShape
             sh:datatype xsd:dateTime ;
             sh:minCount 1 ;
             sh:maxCount 1 ;
-        ] ;
-    sh:property
-        [
-            sh:path ldbc:hasCreator ;
-            sh:nodeKind sh:IRI ;
-            sh:class ldbc:Person ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-        ] ;
-    sh:property
-        [
-            sh:path ldbc:id ;
-            sh:datatype xsd:long ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-        ] ;
-    sh:property
-        [
-            sh:path ldbc:isLocatedIn ;
-            sh:nodeKind sh:IRI ;
-            sh:class dbo:Place ;
-        ] ;
-    sh:property
-        [
-            sh:path ldbc:locationIP ;
-            sh:datatype xsd:string ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:content ;
-            sh:datatype xsd:string ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:length ;
-            sh:datatype xsd:int ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path rdfs:seeAlso ;
-            sh:nodeKind sh:IRI ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:language ;
-            sh:datatype xsd:string ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:imageFile ;
-            sh:datatype xsd:string ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:language ;
-            sh:datatype xsd:string ;
-        ] ;
-    sh:property
-        [
-        # Optional
-            sh:path ldbc:imageFile ;
-            sh:datatype xsd:string ;
         ] .
 ```
 
