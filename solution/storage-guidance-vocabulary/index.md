@@ -160,7 +160,7 @@ classDiagram
 
 link C "#containers"
 link CControl "#client-control"
-link UC "#unstructured-containers"
+link UC "#unstructured-container"
 link SC "#structured-containers"
 link CC "#canonical-container"
 link DC "#derived-container"
@@ -219,7 +219,7 @@ We list the different `sgv:client-control` types from least strict to most stric
    here we do not have control over resources matched using `sgv:only-stored-when-not-redundant`.
 * `sgv:no-control`: The client is not allowed to express any opinion.
 
-### Unstructured Containers
+### Unstructured Container
 Unstructured containers are like the existing LDP containers.
 It allows circular containment, something that is not allowed in a structured container.
 A container that has a shape tree description is still deemed unstructured.
@@ -254,12 +254,12 @@ Currently, only DurationAgoPolicy seems like a nice addition.
 #### Materialization
 A container can specify how the resources it contains are materialized.
 The available options are:
-* `sgv:materilize-default`: This container contains files and resources.
+* <span id="materialize-default">`sgv:materialize-default`</span>: This container contains files and resources.
   If a sub-container is created with only one resource, create a file instead.
-* `sgv:materialize-file`: This container contains only files.
+* <span id="materialize-file">`sgv:materialize-file`</span>: This container contains only files.
    When in a grouping container where the names are not unique, but this is a `one-file-one-resource`-container,
    the operation should error.
-* `sgv:materialize-container`: This container contains only containers.
+* <span id="materialize-container">`sgv:materialize-container`</span>: This container contains only containers.
 
 It might be beneficial to state that the resource should still be a UUID,
 and that the mapping received is just a substitution that can be used by the user.
@@ -271,15 +271,15 @@ It could be a file that uses sparql star like `file-x contains triple`
 In this section, we answer the question "How do we react to the change of a resource?"
 
 Instances of `sgv:update-condition`:
-* `sgv:update-keep-always`: No matter how the resource is updated, leave it where it is.
+* <span id="update-keep-always">`sgv:update-keep-always`</span>: No matter how the resource is updated, leave it where it is.
    As a result, the index and widen the resource selection shapes might need to be updated.
-* `sgv:update-keep ?distance`: Allow specifying a distance metric of the resource shape to the resource description. 
-* `sgv:update-prefer-static`: Prefer to keep the resource where it is,
+* <span id="update-keep">`sgv:update-keep ?distance`</span>: Allow specifying a distance metric of the resource shape to the resource description. 
+* <span id="update-prefer-static">`sgv:update-prefer-static`</span>: Prefer to keep the resource where it is,
    but change the location in case the shape description does not match anymore. 
    In that case, remove the resource and add it again.
-* `sgv:update-best-match`: Move to best matched container.
+* <span id="update-best-match">`sgv:update-best-match`</span>: Move to best matched container.
    Always remove the object and add it again, doing this will make sure the location is optimal.
-* `sgv:update-disallow`: Do not allow updates over this container in any case.
+* <span id="update-disallow">`sgv:update-disallow`</span>: Do not allow updates over this container in any case.
 
 #### Canonical Container
 A canonical container saves resources, it can only contain grouping containers.
@@ -287,7 +287,8 @@ It selects focussed resources using a resource description.
 When a resource matches the desired description,
 the container can still state that it gives precedence to other containers using save conditions.
 
-##### Resource description
+### Resource description
+#### Shacl Descriptor
 Currently, we only work with a SHACL shape selector, `sgv:shacl-descriptor`.
 When working with
 [shape trees](https://shapetrees.org/TR/specification/),
@@ -311,15 +312,15 @@ more precisely the [lessThan rule](https://www.w3.org/TR/shacl/#LessThanConstrai
 A container might not always want to save a resource,
 this section answers the question "When should those resources be stored?"
 There are different instantiations of `sgv:save-condition`:
-* `sgv:state-requirements`: A SPARQL query that is coerced to boolean and checks if the solid pod is in a correct state.
-* `sgv:always-stored`: Store the data in case the description matches.
-* `sgv:prefer-other`: Only save when none of the containers found by following
+* <span id="state-requirements">`sgv:state-requirements`</span>: A SPARQL query that is coerced to boolean and checks if the solid pod is in a correct state.
+* <span id="always-stored">`sgv:always-stored`</span>: Store the data in case the description matches.
+* <span id="prefer-other">`sgv:prefer-other`</span>: Only save when none of the containers found by following
   `sgv:prefer-other` one or more times stores the resource.
-* `sgv:prefer-most-specifc`: Dynamic generation of `sgv:prefer-other`.
-* `sgv:only-stored-when-not-redundant`: Stores only when no one else stores it,
+* <span id="prefer-most-specific">`sgv:prefer-most-specific`<span>: Dynamic generation of `sgv:prefer-other`.
+* <span id="only-stored-when-not-redundant">`sgv:only-stored-when-not-redundant`</span>: Stores only when no one else stores it,
    a dedicated container could be set up instead of falling back to an exception.
    If multiple containers match using this condition, choose a random one to store it in.
-* `sgv:never`: Do not allow storage
+* <span id="store-never">`sgv:store-never`</span>: Do not allow storage
 
 
 #### Derived Container
