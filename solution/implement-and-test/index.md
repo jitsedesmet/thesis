@@ -106,7 +106,9 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
 :postFile a ldp:Container, sgv:grouping-container ;
     sgv:materialization sgv:materialize-file ;
     sgv:update-condition sgv:update-prefer-static ;
-    sgv:group-strategy sgv:group_by_creation_date .
+#   The variables accessible by the uri template are the ones that match the shape-description.
+    sgv:group-strategty-uri-template
+        '{base}/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' .
 
 :posts_container a ldp:Container, sgv:canonical-container ;
     sgv:save-condition sgv:always_stored ;

@@ -336,9 +336,9 @@ A derived container could choose its CAP handling: `cp`, or `ap`
 #### Grouping Container
 A grouping container allows to group resources selected by container this is in (or is equal to).
 
-##### SPARQL Group Strategy
-Currently, only one instance of `sgv:group-strategy` exist.
-It specifies a group strategy using a SPARQL query that acts like a map function.
+###### Group Strategy
+##### Group Strategy SPARQL
+The first option specifies a group strategy using a SPARQL query that acts like a map function.
 
 The object of `sgv:sparql-map` should be a SPARQL select query over the resources in the scoped collection
 returning `?key` and `?value`
@@ -365,13 +365,13 @@ LIMIT 1
 
 Maybe this poses a security issue (execution of queries), and we should also add a description?
 
-##### URI template group strategy
-[URI templates](https://datatracker.ietf.org/doc/html/rfc6570)
-could be used.
+###### Group Strategy URI template
+[URI templates](https://datatracker.ietf.org/doc/html/rfc6570) could be used.
 Scoped over the identifiers used in the shape description, you could specify how to create a value.
+The URIs in the shape description should be referenced by their PCT-encoded (URI-encoded) form.
 This type of description is more limited as opposed to SPARQL queries,
 since you can only use data contained in every resource.
-The sparql query notation would be harder to implemebt but allows access to the world.
+The sparql query notation would be harder to implement but allows access to the world.
 
 ### Multiple Pods
 Multiple pods can work just like with a single pod.
