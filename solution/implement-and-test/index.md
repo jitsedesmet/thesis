@@ -101,54 +101,46 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
 @prefix dbo: <https://dbpedia.org/ontology> .
 
 :pod a ldp:Container, sgv:unstructured-container ;
-    sgv:client-control
-        [
-            a sgv:allow-when-not-claimed ;
-        ] ;
+    sgv:client-control [
+        a sgv:allow-when-not-claimed ;
+    ] ;
     sgv:one-file-one-resource "false"^^xsd:boolean .
 
 # An unstructured container contains a structured container "posts"
 :posts-container a ldp:Container, sgv:structured-container .
 # And we describe that container...
 :posts-container a sgv:canonical-container ;
-    sgv:save-condition
-        [
-            a sgv:always-stored ;
+    sgv:save-condition [
+        a sgv:always-stored ;
+    ] ;
+    sgv:update-condition [
+        a sgv:update-prefer-static ;
+    ] ;
+    sgv:resource-description [
+        a sgv:shacl-descriptor ;
+        sgv:shacl-shape ex:postsShape ;
+    ] ;
+    sgv:materilization [
+        a sgv:materialize-file ;
+        sgv:group-strategy [
+            a sgv:group-strategty-uri-template ;
+            sgv:uri-template
+                '{base}/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' ;
         ] ;
-    sgv:update-condition
-        [
-            a sgv:update-prefer-static ;
-        ] ;
-    sgv:resource-description
-        [
-            a sgv:shacl-descriptor ;
-            sgv:shacl-shape ex:postsShape ;
-        ] ;
-    sgv:materilization
-        [
-            a sgv:materialize-file ;
-            sgv:group-strategy
-                [
-                    a sgv:group-strategty-uri-template ;
-                    sgv:uri-template
-                        '{base}/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' ;
-                ] ;
-        ] .
+    ] .
 
 ex:postShape
     a sh:NodeShape ;
-    sh:property
-        [
-            sh:path rdfs:type ;
-            sh:class ldbc:Post ;
-        ] ;
-    sh:property
-        [
-            sh:path ldbc:creationDate ;
-            sh:datatype xsd:dateTime ;
-            sh:minCount 1 ;
-            sh:maxCount 1 ;
-        ] .
+    sh:property [
+        sh:path rdfs:type ;
+        sh:class ldbc:Post ; 
+    ] ;
+    sh:property [
+        sh:path ldbc:creationDate ;
+        sh:datatype xsd:dateTime ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] .
 ```
 
 
