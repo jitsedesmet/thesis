@@ -126,7 +126,7 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
             a sgv:group-strategty-uri-template ;
 #            automatically preceded with "{base}"
             sgv:uri-template
-                '/http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10' ;
+                '/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10}' ;
         ] ;
     ] .
 
