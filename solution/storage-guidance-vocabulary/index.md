@@ -62,7 +62,7 @@ classDiagram
   direction TB
   C ..> UC
   C ..> SC
-  class C["Container"] {
+  class C["Resource Collection"] {
     "Super type of all containers"
     + one-file-one-resource
     + Client Control
@@ -70,58 +70,57 @@ classDiagram
 
   UC --> UC
   UC --> SC
-  class UC["Unstructured Containers"] {
+  class UC["Unstructured Collection"] {
     "Can link to any where.
     Default LDP"
   }
 
+  SC --> GC
+  GC ..> SC
+  class GC["Grouped Collections"] {
+    "Groups data in different containers"
+    + Group strategy
+  }
+
+  GC --o GS
+  class GS["Group Strategy"] {
+    + sparql-map
+    + URI templates with variables:
+    _id, and the variables in the shape description
+    + URI template and regex
+  }
+
   SC ..> CC
   SC ..> DC
-  SC ..> GC
-  class SC["Structured Container"] {
+  class SC["Structured Collection"] {
     "Any container that is a tree and not a graph"
     + Materialization
     + Update Condition
     + Retention Policy
   }
  
-  CC --> GC
-  class CC["Canonical Container"] {
+  class CC["Canonical Collection"] {
     "Stores data matching the shape"
     + Resource desccription
     + Save Condition
   }
 
-  DC --> GC
-  class DC["Derived Container"] {
+  DC --|> CC : Derived From
+  class DC["Derived Collection"] {
     "Contains data from one or more Canonical containers"
     + Resource Description
   }
 
-  GC --> GC
-  M --o GC
-  class GC["Grouping Container"] {
-    "Groups data in different containers"
-    + Group strategy
+  CC --o RD
+  DC --o RD
+  class RD["Resource Description"] {
+    + shacl-descriptor
+    + URI template
   }
 
   SC --o RP
   class RP["Retention Policy"] {
     + duration ago 
-  }
-
-
-  GC --o GS
-  class GS["Group Strategy"] {
-    + sparql-map
-    + URI templates
-  }
-
-  SC --o M  
-  class M["Materialization"] {
-    + Default
-    + File
-    + Container
   }
 
   CC --o SaveCond
@@ -132,13 +131,6 @@ classDiagram
     + prefer-most-specifc
     + only-stored-when-not-redunant
     + never
-  }
-
-  CC --o RD
-  DC --o RD
-  class RD["Resource Description"] {
-    + shacl-descriptor
-    + URI template
   }
 
   SC --o UCond
@@ -166,7 +158,6 @@ link UC "#unstructured-container"
 link SC "#structured-containers"
 link CC "#canonical-container"
 link DC "#derived-container"
-link GC "#grouping-container"
 
 link RP "#retention-policy"
 link M "#materialization"
@@ -179,6 +170,7 @@ link GS "#group-strategy"
 
 [Multiple pods?](#multiple-pods)
 
+Containers created from the group-strategy are also `Grouped Collections`.
 
 ## Containers
 We differentiate between different kinds of containers.
