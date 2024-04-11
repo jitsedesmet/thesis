@@ -1,0 +1,26 @@
+sequenceDiagram
+    actor A as Alice/ Alice inc.
+    participant QE as Query Engine
+    participant PA as Pod Alice
+
+    A ->>+ QE: Update RDF data
+    par GET SGV
+        QE ->>+ PA: GET /SGV
+        PA -->>- QE: 200 OK
+    and GET HTTP Resource
+        QE ->>+ PA: GET {resource}
+        PA -->>- QE: 200 OK
+    end
+
+    QE -> QE: From current resource,<br/>virtually construct resulting resource
+    QE -> QE: Check update condition on<br/>what to do with the resulting resource.
+
+    alt Move Required
+        QE -> QE: Follow creating resource flow
+    else Move Not Required
+        QE ->>+ PA: Update Resource
+        PA -->>- QE: OK
+    end
+
+    QE -->>- A: OK
+

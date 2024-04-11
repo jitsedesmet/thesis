@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor A as Alice/ Alice inc.
+    participant QE as Query Engine
+    participant PA as Pod Alice
+
+    A ->>+ QE: Insert RDF data
+    QE ->>+ PA: GET /SGV
+    PA -->>- QE: 200 OK
+
+    QE -> QE: Compute list of eligible collections
+    QE -> QE: Filter collections on save conditions
+
+    loop Every remaining collection
+        QE -> QE: Compute Named Node of created <br/> resource from Group Strategy
+        QE -> QE: Add matching collections derived of <br/> this one to the list of eligible collections
+    end
+
+    QE ->>+ PA: Create Required Resources
+    PA -->>- QE: 200 OK
+
+    QE -->>- A: OK
+

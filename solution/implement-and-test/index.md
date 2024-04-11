@@ -26,8 +26,7 @@ SNB definitions:
 * The ratio of read and update queries of a workload, and the frequency at which they are issued 
 
 
-### Develop benchmarks based on checkpoints
-
+### Develop benchmarks based on choke points
 
 ### Implement SGV into SolidBench
 
@@ -126,7 +125,7 @@ Should have a describing [sgo](../storage-guidance-vocabulary/index.md) resource
             a sgv:group-strategty-uri-template ;
 #            automatically preceded with "{base}"
             sgv:uri-template
-                '/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10}' ;
+                '/{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FcreationDate:10}#{http%3A%2F%2Flocalhost%3A3000%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2Fid}' ;
         ] ;
     ] .
 
@@ -137,6 +136,12 @@ ex:postShape
         sh:class ldbc:Post ; 
     ] ;
     sh:property [
+        sh:path ldbc:id ;
+        sh:datatype xsd:long ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+    ] ;
+    sh:property [
         sh:path ldbc:creationDate ;
         sh:datatype xsd:dateTime ;
         sh:minCount 1 ;
@@ -145,7 +150,33 @@ ex:postShape
 ```
 
 
-### Implement Comunica to use SolidBench
+### Implement SGV into Comunica 
+We start by writing a query like that inserts a Post
+
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> 
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+
+INSERT DATA {
+    <> a ns1:Post ;
+        ns1:browserUsed "Chrome" ;
+        ns1:content "I want to eat an apple while scavenging for mushrooms in the forest. The sun will be such a blessing." ;
+        ns1:creationDate "2012-05-08T23:23:56.830000+00:00"^^xsd:dateTime ;
+        ns1:hasCreator <http://localhost:3000/pods/00000000000000000096/profile/card#me> ;
+        ns1:hasTag <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/Alanis_Morissette>,
+            <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/Austria> ;
+        ns1:id "416608218494388"^^xsd:long ;
+        ns1:isLocatedIn <http://localhost:3000/dbpedia.org/resource/China> ;
+        ns1:locationIP "1.83.28.23" ;
+}
+```
+
+
+### Run implementation in SolidBench
+We can use [jbr](https://github.com/rubensworks/jbr.js). 
+An example can be found in the [link traversal experiment repo](https://github.com/comunica/Experiments-Solid-Link-Traversal/).
+
+
 
 ## Conclusions
 
