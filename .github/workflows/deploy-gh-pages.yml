@@ -1,0 +1,52 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+
+      - name: Focus report
+        run: cd _papers/thesis-report
+
+      - name: report - Setup Ruby ✨
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: false
+
+      - name: report - Install and Build 🔧
+        run: |
+          bundle install
+          bundle exec nanoc compile
+          bundle exec nanoc check internal_links mixed_content stale        
+          cd ..
+
+      - name: Setup Ruby ✨
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: false
+
+      - name: Install and Build 🔧
+        run: |
+          bundle install
+          cd solution
+          ln -s _papers/thesis-report/output report
+          cd ..
+          bundle install
+          bundle exec jekyll build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.6.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: _site
+          CLEAN: true

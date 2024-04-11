@@ -274,6 +274,8 @@ DEPENDENCIES
   http_parser.rb (~> 0.6.0)
   jekyll-feed (~> 0.6)
   jekyll-readme-index
+  jekyll-seo-tag
+  jekyll-sitemap
   kramdown-parser-gfm
   kramdown-syntax-coderay
   minima (~> 2.0)
