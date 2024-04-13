@@ -1,4 +1,10 @@
 ## Abstract
+
+The abstract is maximum one page and contains at least the following:
+• The information from the title page (in a format of one’s own);
+• A brief description of the dissertation (fifteen to twenty lines);
+• Possibly three to five well-chosen keywords that describe the topic best.
+
 <!--
 Context:      Why the need is so pressing or important
 Need:         Why something needed to be done at all

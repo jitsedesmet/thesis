@@ -39,7 +39,7 @@ Inserts happen on a pod level, meaning you just specify to the client what pod y
 5. The client performs the save operation.
 
 <figure id="rdf-create">
-<img src="static/flow-rdf-create.svg" alt="Flow: create RDF resource">
+<img src="../static/flow-rdf-create.svg" alt="Flow: create RDF resource">
 <figcaption markdown="block">
 Flow: create RDF resource
 </figcaption>
@@ -59,7 +59,7 @@ This is similar to how queries are executed right now where you should always sp
     2. No move required: just update the resource as requested by the user.
 
 <figure id="rdf-update">
-<img src="static/flow-rdf-update.svg" alt="Flow: update RDF resource">
+<img src="../static/flow-rdf-update.svg" alt="Flow: update RDF resource">
 <figcaption markdown="block">
 Flow: update RDF resource
 </figcaption>
@@ -70,7 +70,7 @@ Flow: update RDF resource
 We will now give an in depth explanation of the different components of SGV.
 
 <figure id="sgv-vocab-overview">
-<img src="static/sgv-graph.png" alt="Visualisation of the Storage Guidance Vocabulary">
+<img src="../static/sgv-graph.png" alt="Visualisation of the Storage Guidance Vocabulary">
 <figcaption markdown="block">
 Visualisation of the Storage Guidance Vocabulary
 </figcaption>
@@ -78,3 +78,4 @@ Visualisation of the Storage Guidance Vocabulary
 
 
 ### Pitfalls of Shape Trees
+text
