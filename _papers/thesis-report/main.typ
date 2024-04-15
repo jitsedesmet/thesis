@@ -1,4 +1,4 @@
-#import "@preview/drafting:0.2.0" // https://typst.app/universe/package/drafting
+#import "@preview/drafting:0.2.0": set-page-properties // https://typst.app/universe/package/drafting
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 
 
@@ -161,6 +161,7 @@ not included in this text.
 #set page(numbering: "1.")
 #counter(page).update(1)
 
+#set-page-properties()
 
 #include "chapters/Chapter_Introduction.typ"
 
