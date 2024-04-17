@@ -105,7 +105,7 @@ classDiagram
     + Save Condition
   }
 
-  DC --|> CC : Derived From
+  DC --|> SC : Derived From
   class DC["Derived Collection"] {
     "Contains data from one or more Canonical containers"
     + Resource Description
