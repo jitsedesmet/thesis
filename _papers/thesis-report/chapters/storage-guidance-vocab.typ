@@ -1,4 +1,5 @@
 #import "../utils/review.typ": *
+#import "../utils/general.typ": *
 #import "@preview/treet:0.1.1": tree-list
 
 = Storage Guidance Vocabulary
@@ -130,53 +131,69 @@ A derived collection can be used to create collections know a multitude of use c
 
 === Grouped Collection <sec:grouped-collection>
 
-An `sgv:grouped-collection` is contained in a structured collection (@sec:structured-collection).
-Grouped Collections are used to group resources in structured collections together to provide
-additional structure and reduces cognitive load when browsing a collection.
+Every @ldp container contained in a structured collection (@sec:structured-collection) is a grouped collection.
+Grouped collections are used to group resources in structured collections together to provide additional structure.
+This reduces cognitive load when browsing a collection.
+@fig:example-structure visualizes two ways of organizing images.
 
 
-#figure(caption: [Example group strategy], [
-#block(breakable: false, width: 60%, inset: 10%)[
+#figure([
+#block(breakable: false, width: 80%, inset: (left: 20%))[
   #set align(left)
   #set par(leading: 5pt)
-  #grid(columns: (50%, 50%), gutter: 10pt, [
+  #grid(columns: (50%, 50%), [
     #tree-list[
-     - pictures/
-      - Valencia/
-        - one.ttl
-        - two.ttl
-      - Ghent/
-        - one.ttl
-        - two.ttl
-      - Paris/
-        - one.ttl
-        - two.ttl
-        - three.ttl
-      - missing.tl
-    ] 
-  ], [
-    #tree-list[
-     - pictures/
-      - Valencia/
-        - one.ttl
-        - two.ttl
-      - Ghent/
-        - one.ttl
-        - two.ttl
-      - Paris/
-        - one.ttl
-        - two.ttl
-        - three.ttl
-      - missing.tl
-    ]
-  ])
-]
-])
+       - pictures/
+        - Valencia/
+          - Klaas.ttl
+          - Jitse.ttl
+        - Ghent/
+          - Simon.ttl
+          - Hoyyiw.ttl
+        - Paris/
+          - Jonas.ttl
+          - Ana.ttl
+          - Liesbet.ttl
+      ] 
+    ], [
+      #tree-list[
+       - pictures/
+        - 30-01-2024/
+          - Erin.ttl
+          - Oscar.ttl
+        - 14-02-2024/
+          - Henri.ttl
+          - Snil.ttl
+        - 17-05-2023/
+          - Ghent/
+            - Maurice.ttl
+            - Lars.ttl
+          - Paris/
+            - Simon.ttl
+      ]
+    ])
+  ]
+],
+  caption: [two example group strategies]
+) <fig:example-structure>
 
-=== Resource Description
+=== Resource Description <sec:resource-description>
 
+Both the canonical collection (@sec:canonical-collection) and the derived collection (@sec:derived-collection) require filtering @rdf resources.
+The filtering is done through the resource description.
+Two popular choices for describing a resource are @shex and @shacl.
+
+Shape descriptions are powerful and allowing to express complicated expressions.
+They include #link("https://www.w3.org/TR/shacl/#core-components-logical")[
+logical constraint components] and #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[
+property pair constraint components].
 
 === Group Strategy
+
+A group strategy expresses how a structured collection (@sec:structured-collection) should group @rdf resources in grouped collections (@sec:grouped-collection).
+Every structured container describes one group strategy.
+A grouped collection can choose to define its own group strategy, thereby overruling the group strategy of the structured collection it resides in.
+
 
 
 === Save Condition

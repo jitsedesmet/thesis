@@ -1,6 +1,7 @@
 #import "@preview/drafting:0.2.0": set-page-properties // https://typst.app/universe/package/drafting
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 #import "@preview/hydra:0.4.0": hydra
+#import "utils/general.typ": * 
 #set document(title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment", author: ("Jitse De Smet"))
 
 
@@ -88,8 +89,7 @@
   // #show link: set text(fill: blue)
   show link: it => {
     if type(it.dest) == "string" {
-      underline(stroke: (paint: blue, thickness: 1pt, dash: "dashed"), it)
-      footnote(it.dest)
+      smartLink(it.dest, it)
     } else {
       it
     }
