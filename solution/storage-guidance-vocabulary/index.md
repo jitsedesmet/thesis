@@ -76,7 +76,6 @@ classDiagram
   }
 
   SC --> GC
-  GC ..> SC
   class GC["Grouped Collections"] {
     "Groups data in different containers"
     + Group strategy
@@ -92,9 +91,10 @@ classDiagram
 
   SC ..> CC
   SC ..> DC
+  SC --o GS
   class SC["Structured Collection"] {
     "Any container that is a tree and not a graph"
-    + Materialization
+    + Group strategy
     + Update Condition
     + Retention Policy
   }
