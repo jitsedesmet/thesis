@@ -14,4 +14,10 @@
     long: "OpenID Connect", 
     desc: [OpenID is an open standard and decentralized authentication protocol promoted by the non-profit
      #link("https://en.wikipedia.org/wiki/OpenID#OpenID_Foundation")[OpenID Foundation].]),
+  (key: "sgv", short: "SGV", long: "Storage Guidance Vocabulary"),
+  (key: "shex", short: "ShEx"),
+  (key: "shacl", short: "SHACL"),
+  (key: "http", short: "HTTP", long: "Hypertext Transfer Protocol"),
+  (key: "rdf", short: "RDF", long: "Resource Description Framework"),
+  (key: "ldp", short: "LDP", long: "Linked Data Platform")
 )
