@@ -19,5 +19,7 @@
   (key: "shacl", short: "SHACL"),
   (key: "http", short: "HTTP", long: "Hypertext Transfer Protocol"),
   (key: "rdf", short: "RDF", long: "Resource Description Framework"),
-  (key: "ldp", short: "LDP", long: "Linked Data Platform")
+  (key: "ldp", short: "LDP", long: "Linked Data Platform"),
+  (key: "uri", short: "URI"),
+  (key: "sparql", short: "SPARQL")
 )

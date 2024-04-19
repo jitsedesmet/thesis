@@ -6,12 +6,13 @@
 
 
 #set text(lang: "en", size: 12pt)
+#set page(paper: "a4")
 #import "glossary.typ": glossary
 #import "@preview/glossarium:0.2.6": make-glossary, print-glossary, gls, glspl
 #show: make-glossary
 
 #let wrapped-in-home-style(body) = {
-  set page(paper: "a4", margin: (y: 4em), numbering: "1", header: context {
+  set page(margin: (y: 4em), numbering: "1", header: context {
     if calc.odd(here().page()) {
       align(right, emph(hydra(1)))
     } else {
@@ -26,6 +27,12 @@
   set page(numbering: "1", margin: 2.5cm)
   set math.equation(numbering: "(1)")
   set heading(numbering: "1.1")
+  show heading.where(level: 4): it =>[
+    #block(it.body)
+  ]
+
+  // From: https://github.com/abcoates/sublime-text-turtle-sparql
+  set raw(syntaxes: ("utils/turtle.sublime-syntax", "utils/sparql.sublime-syntax"))
 
 
   // Set fonts
@@ -132,6 +139,8 @@
 
 // Set defaults
 #wrapped-in-home-style()[
+#set page(numbering: "i")
+#set heading(numbering: none)
 #set par(leading: 0.65em, first-line-indent: 0pt, justify: false)
 #set par(leading: 16pt)
 
@@ -153,7 +162,6 @@
   indent: 2em,
   depth: 3
 )
-#pagebreak(weak: false)
 
 // List of figures.
 #heading(numbering: none, level: 1)[List of Figures]
@@ -179,8 +187,8 @@
 #set par(leading: 0.9em, first-line-indent: 1.8em, justify: true)
 #set par(leading: 16pt)
 #set page(numbering: "1.")
+#set heading(numbering: "1.1")
 #counter(page).update(1)
-
 #set-page-properties()
 
 

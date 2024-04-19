@@ -1,0 +1,72 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Turtle
+file_extensions:
+  - ttl
+  - nt
+scope: source.turtle
+contexts:
+  main:
+    - include: comments
+    - include: strings
+    - include: base-prefix-declarations
+    - include: string-language-suffixes
+    - include: string-datatype-suffixes
+    - include: relative-urls
+    - include: xml-schema-types
+    - include: rdf-schema-types
+    - include: owl-types
+    - include: qnames
+    - include: punctuation-operators
+  base-prefix-declarations:
+    - match: "@(base|prefix)"
+      scope: keyword.other.prefix.turtle
+  comments:
+    - match: (#).*$\n?
+      scope: comment.line.hash.turtle
+      captures:
+        1: punctuation.definition.comment.turtle
+  owl-types:
+    - match: "owl:[a-zA-Z]+"
+      scope: support.type.datatype.owl.turtle
+  punctuation-operators:
+    - match: '(;|,|\.|\(|\)|\[|\])'
+      scope: keyword.operator.punctuation.turtle
+  qnames:
+    - match: "([a-zA-Z][-_a-zA-Z0-9]*)?:([_a-zA-Z][-_a-zA-Z0-9]*)?"
+      scope: entity.name.other.qname.turtle
+  rdf-schema-types:
+    - match: '(rdfs?:[a-zA-Z]+|(^|\s)a(\s|$))'
+      scope: support.type.datatype.rdf.schema.turtle
+  relative-urls:
+    - match: <
+      push:
+        - meta_scope: string.quoted.other.relative.url.turtle
+        - match: ">"
+          pop: true
+  string-datatype-suffixes:
+    - match: \^\^
+      scope: keyword.operator.datatype.suffix.turtle
+  string-language-suffixes:
+    - match: '(?!")(@)([a-z]+(\-[a-z0-9]+)*)'
+      captures:
+        1: keyword.operator.language.suffix.turtle
+        2: constant.language.suffix.turtle
+  strings:
+    - match: '"""'
+      push:
+        - meta_scope: string.quoted.triple.turtle
+        - match: '"""'
+          pop: true
+    - match: '"'
+      push:
+        - meta_scope: string.quoted.double.turtle
+        - match: '"'
+          pop: true
+        - match: \n
+          scope: invalid.string.newline
+        - match: \\.
+          scope: constant.character.escape.turtle
+  xml-schema-types:
+    - match: "xsd?:[a-z][a-zA-Z]+"
