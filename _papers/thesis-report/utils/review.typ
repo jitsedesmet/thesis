@@ -8,6 +8,11 @@
   margin-note[RT: #body]
 }
 
+
+#let MJDS(body) = {
+  margin-note[JDS: #body]
+}
+
 #let IRT(body) = {
   inline-note[RT: #body]
 }

@@ -14,13 +14,13 @@
   body
 }
 
-#let text-example(radius: 5pt, width: auto, body) = {
+#let text-example(radius: 5pt, width: auto, inset: 8pt, body) = {
   set align(center)
   set par(leading: 0.65em)
   
   
   block(breakable: false, width: width,
         fill: rgb("#f4f0ec"),
-        inset: 8pt,
+        inset: inset,
         radius: radius, body)
 }

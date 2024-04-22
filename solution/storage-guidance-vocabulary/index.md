@@ -95,23 +95,22 @@ classDiagram
   class SC["Structured Collection"] {
     "Any container that is a tree and not a graph"
     + Group strategy
-    + Update Condition
     + Retention Policy
+    + Resource descriptions
+    + Update Conditions
   }
  
   class CC["Canonical Collection"] {
     "Stores data matching the shape"
-    + Resource desccription
-    + Save Condition
+    + Save Conditions
   }
 
   DC --|> SC : Derived From
   class DC["Derived Collection"] {
     "Contains data from one or more Canonical containers"
-    + Resource Description
   }
 
-  CC --o SaveCond
+  CC --o SaveCond: Per Resource Description
   class SaveCond["Save Condition"] {
     + state-required
     + always-stored
@@ -121,8 +120,7 @@ classDiagram
     + never
   }
 
-  CC --o RD
-  DC --o RD
+  SC --o RD
   class RD["Resource Description"] {
     + shacl-descriptor
     + URI template
@@ -133,7 +131,7 @@ classDiagram
     + duration ago 
   }
 
-  SC --o UCond
+  SC --o UCond: Per Resource Description
   class UCond["Update Condition"] {
     + Always keep & widen index
     + Prefer static

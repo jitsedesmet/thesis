@@ -12,4 +12,6 @@ When moving away from LDP, the fundamental question might not be
 
 == Smart Access Control
 
-== SGV Tree integration
+== SGV Tree Integration
+
+== CRDT Integration
