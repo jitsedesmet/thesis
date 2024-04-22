@@ -111,6 +111,16 @@ classDiagram
     + Resource Description
   }
 
+  CC --o SaveCond
+  class SaveCond["Save Condition"] {
+    + state-required
+    + always-stored
+    + prefer-other
+    + prefer-most-specifc
+    + only-stored-when-not-redunant
+    + never
+  }
+
   CC --o RD
   DC --o RD
   class RD["Resource Description"] {
@@ -121,16 +131,6 @@ classDiagram
   SC --o RP
   class RP["Retention Policy"] {
     + duration ago 
-  }
-
-  CC --o SaveCond
-  class SaveCond["Save Condition"] {
-    + state-required
-    + always-stored
-    + prefer-other
-    + prefer-most-specifc
-    + only-stored-when-not-redunant
-    + never
   }
 
   SC --o UCond

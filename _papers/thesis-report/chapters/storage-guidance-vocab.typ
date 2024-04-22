@@ -5,28 +5,27 @@
 = Storage Guidance Vocabulary
 
 #add[You could suggest addition], #delete[or deletion.]
-We can refer to acronyms like: @oidc. It was long before, but now short @oidc.
-
-#todo[why start annew an not use Shape Trees?]
-
-To empower automated clients to correctly store resources, we suggest the usage of a descriptive vocabulary.
 #MRT[Ruben makes margin note]
-Existing structure definitions of data spaces like Type Index and Shape Trees focus on read queries and insufficiently support write queries.
+We can refer to acronyms like: @oidc. It was long before, but now short @oidc.
+#IRT[Ruben makes inline note]
+// #todo[why start anew and not use Shape Trees?]
+
+To empower automated clients to correctly store @rdf resources, we suggest the usage of a descriptive vocabulary.
+Existing structure definitions of data spaces like Type Index @bib:type-index and Shape Trees @bib:shape-tree focus on read queries and insufficiently support write queries.
 These structure definitions fail to express the underlying decision-making of why a resource is stored where it is. 
 
 We therefore introduce a new vocabulary, @sgv.
-#IRT[Ruben makes inline note]
 This vocabulary takes inspiration from the Shape Tree Specification, but does not extend it.
 The vocabulary aims to express where and why a resource is stored in a location.
-@sgv is created with a primary focus on @ldp interfaces.
-We suggest an interface where @ldp containers can be structured.
+@sgv is created with a primary focus on @ldp @bib:ldp interfaces, extending @ldp containers to be be structured.
 A container marked as structured has a strict definition of where containing containers/resources are located.
 We shortly introduce some basic concepts in @sgv:
 #list(marker: "", 
-[*Resource Collection*: Corresponds to an @ldp container.],
+[*Resource Collection*: Corresponds to a group of resources.],
+[*Unstructured Collection*: Corresponds to a classical @ldp container.],
 [*Structured Collection*: A canonical or derived collection.],
 [*Canonical Collection*: A resource collection containing resources.],
-[*Derived Collection* A resource collection that stores resources already stored by one or more other structured containers.],
+[*Derived Collection*: A resource collection that stores resources already stored by one or more other structured containers.],
 [*Resource Description*: A way of describing resources, for example through @shex or @shacl.],
 [*Group Strategy*: A description of how resources should be grouped together, for example: my images have are grouped per creation date.],
 [*Save Condition*: When multiple collections are eligible to save a resource, the save condition decides what collection(s) actually save the resource.],
@@ -34,11 +33,41 @@ We shortly introduce some basic concepts in @sgv:
 [*Client Control*: Describes the amount of freedom a client has when trying to save a resource.]
 )
 
+We will first describe two simple flows, the creation and the modification of an @rdf resource.
+This should provide an idea of what a @sgv tries to accomplish without going into all te details first.
+After explaining the two example flows, we will look into the details of @sgv.
+
 
 == Flow: A client wants to create an RDF-resource <sec:flow-create-rdf-resource>
 
 Inserts happen on a pod level, meaning you just specify to the client what pod you'd want to insert a resource to.
+An example query is:
+#text-example[
+```SPARQL
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix card: <http://localhost:3000/pods/00000000000000000096/profile/card#>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+PREFIX resource: <http://localhost:3000/dbpedia.org/resource/>
 
+INSERT DATA {
+  <> a ns1:Post ;
+    ns1:browserUsed "Chrome" ;
+    ns1:content
+      "I want to eat an apple while scavenging for mushrooms in the forest." ;
+    ns1:creationDate "2024-05-08T23:23:56.830000+00:00"^^xsd:dateTime ;
+    ns1:id "416608218494388"^^xsd:long ;
+    ns1:hasCreator card:me ;
+    ns1:hasTag tag:Alanis_Morissette, tag:Austria ;
+    ns1:isLocatedIn resource:China ;
+    ns1:locationIP "1.83.28.23" .
+}
+
+```
+]
+
+An automated client is now required to discover the base (`<>`) of this query.
+The client will follow the flow:
 + The client gets the @sgv description of the storage space (can be cached).
 + The client checks all canonical resources and checks if the resource to be inserted matches the resource description of the collection.
 + If the resource matches the description, the client checks the save condition of the collection given the eligible collections.
@@ -84,7 +113,7 @@ Secondly, the dotted link means that the destination has the same fields or more
 Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be seen as a property of the source.
 
 #figure(
-  image("../static/sgv-graph-legend.png"),
+  image("../static/sgv-graph-legend.png", width: 80%),
   caption: [A legend explaining the links used in @fig:sgv-vocab-overview]
 ) <fig:sgv-vocab-overview-legend>
 
@@ -232,7 +261,7 @@ We currently support only one special variable, being "UUID_V4".
 As an example, the uri template `one-file#{:UUID_V4}` could expand to `one-file#956242de-2c18-4985-8e9e-d490bc8f97b6`.
 
 
-==== @sparql Query
+==== SPARQL Query
 
 The @uri template solution, altough is simple in use, but has the disadvantage that you can only access the @rdf resource itself.
 To accomadate this shortcomming, we also suggest the use of a @sparql query that can access the world if it want's to.
@@ -267,7 +296,7 @@ This could be used as an attack vector if a bad actor creates a collection that 
 @sparql query to pass through sensitive information to its own endpoint.
 We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
 
-=== Save Condition
+=== Save Condition <sec:save-condition>
 The save condition is used by a resource description (@sec:resource-description) when it matches.
 When a resource matches a canonical collection resource description, the collection can decide whether it will save the resource based on what other collections would want the resource.
 Optionally, additional context could be given as input to the save condition.
@@ -455,8 +484,48 @@ The "removal only" update condition rejects all updates except the full removal 
 
 === Client Control
 
+Each resource collection (@sec:resource-collection) can specify the level of freedom a client/ actor has to deviate from the @sgv.
+A few example control policies are discussed:
+#inline-enum[
+  + free client, and
+  + additional allowed, and
+  + allowed when not preferred, and
+  + allowed when not claimed, and
+  + no control.
+]
+Important to note, no client control allows a client to enter an invalid state.
+When a state would be invalid to the @sgv description, the client needs to update the description.
+
+==== Free Client
+
+A collection that specifies a client is free, specifies the client itself can choose where a resource is saved.
+Since the collection still needs to be in a correct state, the client might have to edit @sgv descriptions too.
+Take again the example of pictures and family pictures, where normally a picture matching the family picture description, would be placed in that collection.
+A Free client might choose to save the resource only in the general pictures collection and not in the family pictures collection. They can choose to do this without changing the @sgv description.
+
+==== Additional Allowed
+
+The "additional allowed" client control describes that the client might decide that a canonical container saves a resource it would normally not. Take the pictures example above, the client might decide to save a family picture in both collections.
+
+==== Allowed When Not Preferred
+
+The "allowed when not preferred" client control states that a client may decide where to store a resource when no collection explicitly wants to store the resource.
+The collections that want to explicitly save a resource are those collections that would save a resource, but do not have the save condition (@sec:save-condition) "only stored when not redundant".
+The idea here is that that save condition is only used for those collections that are a last resort to saving a resource automatically.
+A client can in this case see this last resort option and perform a better one.
+
+==== Allowed When Not Claimed
+
+The "allowed when not claimed" client control policy describes that a client may decide where to store a resource in case no collection wants to store the resource. This policy deviates from the "allowed when not preferred" policy because this one does not have a save condition filter.
+
+==== No Control
+
+The "no control" client control allows no deviation from the @sgv rules. If a resource is not saved, it will not be saved.
+
+
 ==== One File One Resource
-The big advantage of LDP is that it easily maps to the file structure storage of POSIX file systems.
+
+The big advantage of LDP is that it easily maps to the file structure storage of a typical file systems.
 If someone wants to save their Solid Pods on their own machine, it's easy for them to access the data.
 The one file one resource flag signals an LDP server that no @http
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment")[fragments]
@@ -464,9 +533,10 @@ are present in the named nodes in this collection.
 The server can therefore use soft-links or hard-links to reduce the data duplication. 
 
 
-
 === Retention Policy
 
+
+As a little extra, @sgv could be expanded with retention policies like those present in @ldes @bib:ldes.
 
 
 // === Pitfalls of Shape Trees

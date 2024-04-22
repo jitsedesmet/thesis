@@ -12,6 +12,10 @@
   inline-note[RT: #body]
 }
 
+#let IJDS(body) = {
+  inline-note[JDS: #body]
+}
+
 #let delete(body) = {
   text(fill: rgb("#FF8C19"), strike(body))
 }
