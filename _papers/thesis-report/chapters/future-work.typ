@@ -15,3 +15,5 @@ When moving away from LDP, the fundamental question might not be
 == SGV Tree Integration
 
 == CRDT Integration
+
+// Transaction hier ook nog mentionen?

@@ -273,12 +273,11 @@ This reduces cognitive load when browsing a collection.
 === Resource Description <sec:resource-description>
 
 Both the canonical collection (@sec:canonical-collection) and the derived collection (@sec:derived-collection) require a description of the @rdf resources contained.
-The description is used to filter resources to be inserted in the pod, and can be used to browse the pod efficiently just like Shape Trees.
-#MJDS[\@RT does Bryan have any work I can cite?]
+The description is used to filter resources to be inserted in the pod, and could be used as an index when querying the pod efficiently using link traversal @bib:taelman-structure-assumptions.
 A structured collection should thus never contain a resource that does not match the shape description.
 Two popular choices for describing a resource are @shex and @shacl.
 
-Shape descriptions are powerful and allowing to express complicated expressions.
+Shape descriptions are powerful and allow to express complicated expressions.
 They include #link("https://www.w3.org/TR/shacl/#core-components-logical")[
 logical constraint components] and #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[
 property pair constraint components].
@@ -296,7 +295,7 @@ A grouped collection with URI `https://example.com/pictures/Valencia/` together 
 We suggest two possible ways of grouping resources, closed world through URI-templates @bib:uri-templates, or open world through a SPARQL query.
 
 
-==== @uri Templates
+==== URI Templates
 
 Through @uri templates, one can construct a @uri based on some context variables.
 Given the variables `var := "value"` and `hello := "Hello World!"` the @uri template `base/{var}/{hello}` would expand to `base/value/Hello%20World%21`.
@@ -361,8 +360,9 @@ It's possible the query needs to be evaluated over other sources to discover req
 For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[wikidata].
 A federated query allows us to dereference different sources.
 This could be used as an attack vector if a bad actor creates a collection that contains everything and then uses the
-@sparql query to pass through sensitive information to its own endpoint.
+@sparql query to pass through sensitive information to its own endpoint @bib:taelman-security.
 We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
+R. Taelman describes mny more possible security issues in his paper @bib:taelman-security.
 
 === Save Condition <sec:save-condition>
 The save condition is used by a resource description (@sec:resource-description) when it matches.
@@ -397,9 +397,9 @@ Instead of creating a complex shape description for my "pictures" that excludes 
 #text-example()[
 ```turtle
 @prefix ex: <https://example.com/> .
-@prefix sgv: <https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/#> .
+@prefix sgv: <https://example.com/storage-guidance-vocabulary#> .
 
-ex:Pictures a sgv:caonical-collection ;
+ex:Pictures a sgv:canonical-collection ;
   sgv:save-condition
     [
       a sgv:prefer-other ;
@@ -410,39 +410,46 @@ ex:Pictures a sgv:caonical-collection ;
 
 ==== Prefer Most Specific
 
-This saves condition specifies that this collection would only save in case its resource description is the most specific of the @rdf resource in focus.
-It uses a distance metric to measure how much the resource description describes the resource.
-A metric could be "the number of triples a projection of the resource by the description would cover".
-#todo[Do others exist?]
+This saves condition specifies that this collection would only save in case its resource description is the most specific to the @rdf resource in focus.
+
+It uses a distance function to measure how much the resource description describes the resource.
+A distance function could be "the number of triples a projection of the resource by the description would cover".
 
 We clarify using an example.
-Take the resource below describing a person with their name and alternative name.
-#text-example()[
+It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible. 
+@fig:person describes a person with their name, alternative name and birthdate.
+#figure(
+text-example()[
 ```turtle
 @prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 ex:Alice a ex:Person ;
   ex:birthName "Alice"@en ;
-  ex:alternativeName "Rabbit"@en .
-
+  ex:alternativeName "Rabbit"@en ;
+  ex:birthdate "1865-10-01T00:00:00Z"^^xsd:dateTime .
 ```
-]
+],
+caption: [RDF description of a person]
+) <fig:person>
 
-Assume we have the two @shacl resource descriptions listed below available. 
+Assume we have the two @shacl resource descriptions listed in @fig:two-shape-descriptions. 
 
-#block(breakable: false)[
-#grid(columns: (1fr, 1fr), column-gutter: 4pt,
+#figure(
+grid(columns: (1fr, 1fr), column-gutter: 4pt,
 text-example(width: 100%, inset: 4pt)[
 ```turtle
 @prefix ex: <http://example.org/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
 ex:left-shape a ex:Shape ;
   sh:property
     [
-      sh:path ex:brithName ;
+      sh:path ex:brithdate ;
       sh:nodeKind sh:Literal ;
-      sh:datatype rdf:langString ;
+      sh:datatype xsd:dateTime ;
       sh:minCount 1 ;
+      sh:maxCount 1 ;
     ] .
 ```
 ],
@@ -468,24 +475,25 @@ ex:right-shape a ex:Shape ;
     ] .
 ```
 ]
-)
-]
+),
+caption: [Two open shape descriptions of the person in @fig:person]
+) <fig:two-shape-descriptions>
 
 After projection, we would get 1 triple for the left description, being:
 #text-example()[
 ```
-<http://example.org/Alice> <http://example.org/birthName> "Alice"@en .
+<http://example.org/Alice> <http://example.org/birthdate> "1865-10-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 ```
 ]
 
-The right description would have the additional triple:
+The right description would return the two triples listed below.
+The shape projection on the right results in the most triples after projection and would thus have the lowest distance.
 #text-example()[
 ```
+<http://example.org/Alice> <http://example.org/birthName> "Alice"@en .
 <http://example.org/Alice> <http://example.org/alternativeName> "Rabbit"@en .
 ```
-]
-
-The resource on the right would thus have the lowest distance because the projection has the most triples.
+] 
 
 
 ==== Only Stored When Not Redundant
@@ -530,6 +538,14 @@ The "keep distance" update condition works similar to the "always keep" conditio
 but places a limit on how much a description can stretch from its original form.
 To implement this update condition, we require some distance metric between shape descriptions.
 When the distance grows too big, the original description is reapplied and resources not matching the description are moved.
+
+To our knowledge, there does not yet exist a distance metric to see how much two descriptions differ, only whether two descriptions are contained @bib:shape-containment.
+An example metric could be inspired by the Levenshtein distance where, we count the number of additions and deletions of a @shacl properties.
+Let's say each addition or deletion has a cost of 1.
+The distance between the shapes in @fig:two-shape-descriptions would be three because to go from the left description to the right, three operations are required:
++ Remove the property with a path of `ex:birthdate`.
++ Add the property with a path of `ex:birthName`.
++ Add the property with a path of `ex:alternativeName`.
 
 ==== Prefer Static
 

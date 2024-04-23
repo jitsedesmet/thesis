@@ -96,7 +96,8 @@
   // #show link: set text(fill: blue)
   show link: it => {
     if type(it.dest) == "string" {
-      smartLink(it.dest, it)
+      underline(stroke: (paint: blue, thickness: 1pt, dash: "dashed"), it)
+      footnote(it.dest)
     } else {
       it
     }

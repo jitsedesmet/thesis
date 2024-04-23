@@ -1,8 +1,3 @@
-#let smartLink(destination, body) = {
-  underline(stroke: (paint: blue, thickness: 1pt, dash: "dashed"), body)
-  footnote(destination)
-}
-
 #let inline-enum(body) = {
   show enum: it => {
     let i = 0
@@ -16,7 +11,7 @@
 
 #let text-example(radius: 5pt, width: auto, inset: 8pt, body) = {
   set align(center)
-  set par(leading: 0.65em)
+  set par(leading: 0.65em, justify: false)
   
   
   block(breakable: false, width: width,
