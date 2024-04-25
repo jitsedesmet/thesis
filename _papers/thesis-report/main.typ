@@ -198,7 +198,7 @@
 #include "chapters/solid.typ"
 #include "chapters/use-case.typ"
 #include "chapters/storage-guidance-vocab.typ"
-#include "chapters/measurements.typ"
+#include "chapters/evaluation.typ"
 #include "chapters/future-work.typ"
 #include "chapters/conclusion.typ"
 

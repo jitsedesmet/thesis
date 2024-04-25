@@ -81,7 +81,7 @@ classDiagram
     + Group strategy
   }
 
-  GC --o GS
+  GC "0..n" --o "1" GS
   class GS["Group Strategy"] {
     + sparql-map
     + URI templates with variables:
@@ -91,12 +91,11 @@ classDiagram
 
   SC ..> CC
   SC ..> DC
-  SC --o GS
+  SC "0..n" --o "1" GS
   class SC["Structured Collection"] {
     "Any container that is a tree and not a graph"
     + Group strategy
     + Retention Policy
-    + Resource descriptions
     + Update Conditions
   }
  
@@ -105,12 +104,13 @@ classDiagram
     + Save Conditions
   }
 
-  DC --|> SC : Derived From
+  DC "0..n" --|> "0..n" SC : Derived From
   class DC["Derived Collection"] {
     "Contains data from one or more Canonical containers"
   }
 
-  CC --o SaveCond: Per Resource Description
+  UCond ..> SaveCond
+  CC --o SaveCond
   class SaveCond["Save Condition"] {
     + state-required
     + always-stored
@@ -120,26 +120,28 @@ classDiagram
     + never
   }
 
-  SC --o RD
+  UCond "0..n" --o "1..n" RD
   class RD["Resource Description"] {
-    + shacl-descriptor
-    + URI template
+    + SHACL description
+    + ShEx description
   }
 
-  SC --o RP
+  SC "0..n" --o "0..n" RP
   class RP["Retention Policy"] {
     + duration ago 
   }
 
-  SC --o UCond: Per Resource Description
+  DC "0..n" --o "1" UCond
   class UCond["Update Condition"] {
+    + Resource descriptions
+    ---
     + Always keep & widen index
     + Prefer static
     + Move to best matched
     + Disallow
   }
 
-  C --o CControl
+  C "0..n" --o "1" CControl
   class CControl["Client Control"] {
     "From least to most restricted,
     can only become more restricted":
