@@ -370,7 +370,8 @@ R. Taelman describes mny more possible security issues in his paper @bib:taelman
 
 The save condition decides when an @rdf resource is saved given all canonical collections (@sec:canonical-collection) that are eligable to save the resource.
 Optionally, additional context could be given as input to the save condition.
-A canonacal collection can have multiple save conditions, and each save condition is accompanied with a resource description (@sec:resource-description) and an update condition (@sec:update-condition).
+A canonacal collection can have multiple save conditions,
+and each save condition is has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
 We suggest six save conditions:
 #inline-enum[
 + state required, and
@@ -516,7 +517,7 @@ We use this condition when we want to have a collection that contains resources,
 
 === Update condition <sec:update-condition>
 
-When an @rdf resource is updated, the update condition accompanying the shape description matching the original resource is consulted.
+When an @rdf resource is updated, the update condition with the shape description matching the original resource is consulted.
 To prevent links from breaking, we also suppose the optional usage of a forward referencing pattern, preventing links to break in clients that are aware of this.
 So when resource `ex:orininal-name` is moved to `ex:new-name`, there will be a tuple that describes just that: `ex:original-name sgv:moved-to ex:new-name`.
 Servers could also be made aware of this triple, returning a 301 redirect to `ex:new-name`.

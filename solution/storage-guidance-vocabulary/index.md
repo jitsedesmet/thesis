@@ -109,9 +109,10 @@ classDiagram
     "Contains data from one or more Canonical containers"
   }
 
-  UCond ..> SaveCond
   CC --o SaveCond
   class SaveCond["Save Condition"] {
+    + Update Condition
+    ---
     + state-required
     + always-stored
     + prefer-other
@@ -132,6 +133,7 @@ classDiagram
   }
 
   DC "0..n" --o "1" UCond
+  SaveCond "0..n" --o "1" UCond
   class UCond["Update Condition"] {
     + Resource descriptions
     ---
