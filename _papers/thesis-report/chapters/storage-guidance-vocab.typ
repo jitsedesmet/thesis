@@ -128,11 +128,10 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   text-example[
 ```turtle
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix : <http://localhost:3000/mypod/sgv-description> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ex: <http://example.org/> .
-@prefix sgv: <https://example.com/storage-guidance-vocabulary#> .
+@prefix sgv: <https://example.org/storage-guidance-vocabulary#> .
 @prefix ldp: <http://www.w3.org/ns/ldp#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ldbc: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/> .
@@ -147,11 +146,10 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
 # An unstructured collection contains a structured collection "posts"
 <posts/> a ldp:Container, sgv:structured-collection, sgv:canonical-collection ;
   sgv:one-file-one-resource "false"^^xsd:boolean ;
-  sgv:resource-description [
-      a sgv:shacl-descriptor ;
-      sgv:shacl-shape <sgv#postShape> ;
-      sgv:save-condition [
-          a sgv:always-stored ;
+  sgv:save-condition [
+      a sgv:always-stored ;
+      sgv:resource-description [
+          sgv:shacl-shape <sgv#postShape> ;
         ] ;
       sgv:update-condition [
           a sgv:update-prefer-static ;
@@ -160,22 +158,26 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   sgv:group-strategy [
       a sgv:group-strategty-uri-template ;
       sgv:uri-template
-        '{http%3A%2F%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FisLocatedIn}#{:id}' ;
+  '{http%3A%2F%2Fwww.ldbc.eu%2Fldbc_socialnet%2F1.0%2Fvocabulary%2FisLocatedIn}#{::UUID_V4}' ;
       sgv:regexMatch '([^/]+)#([^#]+)$' ;
       sgv:regexReplace '$1/$2' ;
     ] .
 
 <sgv#postShape>
   a sh:NodeShape ;
-  sh:property
-    [
+  sh:property [
       sh:path rdf:type ;
       sh:hasValue ldbc:Post ;
     ] ;
-  sh:property
-    [
+  sh:property [
       sh:path ldbc:creationDate ;
       sh:datatype xsd:dateTime ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+    ] ;
+  sh:property [
+      sh:path ldbc:id ;
+      sh:datatype xsd:long ;
       sh:minCount 1 ;
       sh:maxCount 1 ;
     ] .
