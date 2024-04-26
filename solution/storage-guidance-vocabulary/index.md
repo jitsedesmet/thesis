@@ -92,6 +92,7 @@ classDiagram
   SC ..> CC
   SC ..> DC
   SC "0..n" --o "1" GS
+  DF "0..n" --o "1" SC 
   class SC["Structured Collection"] {
     "Any container that is a tree and not a graph"
     + Group strategy
@@ -104,12 +105,12 @@ classDiagram
     + Save Conditions
   }
 
-  DC "0..n" --|> "0..n" SC : Derived From
   class DC["Derived Collection"] {
     "Contains data from one or more Canonical containers"
+    + Derivations
   }
 
-  CC --o SaveCond
+  CC "0..n" --o "1..n" SaveCond
   class SaveCond["Save Condition"] {
     + Update Condition
     ---
@@ -122,9 +123,16 @@ classDiagram
   }
 
   UCond "0..n" --o "1..n" RD
+  DF "0..n" --o "1" RD
   class RD["Resource Description"] {
     + SHACL description
     + ShEx description
+  }
+
+  DC "0..n" --o "1..n" DF
+  class DF["Derived From"] {
+    + Resource Description
+    + Source
   }
 
   SC "0..n" --o "0..n" RP
@@ -132,7 +140,6 @@ classDiagram
     + duration ago 
   }
 
-  DC "0..n" --o "1" UCond
   SaveCond "0..n" --o "1" UCond
   class UCond["Update Condition"] {
     + Resource descriptions

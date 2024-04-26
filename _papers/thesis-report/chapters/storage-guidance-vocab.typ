@@ -148,11 +148,12 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   sgv:one-file-one-resource "false"^^xsd:boolean ;
   sgv:save-condition [
       a sgv:always-stored ;
-      sgv:resource-description [
-          sgv:shacl-shape <sgv#postShape> ;
-        ] ;
       sgv:update-condition [
           a sgv:update-prefer-static ;
+          sgv:resource-description [
+            a sgv:shacl-descriptor ;
+            sgv:shacl-shape <sgv#postShape> ;
+          ] ;
         ] ;
     ] ;
   sgv:group-strategy [
@@ -371,7 +372,7 @@ R. Taelman describes mny more possible security issues in his paper @bib:taelman
 The save condition decides when an @rdf resource is saved given all canonical collections (@sec:canonical-collection) that are eligable to save the resource.
 Optionally, additional context could be given as input to the save condition.
 A canonacal collection can have multiple save conditions,
-and each save condition is has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
+and each save condition has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
 We suggest six save conditions:
 #inline-enum[
 + state required, and
