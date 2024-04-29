@@ -2,7 +2,7 @@
 #import "../utils/general.typ": *
 #import "@preview/treet:0.1.1": tree-list
 
-= Storage Guidance Vocabulary
+= Storage Guidance Vocabulary <sec:storage-guidance-voc>
 
 #add[You could suggest addition], #delete[or deletion.]
 #MRT[Ruben makes margin note]

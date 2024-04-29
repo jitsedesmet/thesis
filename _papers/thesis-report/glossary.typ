@@ -22,5 +22,6 @@
   (key: "ldp", short: "LDP", long: "Linked Data Platform"),
   (key: "uri", short: "URI"),
   (key: "sparql", short: "SPARQL"),
-  (key: "ldes", short: "LDES", long: "Linked Data Event Streams")
+  (key: "ldes", short: "LDES", long: "Linked Data Event Streams"),
+  (key: "api", short: "API", long: "Application Programming Interface"),
 )
