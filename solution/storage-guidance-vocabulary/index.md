@@ -148,6 +148,8 @@ classDiagram
     + Prefer static
     + Move to best matched
     + Disallow
+    + Removal Only
+    + State Dependent
   }
 
   C "0..n" --o "1" CControl

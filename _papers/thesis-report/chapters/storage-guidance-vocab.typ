@@ -82,7 +82,7 @@ The client will follow the flow described below and visualized in @fig:rdf-creat
   caption: [Flow: create RDF resource]
 ) <fig:rdf-create>
 
-== Flow: A client wants to update an RDF-resource:  
+== Flow: A client wants to update an RDF-resource <sec:flow-update-rdf-resource> 
 
 An update can be both an insert to an existing resource, a change in values of a resource, or a deletion of the whole, or part of a resource.
 In case of an update, it's important that the client knows what resource will be updated.
@@ -568,6 +568,11 @@ The "disallow" update condition rejects any update made to the resource.
 ==== Removal Only
 
 The "removal only" update condition rejects all updates except the full removal of the resource.
+
+==== State Dependent
+
+Like the "state required" save condition, this update condition allows you to create a @sparql query.
+A return variable of a simple update condition is expected.
 
 === Client Control
 

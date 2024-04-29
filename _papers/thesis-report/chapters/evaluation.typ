@@ -49,7 +49,7 @@ In our theoretical evaluation, we will analyse a few metrics like: number of @ht
 
 In this section, we analyse the cost of a simple insert operation like:
 #text-example[
-```turtle
+```sparql
 prefix ns1: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix card: <http://example.com/pod/profile/card#>
@@ -137,6 +137,61 @@ Interestingly, some implementations of a solid server, like the
 #link("https://communitysolidserver.github.io/CommunitySolidServer/7.x/usage/example-requests/#patch-modifying-resources")[Community Solid Server]
 also accept SPARQL queries.
 Using a @sparql query, all resources could be created using a single @http request.
+
+==== Conclude Resource creation
+
+We now know that the resource creation takes 2 @http requests.
+
+=== Update Resource, No Move Required
+
+This section theoretically analyses the cost of updating a resource when the resource needs not be moved.
+A general update flow can be found in @sec:flow-update-rdf-resource.
+An example update query is:
+
+#text-example[
+```sparql
+PREFIX ns1: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+INSERT {
+    ?id ns1:hasTag <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Cheese> .
+} WHERE {
+    ?id ns1:hasTag <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Austria> .
+}
+```
+]
+
+==== Fetch the Description and the Resource
+
+Like with creating a resource, we need to fetch the @sgv, costing us one @http request. 
+Additionally, we need to fetch the current state of the resource, costing us at least one additional @http request.
+Luckily, these requests can be done in parallel, minimizing delay.
+
+==== Construct the result
+
+We then construct the result using the default query engine.
+The cost of this construction depends on the query engine and is not covered in the work.
+For the Comunica query engine, the cost of local construction is low when the query engine can be reused.
+
+==== Check the Update Condition
+
+We know the canonical collection this @rdf resource is stored in because the prefix of the collection and the resource named node matches.
+We then have to check the update condition the resource matches and check if, and how, we can update.
+In most cases, this is a fairly simple process.
+
+In the case of Keep Distance, an update that stretches the shape description too hard might cause many updates.
+It's important to note though that the Amortized Computational Complexity would still make this a constant operation.
+// https://en.wikipedia.org/wiki/Amortized_analysis -> Tarjan, Robert Endre (April 1985)
+
+==== Commit Changes
+
+In case no move is required, a single N3Patch request should suffice to update the resource.
+However, because the primary focus of Comunica is in querying, their update implementation seems to require
+two, non-parallel @http requests
+#footnote[
+  As seen in the discussion on https:\//github.com/comunica/comunica/pull/1326.
+  Will be fixed in the next major release: https:\//github.com/comunica/comunica/pull/1331
+].
+
+=== Update Resource, Move Required
 
 
 == Empirical Evaluation
