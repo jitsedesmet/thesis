@@ -45,7 +45,7 @@ This library is known to be quite inefficient and could be replaced by the faste
 In our theoretical evaluation, we will analyse a few metrics like: number of @http requests.
 
 
-=== Insert Operation
+=== Insert Operation <sec:eval-insert>
 
 In this section, we analyse the cost of a simple insert operation like:
 #text-example[
@@ -136,9 +136,8 @@ this means that each created resource requires its own @http request.
 Interestingly, some implementations of a solid server, like the 
 #link("https://communitysolidserver.github.io/CommunitySolidServer/7.x/usage/example-requests/#patch-modifying-resources")[Community Solid Server]
 also accept SPARQL queries.
-Using a @sparql query, all resources could be created using a single @http request.
 
-==== Conclude Resource creation
+==== Conclusion Resource Creation
 
 We now know that the resource creation takes 2 @http requests.
 
@@ -191,15 +190,35 @@ two, non-parallel @http requests
   Will be fixed in the next major release: https:\//github.com/comunica/comunica/pull/1331
 ].
 
+==== Conclusion Resource Update, No Move
+
+We can conclude that the cost of an @rdf resource update is two in case of an update that only deletes or adds triples, and three in case of an update that does both deletes and updates.
+
+It should, however, be possible to do it using only two @http requests.
+
 === Update Resource, Move Required
+
+In the previous section, we assume the update condition concludes no move is required.
+This section describes the cost when a resource is required.
+In this case, we delete the original @rdf resource and follow the steps of @sec:eval-insert, disregarding the @sgv fetch step.
+
+Assuming we use N3Patch, and the @rdf resource is hosted by a different @http resource,
+the required number of requests will be three. One for getting the @sgv description (cacheable), one for getting the deleting the resource, and one for creating the updated resource.
 
 
 == Empirical Evaluation
 
-// The benchmarks
+// What do we want to measure?
+After a theoretical evaluation, we will also evaluate the implementation in an empirical way.
+We will perform time and memory benchmarks for different queries, all following the same use case.
+The goal of this evaluation is to convince the reader the cost of @sgv on query execution is manageable.
 
-What do we want to measure?
+// using what technologies?
+The empirical evaluation is performed using SolidBench @bib:taelman-structure-assumptions and a slightly altered fragmenter so each pod contains a @sgv description.
+After the generation of our test data, we use SolidBench to host the data locally.
+Under the hood, SolidBench will use the Comunity Solid Server.
 
-Using what technologies?
 
 === Chockepoint Queries
+
+In this section we present the queries we will evaluate.
