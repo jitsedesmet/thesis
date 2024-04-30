@@ -218,7 +218,287 @@ The empirical evaluation is performed using SolidBench @bib:taelman-structure-as
 After the generation of our test data, we use SolidBench to host the data locally.
 Under the hood, SolidBench will use the Comunity Solid Server.
 
+In our evaluation we will focus on the @rdf resource describing a post.
+Different pods will have different ways of storing these posts.
+@fig:post-shex provides the @shex shape of a post while @fig:fragmentation-strategies shows the different fragmentation strategies used.
 
-=== Chockepoint Queries
 
-In this section we present the queries we will evaluate.
+#figure(
+  text-example[
+```
+prefix ex: <http://example.org/>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix ldbc: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+ex:PostShape {
+  ldbc:browserUsed xsd:string ;
+  ldbc:creationDate xsd:dateTime ;
+  ldbc:hasCreator @ex:PersonShape ;
+  ldbc:id xsd:long ;
+  ldbc:isLocatedIn @dbo:PlaceShape ;
+  ldbc:locationIP xsd:string ;
+  ldbc:content xsd:string ? ;
+  ldbc:length xsd:int ? ;
+  rdfs:seeAlso @sh:IRI * ;
+  ldbc:language xsd:string ? ;
+}
+```
+  ],
+  caption: [ShEx description of a post]
+) <fig:post-shex>
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 16pt,
+    text-example[
+```turtle
+<posts/> a sgv:canonical-collection ;
+  sgv:group-strategy
+    [
+      a sgv:group-strategty-uri-template ;
+      sgv:uri-template
+        '{ldbc:creationDate:10}#{ldbc:id}' ;
+    ] .
+```
+    ],
+    text-example[
+```turtle
+<posts/> a sgv:canonical-collection ;
+  sgv:group-strategy [
+      a sgv:group-strategty-uri-template ;
+      sgv:uri-template
+        '{ldbc:isLocatedIn}#{ldbc:id}' ;
+      sgv:regex-match '([^/]+)#([^#]+)$' ;
+      sgv:regex-replace '$1/$2' ;
+    ] .
+```
+    ],
+    text-example[
+```turtle
+<posts> a sgv:canonical-collection ;
+  sgv:group-strategy
+    [
+      a sgv:group-strategty-uri-template ;
+      sgv:uri-template
+        '#{ldbc:id}' ;
+    ] .
+```
+    ],
+    text-example[
+```turtle
+<posts/> a sgv:canonical-collection ;
+  sgv:group-strategy
+    [
+      a sgv:group-strategty-uri-template ;
+      sgv:uri-template '{ldbc:id}' ;
+    ] .
+```
+    ],
+  ),
+  caption: [Pseudo description of the four fragmentation strategies used.]
+) <fig:fragmentation-strategies>
+
+=== Choke point Queries
+
+We evaluate the vocabulary using multiple queries.
+Each query testing a specific choke point.
+The different categories are:
++ *Create new resource*: @fig:insert-data-complete
++ *Update resource, no move*: @fig:insert-where-tag, @fig:insert-data-tag, @fig:delete-tags, @fig:delete-data-tag
++ *Update resource, move*: @fig:delete-insert-id
++ *Illegal update resource*: @fig:insert-data-id, @fig:delete-data-id
++ *Delete resource*: @fig:delete-data-complete, @fig:delete-where-complete
+
+
+#grid(
+  columns: (1fr, 1fr),
+  [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix card: <http://localhost:3000/pods/00000000000000000096/profile/card#>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+PREFIX resource: <http://localhost:3000/dbpedia.org/resource/>
+
+INSERT DATA {
+  <> a ns1:Post ;
+    ns1:browserUsed "Chrome" ;
+    ns1:content
+      "I want to eat an apple." ;
+    ns1:creationDate "2024-05-08T23:23:56.83Z"^^xsd:dateTime ;
+    ns1:id "416608218494388"^^xsd:long ;
+    ns1:hasCreator card:me ;
+    ns1:hasTag tag:Alanis_Morissette, tag:Austria ;
+    ns1:isLocatedIn resource:China ;
+    ns1:locationIP "1.83.28.23" .
+}
+```
+      ],
+      caption: [insert data - complete post]
+    ) <fig:insert-data-complete>
+  ],
+   [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix card: <http://localhost:3000/pods/00000000000000000096/profile/card#>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+prefix resource: <http://localhost:3000/dbpedia.org/resource/>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE DATA {
+    res:416608218494388
+        a ns1:Post ;
+        ns1:browserUsed "Chrome" ;
+        ns1:content
+            "I want to eat an apple." ;
+        ns1:creationDate "2024-05-08T23:23:56.83Z"^^xsd:dateTime ;
+        ns1:id "416608218494388"^^xsd:long ;
+        ns1:hasCreator card:me ;
+        ns1:hasTag tag:Alanis_Morissette, tag:Austria ;
+        ns1:isLocatedIn resource:China ;
+        ns1:locationIP "1.83.28.23" .
+}
+```
+      ],
+      caption: [delete data - complete post]
+    ) <fig:delete-data-complete>
+  ],
+  [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+
+INSERT {
+    ?id ns1:hasTag tag:Cheese
+} where {
+    ?id ns1:hasTag tag:Austria
+}
+```
+      ],
+      caption: [insert where - insert tag where tag]
+    ) <fig:insert-where-tag>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+INSERT DATA {
+    res:416608218494388 ns1:id "416608218494389"^^xsd:long ; .
+}
+```
+      ],
+      caption: [insert data - an id (illegal)]
+    ) <fig:insert-data-id>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+INSERT DATA {
+    res:416608218494388  ns1:hasTag tag:Mountain .
+}
+```
+      ],
+      caption: [insert data - additional tag]
+    ) <fig:insert-data-tag>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE {
+    ?id ns1:id "416608218494388"^^xsd:long .
+} INSERT {
+      ?id ns1:id "416608218494389"^^xsd:long .
+} where {
+    BIND(res:416608218494388 as ?id)
+}
+```
+      ],
+      caption: [delete insert - replace id]
+    ) <fig:delete-insert-id>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE WHERE {
+  res:416608218494388 ?p ?o
+}
+```
+      ],
+      caption: [delete where - complete post]
+    ) <fig:delete-where-complete>
+  ],
+   [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE {
+    res:416608218494388 ns1:hasTag ?x
+} where {
+    res:416608218494388 ns1:hasTag ?x
+}
+```
+      ],
+      caption: [delete - tags]
+    ) <fig:delete-tags>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE DATA {
+    res:416608218494388 ns1:id "416608218494388"^^xsd:long ; .
+}
+```
+      ],
+      caption: [delete data - id (illegal)]
+    ) <fig:delete-data-id>
+  ],
+    [
+    #figure(
+      text-example[
+```sparql
+prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
+prefix tag: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/tag/>
+prefix res: <http://localhost:3000/pods/00000000000000000096/posts/2024-05-08#>
+
+DELETE DATA {
+    res:416608218494388 ns1:hasTag tag:Mountain .
+}
+```
+      ],
+      caption: [delete data - a tag]
+    ) <fig:delete-data-tag>
+  ],
+)

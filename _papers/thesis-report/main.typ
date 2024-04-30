@@ -2,6 +2,7 @@
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 #import "@preview/hydra:0.4.0": hydra
 #import "utils/general.typ": * 
+#import "@preview/wordometer:0.1.2": word-count, total-words
 #set document(title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment", author: ("Jitse De Smet"))
 
 
@@ -109,6 +110,16 @@
 
 
 // ------- Preface -----
+
+#show: word-count
+
+#[
+  #set text(size: 100pt)
+  #set align(center)
+  
+  #total-words
+]
+
 
 #wrapped-in-home-style()[
   #set page(numbering: "i")
