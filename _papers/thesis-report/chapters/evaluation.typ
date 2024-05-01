@@ -299,16 +299,24 @@ ex:PostShape {
   caption: [Pseudo description of the four fragmentation strategies used.]
 ) <fig:fragmentation-strategies>
 
-=== Choke point Queries
+==== Test Hardware Specification
 
-We evaluate the vocabulary using multiple queries.
-Each query testing a specific choke point.
-The different categories are:
+For completeness sake, We quickly describe the system used in the benchmarking.
+I am using a Dynabook Inc. Satallite Pro A50EC with 16 GiB memory, an Intel® Core™ i5-8250U x 8 processor and an Intel® Graphic UHD Graphics 620 (KBL GT2).
+The installed operating system is a Fedora Workstation 39 (64-bit), and firmware version 2.70.
+
+=== Choke Point Queries
+
+We evaluate the vocabulary using multiple queries, each query testing a specific choke point.
+The choke points we will be testing are:
 + *Create new resource*: @fig:insert-data-complete
 + *Update resource, no move*: @fig:insert-where-tag, @fig:insert-data-tag, @fig:delete-tags, @fig:delete-data-tag
 + *Update resource, move*: @fig:delete-insert-id
 + *Illegal update resource*: @fig:insert-data-id, @fig:delete-data-id
 + *Delete resource*: @fig:delete-data-complete, @fig:delete-where-complete
+
+The queries should cover all different queries from the update @sparql spec.
+Because we want to cover all type of queries, some choke points are represented by more then one query.
 
 
 #grid(
@@ -502,3 +510,24 @@ DELETE DATA {
     ) <fig:delete-data-tag>
   ],
 )
+
+
+=== Choke Point: Create New Resource
+// Discuss the measured cost. - Memory consumption and Excecution time
+
+
+=== Choke Point: Update Resource, No Move
+
+
+
+=== Choke Point: Update resource: Move
+
+
+
+=== Choke Point: Illegal Update Resource
+
+
+
+=== Choke Point: Delete Resource
+
+
