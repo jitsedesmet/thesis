@@ -189,6 +189,13 @@
   target: figure.where(kind: table)
 )  
 
+// List of listings.
+#heading(numbering: none, level: 1)[List of listings]
+#outline(
+  title: none,
+  target: figure.where(kind: raw)
+)  
+
 
 // List of Acronyms.
 #heading(numbering: none)[List of Acronyms]
