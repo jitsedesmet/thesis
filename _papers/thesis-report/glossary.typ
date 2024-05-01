@@ -24,4 +24,8 @@
   (key: "sparql", short: "SPARQL"),
   (key: "ldes", short: "LDES", long: "Linked Data Event Streams"),
   (key: "api", short: "API", long: "Application Programming Interface"),
+  (key: "gdpr", short: "GDPR", long: "General Data Protection Regulation"),
+  (key: "ccpa", short: "CCPA", long: "California Consumer Privacy Act"),
+  (key: "void", short: "VoID", long: "Vocabulary of Interlinked Datasets"),
+  (key: "tree", short: "TREE"),
 )
