@@ -28,4 +28,5 @@
   (key: "ccpa", short: "CCPA", long: "California Consumer Privacy Act"),
   (key: "void", short: "VoID", long: "Vocabulary of Interlinked Datasets"),
   (key: "tree", short: "TREE"),
+  (key: "w3c", short: "W3C", long: "World Wide Web Consortium")
 )

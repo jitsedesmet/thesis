@@ -3,7 +3,11 @@
 #import "@preview/hydra:0.4.0": hydra
 #import "utils/general.typ": * 
 #import "@preview/wordometer:0.1.2": word-count, total-words
-#set document(title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment", author: ("Jitse De Smet"))
+#set document(
+  title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment",
+  author: ("Jitse De Smet"),
+  keywords: ("RDF", "SOLID", "Querying", "Update Query", "SPARQL")
+)
 
 
 #set text(lang: "en", size: 12pt)

@@ -21,8 +21,8 @@ The vocabulary aims to express where and why a resource is stored in a location.
 A container marked as structured has a strict definition of where containing containers/resources are located.
 We shortly introduce some basic concepts in @sgv:
 #list(marker: "", 
-[*Resource Collection*: Corresponds to a group of resources.],
-[*Unstructured Collection*: Corresponds to a classical @ldp container.],
+[*Resource Collection*: Corresponds to a group of @rdf resources.],
+[*Unstructured Collection*: Corresponds to a classical @ldp container or @http resource],
 [*Structured Collection*: A canonical or derived collection.],
 [*Canonical Collection*: A resource collection containing resources.],
 [*Derived Collection*: A resource collection that stores resources already stored by one or more other structured containers.],
@@ -69,7 +69,7 @@ INSERT DATA {
 An automated client is now required to discover the base (`<>`) of this query.
 The client will follow the flow described below and visualized in @fig:rdf-create.
 + The client gets the @sgv description of the storage space (can be cached).
-+ The client checks all canonical resources and checks if the resource to be inserted matches a resource description of the collection.
++ The client checks all canonical collections and checks if the resource to be inserted matches a resource description of the collection.
 + If the resource matches a description, the client checks the save condition of the description given the eligible collections.
 + For each collection that saves the resource:
    + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
@@ -190,15 +190,16 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
 
 === Resource Collection <sec:resource-collection>
 
-An `sgv:resource-collection` is any @rdf resource that groups multiple @http resources together.
+An `sgv:resource-collection` is any @rdf resource that groups multiple @rdf resources together.
 This grouping into a collection can be done in either an explicitly structured or unstructured way.
+Note that we group @rdf resources, a collection canthis either be an @ldp Container, or an  @http resource.
 
 === Unstructured Collection <sec:unstructured-collection>
 
 An unstructured collection is a kind of resource collection (@sec:resource-collection),
 that does not explicitly define its structure. 
 This work's primary focus is to enable automated clients to perform insert queries over @ldp interfaces.
-It might help to see the type `sgv:unstructured-collection` as equivalent to the `ldp:Container` type.
+It might help to see the type `sgv:unstructured-collection` as similar to the `ldp:Container` type.
 
 === Structured Collection <sec:structured-collection>
 
