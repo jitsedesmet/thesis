@@ -107,6 +107,21 @@
       it
     }
   }
+
+  show table.cell.where(y: 0): set text(weight: "bold")
+  show figure: set block(breakable: true)
+  // See the strokes section for details on this!
+  let frame(stroke) = (x, y) => (
+    left: if x > 0 { 0pt } else { stroke },
+    right: stroke,
+    top: if y < 2 { stroke } else { 0pt },
+    bottom: stroke,
+  )
+  set table(
+    fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+    stroke: frame(rgb("21222C")),
+  )
+
   
   body
 }

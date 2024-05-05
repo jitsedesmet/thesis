@@ -513,7 +513,25 @@ DELETE DATA {
 
 
 === Choke Point: Create New Resource
-// Discuss the measured cost. - Memory consumption and Excecution time
+// Discuss the measured cost. - Memory consumption and Execution time
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    table.header(
+      [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
+    ),
+    [Insert by creation date: SGV],     [15], [62548.493], [$plus.minus 5.76%$],
+    [Insert by creation date: RAW],     [26], [37907.249], [$plus.minus 4.62%$],
+    [Insert by creation location: SGV], [18], [53722.824], [$plus.minus 3.41%$],
+    [Insert by creation location: RAW], [31], [31792.804], [$plus.minus 3.38%$],
+    [Insert own file: SGV],             [11], [89637.720], [$plus.minus 3.57%$],
+    [Insert own file: RAW],             [11], [85450.342], [$plus.minus 3.06%$],
+    [Insert all in one file: SGV],      [4],  [215706.891], [$plus.minus 6.36%$],
+    [Insert all in one file: RAW],      [6],  [156985.176], [$plus.minus 4.41%$],
+  ),
+  caption: [Time measurement for executing query @fig:insert-data-complete. Average of 100 times]
+)
 
 
 === Choke Point: Update Resource, No Move
