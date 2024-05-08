@@ -98,9 +98,91 @@ ex:Bob
 
 == SPARQL
 
+The @sparql query language is a declaritive query language like for example SQL, but specifically designed for RDF. 
+The query language is very extensive, in this section we explain what is needed to understand this work.
+
+@sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration. Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
+
+=== Variable
+
+To select a part of a triple, you use a variable, denoted by a `?` or `$` prefix. The variable "id" would be referenced using `?id`. The variable can then be used in a where clause. The result of a @sparql select query is a list of bindings that satisfy the projection of the data through the query.
+
+=== Functions
+
+Within a query, functions can be used to transform data. We mention the functions used in this work.
+
+==== Bind
+
+Binds a certain value, or variable, to a variable. To bind the value "apple" to the variable "pear", you would use: `BIND ("apple" as ?pear)`.
+
+==== STR
+
+The STR function gets the raw string representation of a value, for example when we have a date: `"2024-05-08T23:23:56.83Z"^^xsd:dateTime` we can get the value between double quotation marks by using the STR function. `STR("2024-05-08T23:23:56.83Z"^^xsd:dateTime)` would evaluate to `"2024-05-08T23:23:56.83Z"`. 
+
+=== Property Paths
+
+Property paths allow you to describe a route between two nodes.
+In this work, we use the `*` property paths, which means, following a property zero or more times.
+To express that we want to bind the variable "location" to each geographic location in which our variable "city" is located, we could use: `?city ex:locatedIn* ?location`.
+
+=== Different kind of queries
+
+Until now, we kept it easy by focussing read queries. Since this work focusses on write queries, we quickly go over all the different syntaxes @sparql provides to update a resource.
+
+==== Insert Data
+
+An insert data query adds some triples listed to a data source.
+
+==== Delete Data
+
+A delete data query simply removes the triples listed from a data source.
+If a triple to be deleted is not present, it is ignored.
+
+==== Delete / Insert Where
+
+A delete insert query consists of an optional delete clause followed by an optional insert clause, followed by a where clause. Either the delete or insert clause, or both, need to be present.
+As opposed to the "insert data" and "delete data" queries, these queries can contain variables.
+Important to note is that the where clause is evaluated only once, the resulting binding are then substituted in both delete and insert clauses, afterwards the delete clause is evaluated followed by the insert clause.
+
+==== Delete Where
+
+A "delete where" query is an abbreviated form of the above query, where the query `DELETE WHERE { content }` is equivalent to `DELETE { content } where { content }`.
+
+
 == Shape Descriptions
 // talk about ShEx and more extensively about SHACL. Mention history shortly
 
+@rdf is what they call a schemaless data format, meaning it does not a priori require a format in which the data will be stored. Other examples of schemaless data are a #link("https://www.mongodb.com/")[MongoDB] and #link("https://redis.io/")[Redis]. Data with a schema are your traditional relational databases.
+An in-depth comparison between schema and schemaless data storage is beyond the scope of this work.
+
+Schemaless data can after the creation still be validated against some *schema*, this is useful for application developers that expect data they consume to be in a specific format.
+In this work, we will use schemas to similar data together. Within the @rdf ecosystem, two schema descriptions important, @shex and @shacl.
+@shex was created out of a community need to describe shapes and has a compact syntax. @shacl was created later as a @w3c recommendation. This work primarily uses @shacl because it is a @w3c recommendation, we assume it will be more future-proof. We will sporadically use @shex in this text for its compressed format.
+
+=== ShEx
+
+A @shex shape essentially lists properties and their accompanying object type, as well as the cardinality of that property in relation to the focussed subject.
+@fig:shex-example shows a self-explanatory shape example taken from the @shex website.
+
+#figure(
+  text-example[
+```
+# our EmployeeShape reuses the FOAF ontology
+<EmployeeShape> {                # An <EmployeeShape> has:
+    foaf:givenName  xsd:string+,   # at least one givenName.
+    foaf:familyName xsd:string,    # one familyName.
+    foaf:phone      IRI*,          # any number of phone numbers.
+    foaf:mbox       IRI            # one FOAF mbox.
+}
+```
+  ],
+  caption: [Example ShEx shape taken from their website]
+) <fig:shex-example>
+
+
+=== SHACL
+
+@shacl is extensively used in this work, yet because the different @shacl properties are rater self-explanatory, we do not give an in-depth explanation on @shacl.
 
 == Interfaces
 
