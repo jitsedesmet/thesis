@@ -78,7 +78,7 @@ We quickly go over the different terms in that question.
 - Decentralized: each pod is self governed and limited rules apply to the system, a loosely defined systems data publisher to be opinionated. 
 - Query abstraction layer: we want the abstraction to happen through a declarative query. We will use the @sparql query language.
 
-== Hypotheses
+== Hypotheses <sec:hypotheses>
 
 // Can we do it without a large cost?
 Our hypothesis is that we can create an automated client capable of deciding where to store a resource given a pod.

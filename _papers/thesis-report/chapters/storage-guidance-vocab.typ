@@ -303,7 +303,7 @@ We suggest two possible ways of grouping resources, closed world through URI-tem
 
 Through @uri templates, one can construct a @uri based on some context variables.
 Given the variables `var := "value"` and `hello := "Hello World!"` the @uri template `base/{var}/{hello}` would expand to `base/value/Hello%20World%21`.
-The context available is the concise bounded description @bib:concise-bounded-description of the @rdf resource.
+The context available is the @cbd @bib:concise-bounded-description of the @rdf resource.
 Since only properties described in the resource description are guaranteed to be present, only those should be accessed in the @uri template.
 The context is referenced by entering the percent encoded @bib:uri-spec representation of the predicate @uri.
 When multiple predicates need to be followed, we separate them using the "/" which is a character that is not present in @uri encoded strings. In a resource like this:

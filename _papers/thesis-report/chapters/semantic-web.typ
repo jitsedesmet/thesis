@@ -126,7 +126,7 @@ Property paths allow you to describe a route between two nodes.
 In this work, we use the `*` property paths, which means, following a property zero or more times.
 To express that we want to bind the variable "location" to each geographic location in which our variable "city" is located, we could use: `?city ex:locatedIn* ?location`.
 
-=== Different kind of queries
+=== Different kind of queries <sec:sparql-query-types>
 
 Until now, we kept it easy by focussing read queries. Since this work focuses on write queries, we quickly go over all the different syntaxes @sparql provides to update a resource.
 

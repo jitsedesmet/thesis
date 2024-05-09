@@ -30,4 +30,5 @@
   (key: "tree", short: "TREE"),
   (key: "w3c", short: "W3C", long: "World Wide Web Consortium"),
   (key: "tpf", short: "TPF", long: "Triple Patter Fragments"),
+  (key: "cbd", short: "CBD", long: "Concise Bounded Description"),
 )
