@@ -11,7 +11,7 @@ This chapter aims to give a high-level overview that is limited to the technolog
 == RDF
 // Triples
 @rdf is a @w3c specification that models graph data using triples.
-A triple `<s, p, o>` contains a subject, predicate and object.
+A triple `<s, p, o>` contains a subject, predicate, and object.
 Each element of the triple can be a @uri and can thus be dereferenced using an @http GET request.
 A dereferenced @uri should contain additional info.
 A triple can thus be modelled as an arrow labelled with a predicate from subject to predicate, and each of these is a node that describes itself.
@@ -19,7 +19,8 @@ Objects can also be literal values like strings, integers, etc.
 
 // Blank node
 Subjects and objects can be blank nodes, these nodes are only addressable in the context of the same file.
-This means that a triple can contain a blank node, which is not dereference using @http, and the info related to that blank node is contained within the same document the triple resides in.
+This means that a triple can contain a blank node, which is not dereference using @http.
+The info related to that blank node is contained within the same document the triple resides in.
 
 // Graph
 A triple exists in the context of a graph, and when no graph is provided, the triple exists in the `defaultgraph`.
@@ -64,7 +65,7 @@ _:ub2bL9C5 <http://xmlns.com/foaf/0.1/givenName> "Dave" .
 The turtle file format is an extension to N-triples, specifically designed to be easier to read for humans.
 It introduces prefixes to reduce the size of each triple, increasing readability.
 Each turtle triple is ended using either "`;`", "`,`" or "`.`",
-depending on the chosen character, your triple shares respectively, the object, the object and predicate, or nothing with the previous triple.
+depending on the chosen character, your triple shares, respectively, the object, the object and predicate, or nothing with the previous triple.
 Blank nodes have some additional syntactic sugar and can be created using brackets ("`[]`") in which the predicate and object belonging to the blank node are contained.
 An additional feature is the use of a "base".
 Turtle allows you to specify named nodes (@uri[s]) in relation to a base by using the `<>` containing a path instead of a whole @uri.
@@ -96,9 +97,9 @@ ex:Bob
 ) <fig:example-turtle>
 
 
-== SPARQL
+== SPARQL <sec:sparql>
 
-The @sparql query language is a declaritive query language like for example SQL, but specifically designed for RDF. 
+The @sparql query language is a declarative query language like for example, SQL, but specifically designed for RDF. 
 The query language is very extensive, in this section we explain what is needed to understand this work.
 
 @sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration. Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
@@ -127,7 +128,7 @@ To express that we want to bind the variable "location" to each geographic locat
 
 === Different kind of queries
 
-Until now, we kept it easy by focussing read queries. Since this work focusses on write queries, we quickly go over all the different syntaxes @sparql provides to update a resource.
+Until now, we kept it easy by focussing read queries. Since this work focuses on write queries, we quickly go over all the different syntaxes @sparql provides to update a resource.
 
 ==== Insert Data
 
@@ -141,8 +142,8 @@ If a triple to be deleted is not present, it is ignored.
 ==== Delete / Insert Where
 
 A delete insert query consists of an optional delete clause followed by an optional insert clause, followed by a where clause. Either the delete or insert clause, or both, need to be present.
-As opposed to the "insert data" and "delete data" queries, these queries can contain variables.
-Important to note is that the where clause is evaluated only once, the resulting binding are then substituted in both delete and insert clauses, afterwards the delete clause is evaluated followed by the insert clause.
+Unlike the "insert data" and "delete data" queries, these queries can contain variables.
+Important to note is that the where clause is evaluated only once, the resulting binding are then substituted in both delete and insert clauses, afterward the delete clause is evaluated followed by the insert clause.
 
 ==== Delete Where
 
@@ -150,7 +151,7 @@ A "delete where" query is an abbreviated form of the above query, where the quer
 
 
 == Shape Descriptions
-// talk about ShEx and more extensively about SHACL. Mention history shortly
+// talk about ShEx and more extensively about SHACL. Mention history shortly.
 
 @rdf is what they call a schemaless data format, meaning it does not a priori require a format in which the data will be stored. Other examples of schemaless data are a #link("https://www.mongodb.com/")[MongoDB] and #link("https://redis.io/")[Redis]. Data with a schema are your traditional relational databases.
 An in-depth comparison between schema and schemaless data storage is beyond the scope of this work.
@@ -186,7 +187,62 @@ A @shex shape essentially lists properties and their accompanying object type, a
 
 == Interfaces
 
+An interface is the shared boundary between two systems #todo[cite Wikipedia?].
+We are interested in the boundary between a data owner and a data consumer.
+In other words, say a data owner has some @rdf data, how does a data consumer gain access to that data.
+In this work, we will focus on web interfaces.
+Numerous @rdf interfaces exist, a data owner could choose to expose all data in a compressed format, or use a @sparql endpoint, or some in between like @tpf. // cite
+Another possibility, is to group @rdf triples together in different @http resources and provide an interface that links those resources together accordingly, essentially following the REST architecture. //cite REST
 
-== Endpoints
+// Interfaces differentiate in more areas than just client/ server load.
+// Each interface can be classified as either a domain-specific interface or a domain-agnostic interface.
+
+=== SPARQL endpoint
+
+A @sparql endpoint is a conceptually simple interface.
+You ask a @sparql query to the interface and you get the result.
+To, for example, get all the data, one could simply ask:
+
+#text-example[
+```sparql
+SELECT ?s ?p ?o WHERE {
+  ?s ?p ?o
+}
+```
+]
+
+Behind the conceptually simple interface is a huge amount of technical complexity.
+This technical complexity together with the expressivity and computational cost of a @sparql endpoint makes it unfit for some use cases.
+
+=== LDP
+
+#MJDS[I don't think LDP under interfaces makes sence, because it is not an interface. better header?]
+@ldp isn't an interface itself, but rather a set of rules that allow you to create a simple RESTful interface that mimics a typical operating system file structure.
+Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
+@fig:ldp-container-example shows an example @ldp container.
+An @ldp interface allows CRUD operations through the @http methods.
+
+#figure(
+  text-example[
+```turtle
+@prefix dcterms: <http://purl.org/dc/terms/>.
+@prefix ldp: <http://www.w3.org/ns/ldp#>.
+<http://example.org/c1/>
+   a ldp:BasicContainer;
+   dcterms:title "A very simple container";
+   ldp:contains <r1>, <r2>, <r3>.
+```
+  ],
+  caption: [LDP container example]
+) <fig:ldp-container-example>
+
 
 == Query Engines
+
+Query engines are complex pieces of software that answer queries, like for example the @sparql queries seen in @sec:sparql.
+The features supported by the engine are engine-dependent, but they can be extensive.
+Besides feature support, they can also perform query optimizations based on things like cardinalities that are either known from the start, or are discovered during the query process. 
+A query engine aims to shield the developers from the complexities that are omnipresent when querying data.
+These complexities range from different data formats, to different interfaces, to possible optimizations.
+
+The Comunica query engine has been especially designed to be modular, allowing easy extensibility in the different areas mentioned above. This work will use that engine because of its modular design, existing feature richness and free software nature. 

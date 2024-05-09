@@ -1,5 +1,6 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
+#import "./evaluation-tables.typ": *
 
 = Evaluation
 
@@ -513,39 +514,68 @@ DELETE DATA {
 
 
 === Choke Point: Create New Resource
-// Discuss the measured cost. - Memory consumption and Execution time
+// Discuss the measured cost. - Execution time and proccessor load
 
 #figure(
-  table(
-    columns: (auto, auto, auto, auto),
-    table.header(
-      [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
-    ),
-    [Insert by creation date: SGV],     [15], [62548.493], [$plus.minus 5.76%$],
-    [Insert by creation date: RAW],     [26], [37907.249], [$plus.minus 4.62%$],
-    [Insert by creation location: SGV], [18], [53722.824], [$plus.minus 3.41%$],
-    [Insert by creation location: RAW], [31], [31792.804], [$plus.minus 3.38%$],
-    [Insert own file: SGV],             [11], [89637.720], [$plus.minus 3.57%$],
-    [Insert own file: RAW],             [11], [85450.342], [$plus.minus 3.06%$],
-    [Insert all in one file: SGV],      [4],  [215706.891], [$plus.minus 6.36%$],
-    [Insert all in one file: RAW],      [6],  [156985.176], [$plus.minus 4.41%$],
-  ),
-  caption: [Time measurement for executing query @fig:insert-data-complete. Average of 100 times]
-)
-
+  insert-data-complete,
+  caption: [Avarage excecution time of insert data complete query (@fig:insert-data-complete) over 100 runs]
+) <fig:res-insert-data-complete>
 
 === Choke Point: Update Resource, No Move
 
+#figure(
+  insert-where-tag,
+  caption: [Avarage excecution time of insert where tag query (@fig:insert-where-tag) over 100 runs]
+) <fig:res-insert-where-tag>
+
+#figure(
+  insert-data-tag,
+  caption: [Avarage excecution time of insert data tag query (@fig:insert-data-tag) over 100 runs]
+) <fig:res-insert-data-tag>
+
+
+#figure(
+  delete-where-tags,
+  caption: [Avarage excecution time of delete where tags query (@fig:delete-tags) over 100 runs]
+) <fig:res-delete-where-tags>
+
+#figure(
+  delete-data-tag,
+  caption: [Avarage excecution time of delete data tag query (@fig:delete-data-tag) over 100 runs]
+) <fig:res-delete-data-tag>
 
 
 === Choke Point: Update resource: Move
 
-
+#figure(
+  delete-insert-id,
+  caption: [Avarage excecution time of delete insert id query (@fig:delete-insert-id) over 100 runs]
+) <fig:res-delete-insert-id>
 
 === Choke Point: Illegal Update Resource
 
+#figure(
+  insert-data-id,
+  caption: [Avarage excecution time of insert dara id query (@fig:insert-data-id) over 100 runs]
+) <fig:res-insert-data-id>
+
+#figure(
+  delete-data-id,
+  caption: [Avarage excecution time of delete data id query (@fig:delete-data-id) over 100 runs]
+) <fig:res-delete-data-id>
 
 
 === Choke Point: Delete Resource
 
+#figure(
+  delete-data-complete,
+  caption: [Avarage excecution time of delete data complete query (@fig:delete-data-complete) over 100 runs]
+) <fig:res-delete-data-id>
 
+#figure(
+  delete-where-complete,
+  caption: [Avarage excecution time of delete where complete query (@fig:delete-where-complete) over 100 runs]
+) <fig:res-delete-where-complete>
+
+
+=== Conclusion
