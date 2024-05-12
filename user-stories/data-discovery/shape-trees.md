@@ -46,7 +46,7 @@ The spec defines a predicate `st:contains` that asserts a "physical" hierarchy.
 The "physical" relates to how LDP defines contains, however `ldp:contains` does not need to map a physical file system!
 The shape tree spec also defines `virtual containment`, this is just another way of realizing directories above the underlying LDP spec.
 It means you don't need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
-Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appeTree`:
+Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree`:
 
 LDP does not state anything about IRI form of subjects.
 That means that even though containers often have an IRI in the form of `:parent/child/child` this is not required. 

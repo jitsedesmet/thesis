@@ -217,10 +217,10 @@ This technical complexity together with the expressivity and computational cost 
 === LDP
 
 #MJDS[I don't think LDP under interfaces makes sence, because it is not an interface. better header?]
-@ldp isn't an interface itself, but rather a set of rules that allow you to create a simple RESTful interface that mimics a typical operating system file structure.
+@ldp isn't an interface itself /* It's domain agnostic - so each domain has own interface */, but rather a set of rules that allow you to create a simple RESTful interface that mimics a typical operating system file structure.
 Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
 @fig:ldp-container-example shows an example @ldp container.
-An @ldp interface allows CRUD operations through the @http methods.
+An @ldp interface allows CRUD operations through the @http methods. #todo[talk about data dependence of knuth!]
 
 #figure(
   text-example[

@@ -209,6 +209,8 @@ the required number of requests will be three. One for getting the @sgv descript
 
 == Empirical Evaluation
 
+#MJDS[was Solidbench mentioned somewhere?]
+
 // What do we want to measure?
 After a theoretical evaluation, we also evaluate the implementation in an empirical way.
 We will perform time and memory benchmarks for different queries, all following the same use case.
@@ -641,5 +643,5 @@ In conclusion, our hypothesis holds in case the @sgv\-engine behaviour could be 
 The hypothesis does however not hold in the case of the move choke point.
 Unfortunately, when a move of the @cbd of a resource is required, a developer cannot use a @sparql query engine since @sparql is not expressive enough to describe the @cbd. In case such behaviour is desired, a manual interaction with the interface is required.
 
-A different approach might be through the "DESCRIBE" query of @sparql that is sometimes implemented as the @cbd of a resource.
+A different approach might be to use the "DESCRIBE" query of @sparql that is sometimes implemented as the @cbd of a resource.
 However, since this is not required by the @sparql spec, using describe to get the @cbd is not advised.

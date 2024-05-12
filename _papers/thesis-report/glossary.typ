@@ -31,4 +31,7 @@
   (key: "w3c", short: "W3C", long: "World Wide Web Consortium"),
   (key: "tpf", short: "TPF", long: "Triple Patter Fragments"),
   (key: "cbd", short: "CBD", long: "Concise Bounded Description"),
+  (key: "wac", short: "WAC", long: "Web Access Control"),
+  (key: "acp", short: "ACP", long: "Access Control Policy"),
+  (key: "acl", short: "ACL", long: "Access Control List"),
 )
