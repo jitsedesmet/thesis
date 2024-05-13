@@ -12,15 +12,15 @@ We can refer to acronyms like: @oidc. It was long before, but now short @oidc.
 
 To empower automated clients to correctly store @rdf resources, we suggest the usage of a descriptive vocabulary.
 Existing structure definitions of data spaces like Type Index @bib:type-index and Shape Trees @bib:shape-tree focus on read queries and insufficiently support write queries.
-These structure definitions fail to express the underlying decision-making of why a resource is stored where it is. 
+These structure definitions fail to express the underlying decision-making of why a resource is stored where it is.
 
 We therefore introduce a new vocabulary, @sgv.
 This vocabulary takes inspiration from the Shape Tree Specification, but does not extend it.
 The vocabulary aims to express where and why a resource is stored in a location.
-@sgv is created with a primary focus on @ldp @bib:ldp interfaces, extending @ldp containers to be be structured.
+@sgv is created with a primary focus on @ldp @bib:ldp interfaces, extending @ldp containers to be structured.
 A container marked as structured has a strict definition of where containing containers/resources are located.
 We shortly introduce some basic concepts in @sgv:
-#list(marker: "", 
+#list(marker: "",
 [*Resource Collection*: Corresponds to a group of @rdf resources.],
 [*Unstructured Collection*: Corresponds to a classical @ldp container or @http resource],
 [*Structured Collection*: A canonical or derived collection.],
@@ -33,8 +33,8 @@ We shortly introduce some basic concepts in @sgv:
 [*Client Control*: Describes the amount of freedom a client has when trying to save a resource.]
 )
 
-We will first describe two simple flows, the creation and the modification of an @rdf resource.
-This should provide an idea of what a @sgv tries to accomplish without going into all te details first.
+We will first describe two simple flows, the creation, and the modification of an @rdf resource.
+This should provide an idea of what a @sgv tries to accomplish without going into all the details first.
 After explaining the two example flows, we will look into the details of @sgv.
 
 
@@ -73,8 +73,8 @@ The client will follow the flow described below and visualized in @fig:rdf-creat
 + If the resource matches a description, the client checks the save condition of the description given the eligible collections.
 + For each collection that saves the resource:
    + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
-   + The client checks the collections that are derived from this collection.  
-        Step 4 is executed for all collections that are derived from this collection, and the resource matches the description. 
+   + The client checks the collections that are derived from this collection.
+        Step 4 is executed for all collections that are derived from this collection, and the resource matches the description.
 + The client performs the save operation.
 
 #figure(
@@ -82,13 +82,13 @@ The client will follow the flow described below and visualized in @fig:rdf-creat
   caption: [Flow: create RDF resource]
 ) <fig:rdf-create>
 
-== Flow: A client wants to update an RDF-resource <sec:flow-update-rdf-resource> 
+== Flow: A client wants to update an RDF-resource <sec:flow-update-rdf-resource>
 
 An update can be both an insert to an existing resource, a change in values of a resource, or a deletion of the whole, or part of a resource.
 In case of an update, it's important that the client knows what resource will be updated.
 This is similar to how queries are executed right now, where you should always specify the @http resource to query over (excluding link-traversal clients).
 
-The flow of an automated client is depicted in @fig:rdf-update and described further below. 
+The flow of an automated client is depicted in @fig:rdf-update and described further below.
 + The client gets the @sgv description of the storage space and the @http resource containing the updated RDF resource.
 + The client virtually constructs the resource that would result from the requested operation.
 + The client check the update condition of the original matching resource description. Following action depends on the update condition.
@@ -110,7 +110,7 @@ The figure can be used as a reference while reading the different sections.
 There are three arrows used in the graph, each with a different meaning, visualized in @fig:sgv-vocab-overview-legend.
 Firstly, a full arrow means that there is can be a triple `?a ldp:contains ?b`.
 Secondly, the dotted link means that the destination has the same fields or more as the source.
-Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be seen as a property of the source.
+Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be considered a property of the source.
 
 #figure(
   image("../static/sgv-graph-legend.png", width: 80%),
@@ -122,7 +122,7 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   caption: [Visualisation of the Storage Guidance Vocabulary]
 ) <fig:sgv-vocab-overview>
 
-@fig:example-sgv-description is provided as an example description to help clarify the vocabulary. 
+@fig:example-sgv-description is provided as an example description to help clarify the vocabulary.
 
 #figure(
   text-example[
@@ -192,12 +192,12 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
 
 An `sgv:resource-collection` is any @rdf resource that groups multiple @rdf resources together.
 This grouping into a collection can be done in either an explicitly structured or unstructured way.
-Note that we group @rdf resources, a collection canthis either be an @ldp Container, or an  @http resource.
+Note that we group @rdf resources, a collection can either be an @ldp Container, or an  @http resource.
 
 === Unstructured Collection <sec:unstructured-collection>
 
 An unstructured collection is a kind of resource collection (@sec:resource-collection),
-that does not explicitly define its structure. 
+that does not explicitly define its structure.
 This work's primary focus is to enable automated clients to perform insert queries over @ldp interfaces.
 It might help to see the type `sgv:unstructured-collection` as similar to the `ldp:Container` type.
 
@@ -223,7 +223,7 @@ A `sgv:derived-collection` is a structured collection (@sec:structured-collectio
 or links to @rdf resources contained in some other structured collections.
 When a structured collection inserts, updates or removes an @rdf resource, the collections that derive from that collection are informed to act accordingly.
 A derived collection can be used to create collections and knows a multitude of use cases, some examples are:
-- Create a collection of all pictures in my pod, even though I have multiple canonical collections managing pictures. 
+- Create a collection of all pictures in my pod, even though I have multiple canonical collections managing pictures.
 - Create a restricted view of resources that I could then use to share with others.
 
 === Grouped Collection <sec:grouped-collection>
@@ -251,7 +251,7 @@ This reduces cognitive load when browsing a collection.
           - Jonas.ttl
           - Ana.ttl
           - Liesbet.ttl
-      ] 
+      ]
     ], [
       #tree-list[
        - pictures/
@@ -281,7 +281,7 @@ The description is used to filter resources to be inserted in the pod, and could
 A structured collection should thus never contain a resource that does not match the shape description.
 Two popular choices for describing a resource are @shex and @shacl.
 
-Shape descriptions are powerful and allow to express complicated expressions.
+Shape descriptions are powerful and allow expressing complicated expressions.
 They include #link("https://www.w3.org/TR/shacl/#core-components-logical")[
 logical constraint components] and #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[
 property pair constraint components].
@@ -290,7 +290,7 @@ property pair constraint components].
 
 A group strategy expresses how a structured collection (@sec:structured-collection) should group @rdf resources in grouped collections (@sec:grouped-collection).
 Every structured container describes one group strategy.
-A grouped collection can choose to define its own group strategy, thereby overruling the group strategy of the structured collection it resides in.
+A grouped collection can choose to define its group strategy, thereby overruling the group strategy of the structured collection it resides in.
 
 A group strategy maps each @rdf resource to part of a @uri.
 The concatenation of the structured collection @uri, and the provided part should result in the @uri of the resulting resource.
@@ -323,18 +323,18 @@ The template:\
 `{https%3A%2F%2Fexample.com%2Fowns-house/https%3A%2F%2Fexample.com%2Faddress}` would expand to the percent encoded representation of "Front Street 1": `Front%20Street%201`.
 
 Just like we use the "`/`" to convey special meaning, we also use the ":" to access special variables.
-We can use the ":" because it is encoded by percent encoding, and is unused by uri-templates.
+We can use the ":" because it is encoded by percent encoding, and is unused by URI-templates.
 We currently support only one special variable, being "UUID_V4".
-As an example, the uri template `one-file#{:UUID_V4}` could expand to `one-file#956242de-2c18-4985-8e9e-d490bc8f97b6`.
+As an example, the @uri template `one-file#{:UUID_V4}` could expand to `one-file#956242de-2c18-4985-8e9e-d490bc8f97b6`.
 
 @uri templates by themselves do not allow very complex structures.
-@sgv therefore allows you to express a regex replace over the result of the template. 
+@sgv therefore allows you to express a regex replace over the result of the template.
 
 
 ==== SPARQL Query
 
 The @uri template solution above, although simple in use, has the disadvantage that you can only access the @rdf resource itself.
-To accommodate this shortcoming, we also suggest the use of a @sparql query that can access the world if it wants to.
+To accommodate this shortcoming, we also suggest the use of a @sparql query that can access the world if it pleases.
 We could, for example, create a SPARQL query that groups pictures in directories based on the creation date and the country a picture was taken in like `France-23-07-2023`.
 When we assume an image only contains the city it was made in, we would need to discover the country the city is in.
 
@@ -361,18 +361,18 @@ LIMIT 1
 ]
 
 It's possible the query needs to be evaluated over other sources to discover required information.
-For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[wikidata].
+For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[Wikidata].
 A federated query allows us to dereference different sources.
 This could be used as an attack vector if a bad actor creates a collection that contains everything and then uses the
 @sparql query to pass through sensitive information to its own endpoint @bib:taelman-security.
 We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
-R. Taelman describes mny more possible security issues in his paper @bib:taelman-security.
+R. Taelman describes many more possible security issues in his paper @bib:taelman-security.
 
 === Save Condition <sec:save-condition>
 
-The save condition decides when an @rdf resource is saved given all canonical collections (@sec:canonical-collection) that are eligable to save the resource.
+The save condition decides when an @rdf resource is saved, given all canonical collections (@sec:canonical-collection) that are eligible to save the resource.
 Optionally, additional context could be given as input to the save condition.
-A canonacal collection can have multiple save conditions,
+A canonical collection can have multiple save conditions,
 and each save condition has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
 We suggest six save conditions:
 #inline-enum[
@@ -422,7 +422,7 @@ It uses a distance function to measure how much the resource description describ
 A distance function could be "the number of triples a projection of the resource by the description would cover".
 
 We clarify using an example.
-It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible. 
+It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible.
 @fig:person describes a person with their name, alternative name and birthdate.
 #figure(
 text-example()[
@@ -438,7 +438,7 @@ ex:Alice a ex:Person ;
 caption: [RDF description of a person]
 ) <fig:person>
 
-Assume we have the two @shacl resource descriptions listed in @fig:two-shape-descriptions. 
+Assume we have the two @shacl resource descriptions listed in @fig:two-shape-descriptions.
 
 #figure(
 grid(columns: (1fr, 1fr), column-gutter: 4pt,
@@ -499,7 +499,7 @@ The shape projection on the right results in the most triples after projection a
 <http://example.org/Alice> <http://example.org/birthName> "Alice"@en .
 <http://example.org/Alice> <http://example.org/alternativeName> "Rabbit"@en .
 ```
-] 
+]
 
 
 ==== Only Stored When Not Redundant
@@ -513,7 +513,7 @@ This would primarily be the case for power users that want full control of their
 
 ==== Never
 
-The save condition "never" is fairly simple, it means no resource should be saved in this collection. 
+The save condition "never" is fairly simple, it means no resource should be saved in this collection.
 We use this condition when we want to have a collection that contains resources, but cannot get new resources.
 
 
@@ -560,7 +560,7 @@ The "prefer static" update condition will keep a resource in the current collect
 ==== Best Match
 
 The "best match update" condition will discover the collection the updated resource would be placed in,
-and moves the resource in case this collection and the current collection are not the same. 
+and moves the resource in case this collection and the current collection are not the same.
 
 ==== Disallow
 
@@ -623,7 +623,7 @@ If someone wants to save their Solid Pods on their own machine, it's easy for th
 The one file one resource flag signals an LDP server that no @http
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment")[fragments]
 are present in the named nodes in this collection.
-The server can therefore use soft-links or hard-links to reduce the data duplication. 
+The server can therefore use soft-links or hard-links to reduce the data duplication.
 
 
 === Retention Policy
@@ -642,7 +642,7 @@ We propose either notifying the owner, or letting the client assume a location, 
 When the owner would like to receive a notification when a resource is not claimed by their pod,
 they would create a "@sgv notification" collection.
 That collection would have a resource description that matches any resource and a corresponding save condition of "only stored when not redundant".
-If the pod owner wants to force a client into this, the root resource collection would need a client control to be set to "no control". 
+If the pod owner wants to force a client into this, the root resource collection would need a client control to be set to "no control".
 When the user of the client is also the pod owner, the client could provide the user with a popup requesting to handle the notification.
 
 === Assume
@@ -654,7 +654,7 @@ In addition, no notification collection as described above can be resent if the 
 === Deny
 
 In case the pod owner never wants to save a resource that cannot be saved by their @sgv description,
-the root resource collection would need to have a client control of "no control" and no notification collection should be made. 
+the root resource collection would need to have a client control of "no control" and no notification collection should be made.
 
 // === Pitfalls of Shape Trees
 // text

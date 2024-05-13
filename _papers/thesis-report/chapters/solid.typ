@@ -34,14 +34,14 @@ The resource access is often aligned with the CRUD operations, so each operation
 @wac was created with some extensibility in mind.
 One could use the #link("https://solidproject.org/TR/wac#extension-acl-mode")[Access Mode Extensions] to define a subclass of a default access mode, like for example `acl:read`.
 
-The specification contains an interestingly consideration:
+The specification contains an interesting consideration:
 #quote(block: true, quotes: true)[
   Servers are strongly discouraged from trusting the information returned by looking up an agent’s WebID for access control purposes. The server operator can also provide the server with other trusted information to include in the search for a reason to give the requester the access.
 ]
 
 This is interesting in the context of solid because it means we are discouraged from making access rules like:
 "Access is granted when the requestor is older than 21."
-This consideration was possibly written down to warn readers that servers cannot validate the data. 
+This consideration was possibly written down to warn readers that servers cannot validate the data.
 However, verifiable credentials might be able to change this view.
 Unfortunately, a @wac GitHub issue about this is open and inactive#footnote[https:\//github.com/solid/authorization-panel/issues/79].
 
@@ -60,7 +60,7 @@ An example @wac description is given below:
 ] .
 [
   acl:accessTo alice:card ;
-  acl:mode acl:Read, acl:Write ; 
+  acl:mode acl:Read, acl:Write ;
   acl:agent bob:card
 ] .
 ```
@@ -82,11 +82,11 @@ We also provide an @acp example:
 #text-example[
 ```turtle
 ex:accessControlResourceA
-  acp:resource ex:resourceX ;  
+  acp:resource ex:resourceX ;
   acp:accessControl [
-    acp:deny acl:Read, acl:Write ;  
+    acp:deny acl:Read, acl:Write ;
       acp:anyOf [
-        acp:client acp:PublicClient ;    
+        acp:client acp:PublicClient ;
       ] ;
       acp:noneOf [
         acp:client ex:clientC
@@ -96,7 +96,7 @@ ex:accessControlResourceA
 ]
 
 
-=== Conclusion 
+=== Conclusion
 
 We can conclude that both solutions are not perfect and that @acp is the more expressive specification.
 Beyond access control, the Solid Community is increasingly investigating usage control solutions.
@@ -112,9 +112,9 @@ To avoid this, a pod can have an index that can be used to speed up query execut
 === Type Index
 
 The first index proposed for Solid was the Type Indexes specification. //https://solid.github.io/type-indexes/
-It proposes two indexes, a private and a public index.
+It suggests two indexes, a private and a public index.
 Each index contains entries that map a certain @rdf type to a set of @http resources.
-The example below shows a type index that states that @rdf resources that have a tupe like `<s rdf:type vcard:AddressBook>` can be found at path `/public/contacts/myPublicAddressBook.ttl`.
+The example below shows a type index that states that @rdf resources that have a tuple like `<s rdf:type vcard:AddressBook>` can be found at path `/public/contacts/myPublicAddressBook.ttl`.
 #text-example[
 ```turtle
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
@@ -131,7 +131,7 @@ The example below shows a type index that states that @rdf resources that have a
 ```
 ]
 
-Besides the low granularity type indexes allow, they are inherently flawed because the access of resources cannot be grouped into "public" and "private" since more complex access control policies are the norm. 
+Besides the low granularity type indexes allow, they are inherently flawed because the access of resources cannot be grouped into "public" and "private" since more complex access control policies are the norm.
 
 === Shape Tree
 
@@ -193,7 +193,7 @@ In considers data to be stored in data registries, each indexed using a shape tr
 The specification also describes how one can request access to a resource and a way of storing what access rights have been granted.
 
 
-// Do I mention Solid Application Interoperability? It describes things like: Don't go to deep into your container structure. That's a peculiar claim, since SGV does encourage nesting. -> SGV could be used to generate multiple views though (requires top-level SGV) -> That would result in a view a user sees vs a interop compatible view.
+// Do I mention Solid Application Interoperability? It describes things like: Don't go too deep into your container structure. That's a peculiar claim, since SGV does encourage nesting. -> SGV could be used to generate multiple views though (requires top-level SGV) -> That would result in a view a user sees vs a interop compatible view.
 
 
 

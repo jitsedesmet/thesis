@@ -69,7 +69,7 @@ depending on the chosen character, your triple shares, respectively, the object,
 Blank nodes have some additional syntactic sugar and can be created using brackets ("`[]`") in which the predicate and object belonging to the blank node are contained.
 An additional feature is the use of a "base".
 Turtle allows you to specify named nodes (@uri[s]) in relation to a base by using the `<>` containing a path instead of a whole @uri.
-The base @uri should be provided when parsing the turtle file. 
+The base @uri should be provided when parsing the turtle file.
 @fig:example-turtle is a turtle serialization of @fig:example-n-triples when using the base @uri "http:\//base.example.com/".
 
 #figure(
@@ -99,7 +99,7 @@ ex:Bob
 
 == SPARQL <sec:sparql>
 
-The @sparql query language is a declarative query language like for example, SQL, but specifically designed for RDF. 
+The @sparql query language is a declarative query language like, for example, SQL, but specifically designed for RDF.
 The query language is very extensive, in this section we explain what is needed to understand this work.
 
 @sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration. Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
@@ -118,7 +118,7 @@ Binds a certain value, or variable, to a variable. To bind the value "apple" to 
 
 ==== STR
 
-The STR function gets the raw string representation of a value, for example when we have a date: `"2024-05-08T23:23:56.83Z"^^xsd:dateTime` we can get the value between double quotation marks by using the STR function. `STR("2024-05-08T23:23:56.83Z"^^xsd:dateTime)` would evaluate to `"2024-05-08T23:23:56.83Z"`. 
+The STR function gets the raw string representation of a value, for example when we have a date: `"2024-05-08T23:23:56.83Z"^^xsd:dateTime` we can get the value between double quotation marks by using the STR function. `STR("2024-05-08T23:23:56.83Z"^^xsd:dateTime)` would evaluate to `"2024-05-08T23:23:56.83Z"`.
 
 === Property Paths
 
@@ -241,8 +241,8 @@ An @ldp interface allows CRUD operations through the @http methods. #todo[talk a
 
 Query engines are complex pieces of software that answer queries, like for example the @sparql queries seen in @sec:sparql.
 The features supported by the engine are engine-dependent, but they can be extensive.
-Besides feature support, they can also perform query optimizations based on things like cardinalities that are either known from the start, or are discovered during the query process. 
+Besides feature support, they can also perform query optimizations based on things like cardinalities that are either known from the start, or are discovered during the query process.
 A query engine aims to shield the developers from the complexities that are omnipresent when querying data.
 These complexities range from different data formats, to different interfaces, to possible optimizations.
 
-The Comunica query engine has been especially designed to be modular, allowing easy extensibility in the different areas mentioned above. This work will use that engine because of its modular design, existing feature richness and free software nature. 
+The Comunica query engine has been especially designed to be modular, allowing easy extensibility in the different areas mentioned above. This work will use that engine because of its modular design, existing feature richness and free software nature.

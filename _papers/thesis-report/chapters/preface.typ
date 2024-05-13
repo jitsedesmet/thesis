@@ -12,7 +12,7 @@ However, today's Web has become increasingly centralized,
 as most of the data is centralized in a few large data stores
 which are in full control of massive companies such as Amazon and Google.
 //
-This centralization of data on the Web leads to a number of problems,
+This centralization of data on the Web leads to numerous problems,
 such as privacy-related issues as *people are not in control of their own personal data*~@bib:verborgh_timbl_chapter_2023.
 
 To solve these problems caused by data centralization,
@@ -33,7 +33,7 @@ such as _BBC_ (UK), _Digita_ (Flanders) and _Inrupt_ (USA).
 The *fundamental shift* from centralized data management comes with various challenges.
 The solid community tries to tackle these challenges through a specification.
 Interestingly, a rather unexplored domain is that of writing data.
-In this thesis, I will explore how we can *abstract data updates*, with a focus on solid. 
+In this thesis, I will explore how we can *abstract data updates*, with a focus on solid.
 
 == Problem Statement
 
@@ -58,7 +58,7 @@ To relieve application developers from needing to write complex software to comm
 These query engines already allow developers to query pods efficiently.
 Through a technique called link traversal querying, a developer can give the root path of a solid pod and query the whole pod.
 Speed-ups can be gained by incorporation the structure of the pod in the query evaluation.
-This structure can be described through different vocabularies, examples include, Type Index, Shape Trees, @void, @tree and @ldes.
+This structure can be described through different vocabularies, examples include, Type Index, Shape Trees, @void, @tree, and @ldes.
 
 A pod can thus be structured, and since @ldp maps to a file system, everyone, from data consumer, data producer and data owner, benefit from a good structure.
 Unfortunately, as of currently, there are no automated clients that infer where to store a resource in a way that does not break the structure.
@@ -75,7 +75,7 @@ We quickly go over the different terms in that question.
 - Abstract data updates: We aim to abstract the query process, so a developer does not need to interact with the pods interface themselves.
 - Document oriented interface: the interface we interact with exposes data through @http resource in plain text.
 - Permissioned: each @http resource has access rights configured, rights can target specific actors or everyone.
-- Decentralized: each pod is self governed and limited rules apply to the system, a loosely defined systems data publisher to be opinionated. 
+- Decentralized: each pod is self governed and limited rules apply to the system, a loosely defined systems data publisher to be opinionated.
 - Query abstraction layer: we want the abstraction to happen through a declarative query. We will use the @sparql query language.
 
 == Hypotheses <sec:hypotheses>

@@ -86,7 +86,7 @@ In the worst-case scenario, all collections could save the resource, but they on
 In such a case, all resource descriptions pointed to by canonical collections need to be checked.
 
 The cost of a single validation can be linear in the number of properties the description has.
-Since the focus of the resource is on a single named node, only that named node should be seen as a focus node in the validation.
+Since the focus of the resource is on a single named node, only that named node should be considered as a focus node in the validation.
 
 The computational load could be reduced when multiple resource descriptions share have overlapping descriptions.
 A shape could in that case be defined as a conjunction using `sh:and`.
@@ -99,13 +99,13 @@ ex:PictureShape
 
 ex:WhatMakesPicturePersonalShape
   a sh:NodeShape .
- 
+
 ex:PersonalPictureShape
-	a sh:NodeShape ;
-	sh:and (
-		ex:pictureShape
-		ex:WhatMakesPicturePersonalShape
-	) .
+  a sh:NodeShape ;
+  sh:and (
+   ex:pictureShape
+   ex:WhatMakesPicturePersonalShape
+  ) .
 ```
 ]
 In this case, a query engine could cache the evaluation result of `ex:Picture`.
@@ -134,7 +134,7 @@ In the case of @uri templates with regexes, this cost negligible.
 The Solid Specification requires updates to happen using N3Patch,
 this means that each created resource requires its own @http request.
 
-Interestingly, some implementations of a solid server, like the 
+Interestingly, some implementations of a solid server, like the
 #link("https://communitysolidserver.github.io/CommunitySolidServer/7.x/usage/example-requests/#patch-modifying-resources")[Community Solid Server]
 also accept SPARQL queries.
 
@@ -161,7 +161,7 @@ INSERT {
 
 ==== Fetch the Description and the Resource
 
-Like with creating a resource, we need to fetch the @sgv, costing us one @http request. 
+Like with creating a resource, we need to fetch the @sgv, costing us one @http request.
 Additionally, we need to fetch the current state of the resource, costing us at least one additional @http request.
 Luckily, these requests can be done in parallel, minimizing delay.
 
@@ -193,7 +193,7 @@ two, non-parallel @http requests
 
 ==== Conclusion Resource Update, No Move
 
-We can conclude that the cost of an @rdf resource update is two in case of an update that only deletes or adds triples, and three in case of an update that does both deletes and updates.
+We can conclude that the cost of an @rdf resource update is two in the case of an update that only deletes or adds triples, and three in the case of an update that both deletes and updates.
 
 It should, however, be possible to do it using only two @http requests.
 
@@ -305,7 +305,7 @@ ex:PostShape {
 
 === Test Hardware Specification
 
-For completeness sake, We quickly describe the system used in the benchmarking.
+For completeness’s sake, we briefly describe the system used in the benchmarking.
 I am using a Dynabook Inc. Satallite Pro A50EC with 16 GiB memory, an Intel® Core™ i5-8250U x 8 processor and an Intel® Graphic UHD Graphics 620 (KBL GT2).
 The installed operating system is a Fedora Workstation 39 (64-bit), and firmware version 2.70.
 
@@ -320,7 +320,7 @@ The choke points we will be testing are:
 + *Delete resource*: @fig:delete-data-complete, @fig:delete-where-complete
 
 The queries should cover all different queries from the update @sparql spec (see @sec:sparql-query-types).
-Because we want to cover all type of queries, some choke points are represented by more then one query.
+Because we want to cover all types of queries, some choke points are represented by more than one query.
 
 
 #grid(
@@ -550,7 +550,7 @@ The ratios of @sgv[-]operations over non-@sgv[-]operations per second are:
 
 Altough these ratios are still better then the hypothezized $0.25$, they are significantly worse then the previous section.
 That's to be expected because the @sgv enabled equery engine has to perform more steps now.
-Eventough it is worse accross the board, we still see that the fragmentation strategy plays a roll. 
+Eventough it is worse accross the board, we still see that the fragmentation strategy plays a roll.
 
 #figure(
   insert-where-tag,
@@ -585,7 +585,7 @@ The @sgv engine requires multiple additional @http requests, that are not perfor
 The ratios of operations are: $#calc.round(6/35, digits: prec)$ ; $#calc.round(2/5, digits: prec)$ ; $#calc.round(5/35, digits: prec)$ ; and $#calc.round(6/35, digits: prec)$
 We can thus say this breaks our hypothesis.
 Again, we highlight the difference between fragmentation strategies.
-Clearly, the delay experienced from loading the large file in the case all posts are saved in the same file is significant. 
+Clearly, the delay experienced from loading the large file in the case all posts are saved in the same file is significant.
 
 #figure(
   delete-insert-id,
