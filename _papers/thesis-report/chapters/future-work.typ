@@ -48,7 +48,7 @@ The resources to create could be based on the usage metrics the server has.
 == Smart Access Control
 
 Both @wac and @acp don't allow users to create access control rules based on the @rdf content itself.
-Since a long time, efforts exist to change this, one such effort is the #link("https://www.bergnet.org/people/bergi/files/documents/2014-02-14/index.html#/")[Universal Access Control] of Thomas bergwinkl.
+Since a long time, efforts exist to change this, one such effort is the #link("https://www.bergnet.org/people/bergi/files/documents/2014-02-14/index.html#/")[Universal Access Control] of Thomas Bergwinkl.
 A motivation for disallowing these kinds of policies could be the rise in complexity.
 However, through the resource description formats like Shape Trees and @sgv, one could argue that we express what data is in a resource.
 Therefore, we could extract an access control policy in function of the data based on the policy on the document.
@@ -74,22 +74,23 @@ May it inspire anyone to work on these challenging topics.
 
 Through Solid, many applications are working on the same data and each application likely has their own cache in place.
 As a result, applications working on the same data all have their own local copy of the data, essentially creating a distributed system.
-It is important that one applciation does not just undo the work by another application.
+It is important that one application does not just undo the work by another application.
 A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale.
 
 === ACID Transactions
 
-Massive addaptation is the dream of any technology, but to achieve that, you need to be at least as good as the competaition.
-The largest compatitor for data storage is the relational database offering the @acid properties.
+Massive adaptation is the dream of any technology, but to achieve that, you need to be at least as good as the competition.
+The largest competitor for data storage is the relational database offering the @acid properties.
 Not only do developers expect these properties, many applications are unable to operate without these consistency guarantees.
 We therefore advocate for research into stronger consistency guarantees in Solid.
 
-Such a claim is not always well received, because of the @cap theurem taht states that you can only have two out of {Consistency, Availability, Partition tolerance}.
-However, the choice is not binary as later clarified by the writers of the @cap theorem.
-Not only can the research choose in "how conistent" we want to be, we have a varying partitian tolerance variable too!
-Most distributed database systems replicate data across machines so that when one machine goes down, all data is still accessible be it through other nodes in the system.
+Such a claim is not always well received, because of the @cap theorem that states that you can only have two out of {Consistency, Availability, Partition tolerance}.
+However, the choice is not binary, as later clarified by the writers of the @cap theorem.
+Not only can the research decide in "how consistent" we want to be, we have a varying partition tolerance variable too!
+Most distributed database systems replicate data across machines so that when one machine goes down, all data is still accessible, be it through other nodes in the system.
 Solid does not have such a replication system in place.
-When a single pod disconnects from the network, the data on that pod can not be accessed until the pod connects to the network again.
+When a single pod disconnects from the network, the data on that pod cannot be accessed until the pod connects to the network again.
 We believe that this opens some space for research on stronger consistency requirements.
 
 The decision of what point in the @cap space we work with need not be done at pod level, but could be done on @http resource level. For example, one @http resource might support @crdt\s essentially choosing for availability over consistency. Another resource might introduce some locking mechanism, choosing consistency over availability.
+
