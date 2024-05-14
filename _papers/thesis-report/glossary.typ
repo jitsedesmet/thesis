@@ -34,4 +34,7 @@
   (key: "wac", short: "WAC", long: "Web Access Control"),
   (key: "acp", short: "ACP", long: "Access Control Policy"),
   (key: "acl", short: "ACL", long: "Access Control List"),
+  (key: "crdt", short: "CRDT", long: "Conflict-free Replicated data Type"),
+  (key: "cap", short: "CAP", long: "Consistency Availability Partition tolerance"),
+  (key: "acid", short: "ACID", long: "atomicity, consistency, isolation, durability")
 )
