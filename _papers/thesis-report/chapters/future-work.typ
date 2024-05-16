@@ -1,3 +1,6 @@
+#import "../utils/review.typ": *
+#import "../utils/general.typ": *
+
 = Future Work
 
 @sgv proves it is possible to create automated clients that can decide where to store resources.
@@ -61,6 +64,8 @@ Access control extraction could help create uniform access rules across multiple
 The vocabulary described in this work does not play nice with existing vocabularies.
 Since @sgv is related to shape trees, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
 This alternative structure would likely be less expressive.
+
+#todo[link to Linked Data Event Streams in Solid LDP containers]
 
 == General Update Behaviour
 

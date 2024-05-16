@@ -1,3 +1,6 @@
+// https://w3c-biblio.syronex.com/w3cbib/ref
+// doi: Digital Object Identifier (DOI)
+
 @Comment{
   from https://api.zotero.org/users/{xxx}/collections/{xxx}/items/top?key={xxx}&format=biblatex
   --> you can use the following shell script to copy the data to the clipboard
@@ -49,22 +52,40 @@ done | pbcopy
     abstract =  {A URI Template is a compact sequence of characters for describing a range of Uniform Resource Identifiers through variable expansion. This specification defines the URI Template syntax and the process for expanding a URI Template into a URI reference, along with guidelines for the use of URI Templates on the Internet. {[}STANDARDS-TRACK{]}},
 }
 
+
 @TechReport{bib:concise-bounded-description,
   author      = "Patrick Stickler",
-  title       = "Concise Bounded Description",
+  title       = "CBD - Concise Bounded Description",
   month       = jun,
-  note        = "https://www.w3.org/submissions/CBD/",
+  note        = "https://www.w3.org/submissions/2005/SUBM-CBD-20050603/",
   year        = "2005",
-  type        = "Member Submission",
+  type        = "{W3C} Member Submission",
   institution = "W3C",
+}
+
+@TechReport{bib:solid-application-interop,
+  author      = "Justin Bingham and Eric Prud'hommeaux and elf Pavlik",
+  title       = "Solid Application Interoperability",
+  month       = apr,
+  note        = "https://solid.github.io/data-interoperability-panel/specification/",
+  year        = "2024",
+  type        = "Draft Community Group Report",
+}
+
+@TechReport{bib:tree,
+  author      = "Pieter Colpaert",
+  title       = "The TREE hypermedia specification",
+  note        = "https://treecg.github.io/specification/",
+  type        = "Draft Community Group Report",
+  month       = apr,
+  year        = "2024",
 }
 
 @TechReport{bib:ldes,
   author      = "Pieter Colpaert",
   title       = "Linked Data Event Streams",
-  note        = "https://www.w3.org/submissions/CBD/",
-  type        = "Semantic Interoperability Community",
-  institution = "W3C",
+  note        = "https://semiceu.github.io/LinkedDataEventStreams/",
+  type        = "Living Standard",
 }
 
 @TechReport{bib:type-index,
@@ -75,6 +96,15 @@ done | pbcopy
   year        = "2022",
 }
 
+@TechReport{bib:void,
+  author      = "Richard Cyganiak and Jun Zhao and Michael Hausenblas and Keith Alexander",
+  title       = "Describing Linked Datasets with the {VoID} Vocabulary",
+  month       = mar,
+  note        = "https://www.w3.org/TR/2011/NOTE-void-20110303/",
+  year        = "2011",
+  type        = "{W3C} Note",
+  institution = "W3C",
+}
 
 @TechReport{bib:shape-tree,
   author      = "Eric Prud'hommeaux and Justin Bingham ",
@@ -82,16 +112,80 @@ done | pbcopy
   month       = dec,
   note        = "https://shapetrees.org/TR/specification/",
   year        = "2021",
+  type        = "Editor's Draft",
+}
+
+@TechReport{bib:shex,
+  author      = "Thomas Baker and Eric Prud'hommeaux",
+  title       = "Shape Expressions (ShEx) 2.1 Primer",
+  month       = oct,
+  note        = "https://shex.io/shex-primer-20191009/",
+  year        = "2019",
+  type        = "Final Community Group Report",
+}
+
+@TechReport{bib:shacl,
+  author      = "Holger Knublauch and Dimitris Kontokostas",
+  title       = "Shapes Constraint Language ({SHACL})",
+  month       = jul,
+  note        = "https://www.w3.org/TR/2017/REC-shacl-20170720/",
+  year        = "2017",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
 }
 
 @TechReport{bib:ldp,
-  author      = "    Steve Speicher, IBM Corporation and John Arwe, IBM Corporation and Ashok Malhotra, Oracle Corporation",
+  author      = "Steve Speicher and John Arwe and Ashok Malhotra",
   title       = "Linked Data Platform 1.0",
   month       = feb,
   note        = "https://www.w3.org/TR/2015/REC-ldp-20150226/",
   year        = "2015",
   type        = "Recomendation",
   institution = "W3C",
+}
+
+@TechReport{bib:solid-spec,
+  author      = "Sarven Capadisli and Tim Berners-Lee and Ruben Verborgh and Kjetil Kjernsmo",
+  title       = "Solid Protocol",
+  month       = dec,
+  note        = "https://solidproject.org/TR/2022/protocol-20221231",
+  year        = "2022",
+}
+
+@TechReport{bib:wac,
+  author      = "Tim Berners-Lee and Henry Story and Sarven Capadisli",
+  title       = "Web Access Control",
+  month       = may,
+  note        = "https://solid.github.io/web-access-control-spec/",
+  year        = "2024",
+}
+
+@TechReport{bib:acp,
+  author      = "Matthieu Bosquet",
+  title       = "Access Control Policy (ACP)",
+  month       = may,
+  note        = "https://solidproject.org/TR/2022/acp-20220518",
+  year        = "2022",
+}
+
+@article{bib:codd1970relational,
+  title={A relational model of data for large shared data banks},
+  author={Codd, Edgar F},
+  journal={Communications of the ACM},
+  volume={13},
+  number={6},
+  pages={377--387},
+  year={1970},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{bib:init-usage-control,
+  title={Towards usage control models: beyond traditional access control},
+  author={Park, Jaehong and Sandhu, Ravi},
+  booktitle={Proceedings of the seventh ACM symposium on Access control models and technologies},
+  pages={57--64},
+  year={2002}
 }
 
 
@@ -126,6 +220,71 @@ done | pbcopy
   pages={3--22},
   year={2023},
   organization={Springer}
+}
+
+@TechReport{bib:rdf,
+  author      = "David Wood and Markus Lanthaler and Richard Cyganiak",
+  title       = "{RDF} 1.1 Concepts and Abstract Syntax",
+  month       = feb,
+  note        = "https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/",
+  year        = "2014",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
+}
+
+@TechReport{bib:n-triples,
+  author      = "Gavin Carothers and Andy Seaborne",
+  title       = "{RDF} 1.1 N-Triples",
+  month       = feb,
+  note        = "https://www.w3.org/TR/2014/REC-n-triples-20140225/",
+  year        = "2014",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
+}
+
+@TechReport{bib:turtle,
+  author      = "Gavin Carothers and Eric Prud'hommeaux",
+  title       = "{RDF} 1.1 Turtle",
+  month       = feb,
+  note        = "https://www.w3.org/TR/2014/REC-turtle-20140225/",
+  year        = "2014",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
+}
+
+@TechReport{bib:sparql,
+  author      = "Andy Seaborne and Steven Harris",
+  title       = "{SPARQL} 1.1 Query Language",
+  month       = mar,
+  note        = "https://www.w3.org/TR/2013/REC-sparql11-query-20130321/",
+  year        = "2013",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
+}
+
+@article{bib:tpf,
+  title={Triple pattern fragments: a low-cost knowledge graph interface for the web},
+  author={Verborgh, Ruben and Vander Sande, Miel and Hartig, Olaf and Van Herwegen, Joachim and De Vocht, Laurens and De Meester, Ben and Haesendonck, Gerald and Colpaert, Pieter},
+  journal={Journal of Web Semantics},
+  volume={37},
+  pages={184--206},
+  year={2016},
+  publisher={Elsevier}
+}
+
+@inproceedings{bib:comunica,
+author = {Taelman, Ruben and Van Herwegen, Joachim and Vander Sande, Miel and Verborgh, Ruben},
+booktitle = {Proceedings of the 17th International Semantic Web Conference},
+doi = {10.1007/978-3-030-00668-6\_15},
+month = oct,
+pages = {239--255},
+publisher = {Springer International Publishing},
+title = {{Comunica: A Modular SPARQL Query Engine for the Web}},
+year = {2018}
 }
 
 @inproceedings{bib:shape-containment,

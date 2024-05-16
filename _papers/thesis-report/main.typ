@@ -49,6 +49,8 @@
   show heading.where(level: 3): set text(size: 1.05em)
   show heading.where(level: 4): set text(size: 1.0em)
   show figure: set text(size: 0.9em)
+  set figure(placement: auto)
+  set enum(numbering: "1.i")
 
   // Set spacing
   set par(leading: 0.9em, first-line-indent: 1.8em, justify: true)

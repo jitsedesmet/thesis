@@ -3,14 +3,14 @@
 
 = Solid
 // Introduce
-The Solid project develops a specification that lets individuals and groups store their data securely in decentralized data stores called Pods.
+The Solid project develops a specification that lets individuals and groups store their data securely in decentralized data stores called Pods @bib:solid.
 Pods are like secure web servers for data.
 When data is stored in a Pod, its owners control which people and applications can access it.
-#todo[cite: https:\//solidproject.org/]
-Solid is a specification that builds on top of exist specification.
+Solid is a specification~@bib:solid-spec that builds on top of exist specification.
 The data is stored in @rdf format and the interface is constructed through @ldp.
 However, the existing specifications are not enough as solid faces numerous challenges because of its innovative decentralized nature.
 These challenges span over multiple domains like interface design, query engine design, access control, usage control, etc.
+To tackle these challenges, Solid creates some own specifications, but tries to keep them generic for different use cases. 
 
 
 == Access Control
@@ -20,8 +20,7 @@ The resource access is often aligned with the CRUD operations, so each operation
 
 === WAC
 
-@wac is a decentralized cross-domain access control system, providing a way for Linked Data systems to set authorization conditions on HTTP resources using the @acl model
-#todo[cite spec], using the #link("http://www.w3.org/ns/auth/acl#")[@acl ontology].
+@wac~@bib:wac is a decentralized cross-domain access control system, providing a way for Linked Data systems to set authorization conditions on HTTP resources using the @acl model using the #link("http://www.w3.org/ns/auth/acl#")[@acl ontology].
 @wac differentiates four #link("https://solidproject.org/TR/wac##access-modes")[access modes]:
 + `acl:Read`: Allows access to a class of read operations on a resource, e.g.,
   to view the contents of a resource on HTTP GET requests.
@@ -32,9 +31,8 @@ The resource access is often aligned with the CRUD operations, so each operation
 + `acl:Control`: Allows access to a class of read and write operations on an ACL resource associated with a resource.
 
 @wac was created with some extensibility in mind.
-One could use the #link("https://solidproject.org/TR/wac#extension-acl-mode")[Access Mode Extensions] to define a subclass of a default access mode, like for example `acl:read`.
+One could use the #link("https://solidproject.org/TR/wac#extension-acl-mode")[Access Mode Extensions] to define a subclass of a default access mode, like for example `acl:read`. Interestingly, the specification includes the following warning:
 
-The specification contains an interesting consideration:
 #quote(block: true, quotes: true)[
   Servers are strongly discouraged from trusting the information returned by looking up an agent’s WebID for access control purposes. The server operator can also provide the server with other trusted information to include in the search for a reason to give the requester the access.
 ]
@@ -68,7 +66,7 @@ An example @wac description is given below:
 
 === ACP
 
-@acp is an alternative to @wac and serves as the older sibling.
+@acp~@bib:acp is an alternative to @wac and serves as the older sibling.
 @acp allows you to create matchers over users.
 These matchers can return a value true or false based on the agent that requests the resource.
 Policies are used to connect matchers to resources.
@@ -98,20 +96,22 @@ ex:accessControlResourceA
 
 === Conclusion
 
-We can conclude that both solutions are not perfect and that @acp is the more expressive specification.
+We can conclude @acp is the more expressive specification, neither solutions are perfect.
 Beyond access control, the Solid Community is increasingly investigating usage control solutions.
-Usage Control takes access control that decides whether you have access to a resource, and expands on it by describing how you can get access and what that access entails in relation to the deontic concepts: Permission, Prohibition, Obligation and Dispensation.
+Usage Control takes access control that decides whether you have access to a resource, and expands on it by describing how you can get access @bib:init-usage-control.
+Additionally, it describes what you can do with the resource after access has been granted.
+These permissions are  related too to the deontic concepts: Permission, Prohibition, Obligation and Dispensation.
 
 == Pod Descriptions
 
 A Solid pod following the current specification has an @ldp interface.
 Such an interface is unstructured by design, forcing a data consumer to traverse all links in the same pod to get a complete pod overview.
-If completeness is of importance, this makes an @ldp interface almost worse than a bulk download.
+If completeness is of importance, this makes an @ldp interface worse than a bulk download.
 To avoid this, a pod can have an index that can be used to speed up query execution.
 
 === Type Index
 
-The first index proposed for Solid was the Type Indexes specification. //https://solid.github.io/type-indexes/
+The first index proposed for Solid was the Type Indexes specification~@bib:type-index. //https://solid.github.io/type-indexes/
 It suggests two indexes, a private and a public index.
 Each index contains entries that map a certain @rdf type to a set of @http resources.
 The example below shows a type index that states that @rdf resources that have a tuple like `<s rdf:type vcard:AddressBook>` can be found at path `/public/contacts/myPublicAddressBook.ttl`.
@@ -135,7 +135,7 @@ Besides the low granularity type indexes allow, they are inherently flawed becau
 
 === Shape Tree
 
-Shape Trees are the proposed replacement to the Type Indexes.
+Shape Trees~@bib:shape-tree are the proposed replacement to the Type Indexes.
 The specification uses shape descriptions like @shex and @shacl to validate @rdf graphs against a set of conditions.
 Shape trees can be used in combination with protocols that organize linked data graphs into resource hierarchies, expressing the layout of the resources and associating those resources with their respective shapes.
 It is the natural extension of shape descriptions to those resource hierarchies.
@@ -176,21 +176,19 @@ text-example[
 ]
 )
 
-By creating a graph of shape descriptions, access control becomes finer than the case of the Type Indexes.
+By creating a graph of shape descriptions, access control using shape trees has a finer granuality compared to Type Indexes.
 Each Subtree can be exposed through its own @http resource and can therefore have its own access control policies.
-The privacy of a user can thus be protected by exposing a shape tree in a fine granularity.
+The privacy of a user can thus be protected by exposing a shape tree in a small documents.
 
 
 == Solid Interoperability
 
-The Solid Interoperability specification is a big specification that essentially ties together the smaller specifications and offers some usage suggestions.
+The Solid Interoperability specification~@bib:solid-application-interop is a big specification that essentially ties together the smaller specifications and offers some usage suggestions.
 It essentially describes how applications should work together to ensure a coherent data ecosystem.
 
 The specification differentiates social agents (individual, group, or organization) and applications, but considers both to be _agents_.
 Social agents choose to use certain applications and register/ manage them and their access rights in a private document.
-In considers data to be stored in data registries, each indexed using a shape tree, and describes that resource names should be unpredictable. The unpredictability is important for the privacy of data owners.
-
-The specification also describes how one can request access to a resource and a way of storing what access rights have been granted.
+In considers data to be stored in data registries, each indexed using a shape tree, and describes that resource names should be unpredictable. The unpredictability is important for the privacy of data owners. The specification also describes how one can request access to a resource and a way of storing what access rights have been granted.
 
 
 // Do I mention Solid Application Interoperability? It describes things like: Don't go too deep into your container structure. That's a peculiar claim, since SGV does encourage nesting. -> SGV could be used to generate multiple views though (requires top-level SGV) -> That would result in a view a user sees vs a interop compatible view.

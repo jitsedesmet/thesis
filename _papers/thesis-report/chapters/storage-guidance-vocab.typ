@@ -23,26 +23,29 @@ We shortly introduce some basic concepts in @sgv:
 #list(marker: "",
 [*Resource Collection*: Corresponds to a group of @rdf resources.],
 [*Unstructured Collection*: Corresponds to a classical @ldp container or @http resource],
-[*Structured Collection*: A canonical or derived collection.],
+[*Structured Collection*: A canonical or derived collection. (below)],
 [*Canonical Collection*: A resource collection containing resources.],
 [*Derived Collection*: A resource collection that stores resources already stored by one or more other structured containers.],
 [*Resource Description*: A way of describing resources, for example through @shex or @shacl.],
-[*Group Strategy*: A description of how resources should be grouped together, for example: my images have are grouped per creation date.],
+[*Group Strategy*: A description of how resources should be grouped together, for example: my images are grouped per creation date.],
 [*Save Condition*: When multiple collections are eligible to save a resource, the save condition decides what collection(s) actually save the resource.],
 [*Update Condition*: Describes what to do when a containing resource is changed.],
 [*Client Control*: Describes the amount of freedom a client has when trying to save a resource.]
 )
 
 We will first describe two simple flows, the creation, and the modification of an @rdf resource.
-This should provide an idea of what a @sgv tries to accomplish without going into all the details first.
+This should provide an idea of what @sgv tries to accomplish without going into all the details first.
 After explaining the two example flows, we will look into the details of @sgv.
 
 
 == Flow: A client wants to create an RDF-resource <sec:flow-create-rdf-resource>
 
-Inserts happen on a pod level, meaning you just specify to the client what pod you'd want to insert a resource to.
-An example query is:
-#text-example[
+Inserts happen on a pod level, meaning you specify to the client what pod you'd want to insert a resource to.
+The client will then discover a fiting location for the resource.
+@fig:example-insert is an example query that would trigger the resource creation flow.
+
+#figure(
+text-example[
 ```SPARQL
 prefix ns1: <http://localhost:3000/www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -62,9 +65,9 @@ INSERT DATA {
     ns1:isLocatedIn resource:China ;
     ns1:locationIP "1.83.28.23" .
 }
-
 ```
-]
+], caption: [Example resource insertion query]
+) <fig:example-insert>
 
 An automated client is now required to discover the base (`<>`) of this query.
 The client will follow the flow described below and visualized in @fig:rdf-create.
@@ -78,7 +81,7 @@ The client will follow the flow described below and visualized in @fig:rdf-creat
 + The client performs the save operation.
 
 #figure(
-  image("../static/flow-rdf-create.png"),
+  image("../static/flow-rdf-create.png", width: 80%),
   caption: [Flow: create RDF resource]
 ) <fig:rdf-create>
 
@@ -97,7 +100,7 @@ The flow of an automated client is depicted in @fig:rdf-update and described fur
     + No move required: just update the resource as requested by the user.
 
 #figure(
-  image("../static/flow-rdf-update.png"),
+  image("../static/flow-rdf-update.png", width: 80%),
   caption: [Flow: update RDF resource]
 ) <fig:rdf-update>
 
@@ -109,8 +112,9 @@ In @fig:sgv-vocab-overview an overview of the different components can be consul
 The figure can be used as a reference while reading the different sections.
 There are three arrows used in the graph, each with a different meaning, visualized in @fig:sgv-vocab-overview-legend.
 Firstly, a full arrow means that there is can be a triple `?a ldp:contains ?b`.
-Secondly, the dotted link means that the destination has the same fields or more as the source.
+Secondly, the dotted arrow means that the destination has the same fields or more as the source.
 Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be considered a property of the source.
+@fig:example-sgv-description is provided as an example description to help clarify the vocabulary.
 
 #figure(
   image("../static/sgv-graph-legend.png", width: 80%),
@@ -118,11 +122,9 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
 ) <fig:sgv-vocab-overview-legend>
 
 #figure(
-  image("../static/sgv-graph.png"),
+  image("../static/sgv-graph.png", width: 80%),
   caption: [Visualisation of the Storage Guidance Vocabulary]
 ) <fig:sgv-vocab-overview>
-
-@fig:example-sgv-description is provided as an example description to help clarify the vocabulary.
 
 #figure(
   text-example[
@@ -188,6 +190,8 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   caption: [Visualisation of the Storage Guidance Vocabulary]
 ) <fig:example-sgv-description>
 
+#todo[provide shape description!]
+
 === Resource Collection <sec:resource-collection>
 
 An `sgv:resource-collection` is any @rdf resource that groups multiple @rdf resources together.
@@ -205,7 +209,7 @@ It might help to see the type `sgv:unstructured-collection` as similar to the `l
 
 An `sgv:structured-collection` is a resource collection (@sec:resource-collection) that explicitly describes its structure.
 The collection defines a filter, each resource is compared against this filter.
-If a resource passes, the resource is collected into the collection.
+If a resource passes, the resource is saved into the collection.
 The collection later defines where the resource should be saved.
 Where a normal resource collection can contain resources in a graph structure,
 a structured container adds the important restriction of a tree.
@@ -224,14 +228,15 @@ or links to @rdf resources contained in some other structured collections.
 When a structured collection inserts, updates or removes an @rdf resource, the collections that derive from that collection are informed to act accordingly.
 A derived collection can be used to create collections and knows a multitude of use cases, some examples are:
 - Create a collection of all pictures in my pod, even though I have multiple canonical collections managing pictures.
-- Create a restricted view of resources that I could then use to share with others.
+- Create a restricted view of resources that I could then use to share with others. #todo[describe this in spec: use CONSTRUCT? look at derived resource]
 
 === Grouped Collection <sec:grouped-collection>
 
 Every @ldp container contained in a structured collection (@sec:structured-collection) is a grouped collection.
 Grouped collections are used to group resources in structured collections together to provide additional structure.
 This reduces cognitive load when browsing a collection.
-@fig:example-structure visualizes two ways of organizing images.
+@fig:example-structure visualizes two ways of organizing images,
+on the left by city and depicted person, and on the right by creation date and depicted person.
 
 
 #figure([
@@ -284,7 +289,7 @@ Two popular choices for describing a resource are @shex and @shacl.
 Shape descriptions are powerful and allow expressing complicated expressions.
 They include #link("https://www.w3.org/TR/shacl/#core-components-logical")[
 logical constraint components] and #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[
-property pair constraint components].
+property pair constraint components]. #todo[What do they allow you to do???]
 
 === Group Strategy
 
@@ -295,7 +300,7 @@ A grouped collection can choose to define its group strategy, thereby overruling
 A group strategy maps each @rdf resource to part of a @uri.
 The concatenation of the structured collection @uri, and the provided part should result in the @uri of the resulting resource.
 A grouped collection with URI `https://example.com/pictures/Valencia/` together with a resulting strategy of
-`Alice.ttl` would thus result in `https://example.com/pictures/Valencia/Alise.ttl`.
+`Alice.ttl` would thus result in `https://example.com/pictures/Valencia/Alice.ttl`.
 We suggest two possible ways of grouping resources, closed world through URI-templates @bib:uri-templates, or open world through a SPARQL query.
 
 
@@ -366,7 +371,7 @@ A federated query allows us to dereference different sources.
 This could be used as an attack vector if a bad actor creates a collection that contains everything and then uses the
 @sparql query to pass through sensitive information to its own endpoint @bib:taelman-security.
 We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
-R. Taelman describes many more possible security issues in his paper @bib:taelman-security.
+#cite(<bib:taelman-security>, form: "author") describe many more possible security issues in their paper @bib:taelman-security.
 
 === Save Condition <sec:save-condition>
 
@@ -416,10 +421,10 @@ ex:Pictures a sgv:canonical-collection ;
 
 ==== Prefer Most Specific
 
-This saves condition specifies that this collection would only save in case its resource description is the most specific to the @rdf resource in focus.
+This save condition specifies that this collection would only save in case its resource description is the most specific to the @rdf resource in focus.
 
-It uses a distance function to measure how much the resource description describes the resource.
-A distance function could be "the number of triples a projection of the resource by the description would cover".
+It uses a distance function to measure how good the resource description describes the resource.
+A distance function could be the inverce of "the number of triples a projection of the resource by the description would cover".
 
 We clarify using an example.
 It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible.
@@ -513,7 +518,7 @@ This would primarily be the case for power users that want full control of their
 
 ==== Never
 
-The save condition "never" is fairly simple, it means no resource should be saved in this collection.
+The save condition "never" is fairly simple, it means no new resource should be saved in this collection.
 We use this condition when we want to have a collection that contains resources, but cannot get new resources.
 
 
@@ -522,7 +527,7 @@ We use this condition when we want to have a collection that contains resources,
 When an @rdf resource is updated, the update condition with the shape description matching the original resource is consulted.
 To prevent links from breaking, we also suppose the optional usage of a forward referencing pattern, preventing links to break in clients that are aware of this.
 So when resource `ex:orininal-name` is moved to `ex:new-name`, there will be a tuple that describes just that: `ex:original-name sgv:moved-to ex:new-name`.
-Servers could also be made aware of this triple, returning a 301 redirect to `ex:new-name`.
+Servers could also be made aware of this triple, returning a 301 redirect to `ex:new-name`. #todo[create predicate that shows we want this!]
 A move procedure works by removing the existing resource and then inserting the resource in the pod using the insert procedure.
 We propose multiple update conditions:
 #inline-enum[
@@ -545,7 +550,7 @@ but places a limit on how much a description can stretch from its original form.
 To implement this update condition, we require some distance metric between shape descriptions.
 When the distance grows too big, the original description is reapplied and resources not matching the description are moved.
 
-To our knowledge, there does not yet exist a distance metric to see how much two descriptions differ, only whether two descriptions are contained @bib:shape-containment.
+To our knowledge, there does not yet exist a distance metric to see how much two shape descriptions differ, only whether two descriptions are contained @bib:shape-containment.
 An example metric could be inspired by the Levenshtein distance where, we count the number of additions and deletions of a @shacl properties.
 Let's say each addition or deletion has a cost of 1.
 The distance between the shapes in @fig:two-shape-descriptions would be three because to go from the left description to the right, three operations are required:
@@ -592,7 +597,7 @@ When a state would be invalid to the @sgv description, the client needs to updat
 ==== Free Client
 
 A collection that specifies a client is free, specifies that the client itself can choose where a resource is saved.
-Since the collection still needs to be in a correct state, the client might have to edit @sgv descriptions too.
+Since the collection still needs to be in a correct state, the client might have to edit @sgv descriptions.
 Take again the example of "pictures" and "family pictures" collections, where normally a picture matching the family picture description, would be placed in that collection.
 A free client might choose to save the resource only in the general pictures collection and not in the family pictures collection. They can choose to do this without changing the @sgv description.
 
@@ -623,7 +628,7 @@ If someone wants to save their Solid Pods on their own machine, it's easy for th
 The one file one resource flag signals an LDP server that no @http
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment")[fragments]
 are present in the named nodes in this collection.
-The server can therefore use soft-links or hard-links to reduce the data duplication.
+The server can therefore use soft-links or hard-links to reduce the physical data duplication.
 
 
 === Retention Policy
@@ -634,7 +639,7 @@ As a little extra, @sgv could be expanded with retention policies like those pre
 == Use Case: No Collection Claims Resource
 
 Now that the details are understood, we sketch 3 cases of handling resources that are not claimed.
-We propose either notifying the owner, or letting the client assume a location, or to deny the operation.
+We propose either notifying the owner, letting the client assume a location, or to deny the operation.
 
 
 === Notification
@@ -642,13 +647,13 @@ We propose either notifying the owner, or letting the client assume a location, 
 When the owner would like to receive a notification when a resource is not claimed by their pod,
 they would create a "@sgv notification" collection.
 That collection would have a resource description that matches any resource and a corresponding save condition of "only stored when not redundant".
-If the pod owner wants to force a client into this, the root resource collection would need a client control to be set to "no control".
+If the pod owner wants to force a client into this use case, the root resource collection would need a client control to be set to "no control".
 When the user of the client is also the pod owner, the client could provide the user with a popup requesting to handle the notification.
 
 === Assume
 
 In the case that a pod owner would want the client to assume the location, root resource collection would need a policy less strict than "no control".
-In addition, no notification collection as described above can be resent if the client control would be "allowed when not claimed".
+In addition, no notification collection as described above can be present if the client control would be "allowed when not claimed".
 
 
 === Deny

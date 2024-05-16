@@ -50,7 +50,7 @@ Much research has been done as to how we can efficiently read from these pods.
 This research asks both how to answer a query as completely as possible over different pods, and also how to query a single pod efficiently.
 Solid currently describes only a single interface type, @ldp.
 
-The idea of @ldp is to map a simple, common file structure to a linked data interface over @http.
+The idea of @ldp is to map a simple, document oriented file structure to a linked data interface over @http.
 The interface allows simple server implementation and limited computational overload for servers.
 This means that all required intelligence comes from the client.
 To relieve application developers from needing to write complex software to communicate with these pods, we use packages. These help developers though a linked data querying @api, commonly called a query engine.
@@ -58,13 +58,14 @@ To relieve application developers from needing to write complex software to comm
 These query engines already allow developers to query pods efficiently.
 Through a technique called link traversal querying, a developer can give the root path of a solid pod and query the whole pod.
 Speed-ups can be gained by incorporation the structure of the pod in the query evaluation.
-This structure can be described through different vocabularies, examples include, Type Index, Shape Trees, @void, @tree, and @ldes.
+This structure can be described through different vocabularies, examples include, Type Index~@bib:type-index, Shape Trees~@bib:shape-tree, @void~@bib:void, @tree~@bib:tree, and @ldes~@bib:ldes.
 
 A pod can thus be structured, and since @ldp maps to a file system, everyone, from data consumer, data producer and data owner, benefit from a good structure.
 Unfortunately, as of currently, there are no automated clients that infer where to store a resource in a way that does not break the structure.
 Developers that want to write data to a pod thus need to have numerous checks in place, and often times, either break the structure, or store their data in a hard-coded location and then alter the structure.
+This way of working with data is unmaintainable and it's precicelly these data dependencies that caused Knuth to create the relational database~@bib:codd1970relational.
 
-In this thesis, I look at how we can create a query engine that can infer where a resource should be stored in a solid pod in an application-agnostic way. This scope of this thesis is limited to solid and the @ldp interface.
+In this thesis, we look at how we can create a query engine that can, in an application agnostic way, infer where a resource should be stored in a solid pod. The scope of this thesis is limited to solid and the @ldp interface.
 
 
 == Research Question
@@ -73,17 +74,17 @@ The research question for this thesis is:
 *How can we abstract data updates over a document oriented interface of a permissioned decentralized behind a query abstraction layer?*
 We quickly go over the different terms in that question.
 - Abstract data updates: We aim to abstract the query process, so a developer does not need to interact with the pods interface themselves.
-- Document oriented interface: the interface we interact with exposes data through @http resource in plain text.
-- Permissioned: each @http resource has access rights configured, rights can target specific actors or everyone.
-- Decentralized: each pod is self governed and limited rules apply to the system, a loosely defined systems data publisher to be opinionated.
-- Query abstraction layer: we want the abstraction to happen through a declarative query. We will use the @sparql query language.
+- Document oriented interface: the interface we interact with exposes data through @http documents.
+- Permissioned: each @http resource has access rights configured, these rights can either grand or deny access to resources.
+- Decentralized: each pod is self governed and limited rules apply to the system. A loosely defined system allows data publisher to be opinionated.
+- Query abstraction layer: we want the abstraction to happen through a declarative query. In this work we use the @sparql query language.
 
 == Hypotheses <sec:hypotheses>
 
 // Can we do it without a large cost?
 Our hypothesis is that we can create an automated client capable of deciding where to store a resource given a pod.
 We hypothesize that the overhead such an intelligent client has, in comparison to a client that is not smart, is limited.
-Concretely, we expect a maximum overhead of four times slower, double the @http requests.
+Concretely, we expect a maximum overhead of four times slower, and maximum double the @http requests.
 For applications that do not write too often, this is an acceptable overhead for the amount of complexity it takes away from developers.
 
 == Outline
