@@ -150,7 +150,7 @@ The shape tree specification can be used on top of any technology platform that 
 The shape tree specification defines a predicate `st:contains` that asserts a "physical" hierarchy.
 The "physical" containment is defined as @ldp containments.
 The shape tree spec also defines virtual containment, this is just another way of realizing directories above the underlying @ldp specification.
-It means you don’t need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
+It means you do not need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
 Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree` as seen in @fig:shape-trees-example.
 
 #figure(
@@ -181,7 +181,7 @@ text-example[
   st:shape ex:AppleShape ;
 ```
 ]
-), caption: []
+), caption: [Shape tree example: resource (left) can be described by a shape tree (right)]
 ) <fig:shape-trees-example>
 
 By creating a graph of shape descriptions, access control using shape trees has a finer granuality compared to Type Indexes.
