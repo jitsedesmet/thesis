@@ -311,9 +311,13 @@ Given the variables `var := "value"` and `hello := "Hello World!"` the @uri temp
 The context available is the @cbd @bib:concise-bounded-description of the @rdf resource.
 Since only properties described in the resource description are guaranteed to be present, only those should be accessed in the @uri template.
 The context is referenced by entering the percent encoded @bib:uri-spec representation of the predicate @uri.
-When multiple predicates need to be followed, we separate them using the "/" which is a character that is not present in @uri encoded strings. In a resource like this:
+When multiple predicates need to be followed, we separate them using the "/" which is a character that is not present in @uri encoded strings.
+The template
+`{https%3A%2F%2Fexample.com%2Fowns-house/https%3A%2F%2Fexample.com%2Faddress}` evaluated over @fig:uri-template-nesting-example
+would expand to the percent encoded representation of "Front Street 1": `Front%20Street%201`.
 
-#text-example[
+#figure(
+text-example[
 ```turtle
 @prefix ex: <https://example.com/> .
 ex:Alice a ex:Person ;
@@ -322,10 +326,8 @@ ex:Alice a ex:Person ;
       ex:address "Front Street 1"
     ] .
 ```
-]
-
-The template:\
-`{https%3A%2F%2Fexample.com%2Fowns-house/https%3A%2F%2Fexample.com%2Faddress}` would expand to the percent encoded representation of "Front Street 1": `Front%20Street%201`.
+], caption: [Simple resource with blank nodes]
+) <fig:uri-template-nesting-example>
 
 Just like we use the "`/`" to convey special meaning, we also use the ":" to access special variables.
 We can use the ":" because it is encoded by percent encoding, and is unused by URI-templates.
@@ -346,9 +348,10 @@ When we assume an image only contains the city it was made in, we would need to 
 We suggest a SPARQL query that uses the variable `?key`.
 This variable is bounded to the (temporary) named node of the @rdf resource.
 The query expects the return of a variable `?value` returning the location of the resource relative to the collection.
-An example query is shown below:
+@fig:sparql-group-strategy shows an example grouping @sparql query.
 
-#text-example[
+#figure(
+text-example[
 ```sparql
 PREFIX ex: <http://example.org/>
 SELECT ?key ?value where {
@@ -363,7 +366,8 @@ SELECT ?key ?value where {
 }
 LIMIT 1
 ```
-]
+], caption: [Example group strategy SPARQL query]
+) <fig:sparql-group-strategy>
 
 It's possible the query needs to be evaluated over other sources to discover required information.
 For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[Wikidata].
@@ -403,9 +407,12 @@ A basic save condition, we always save the resource.
 This save condition indicates another collection takes precedence to save over this one.
 
 I could, for example, have the canonical collections "family pictures" and "pictures".
-Instead of creating a complex shape description for my "pictures" that excludes the shape of "family pictures", I could just say that the "family picture" collection takes precedence over the "pictures" collection. This would be described as below:
+Instead of creating a complex shape description for my "pictures" that excludes the shape of "family pictures",
+I could just say that the "family picture" collection takes precedence over the "pictures" collection.
+This example is writen out in @fig:prefer-other.
 
-#text-example()[
+#figure(
+text-example[
 ```turtle
 @prefix ex: <https://example.com/> .
 @prefix sgv: <https://example.com/storage-guidance-vocabulary#> .
@@ -417,7 +424,8 @@ ex:Pictures a sgv:canonical-collection ;
       sgv:other ex:FamilyPictures ;
     ] .
 ```
-]
+], caption: [Example prefer other SGV description]
+) <fig:prefer-other>
 
 ==== Prefer Most Specific
 

@@ -7,7 +7,7 @@
 This chapter provides an extensive evaluation of @sgv introduced in @sec:storage-guidance-voc.
 To evaluate the vocabulary, we implemented a query engine with a minimal set of features from @sgv.
 After discussing the implementation, we shortly discuss the theoretical cost of our operations.
-We finish with an empirical evaluation of the query engine on an adapted benchmark.
+We finish with an empirical evaluation of the query engine.
 
 
 == Implementation
@@ -23,17 +23,16 @@ We finish with an empirical evaluation of the query engine on an adapted benchma
 To analyse the capabilities of @sgv, we implemented a query engine capable of parsing a pod's @sgv description and acting accordingly.
 The source code of the implementation can found
 #link("https://github.com/jitsedesmet/sgv-update-engine")[online].
-The query engine acts as a wrapper around the modular
-#link("https://comunica.dev/")[Comunica query engine].
-We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing internal code.
+The query engine acts as a wrapper around the modular Comunica query engine @bib:comunica.
+We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing Comunicas internal code.
 
 For this proof of concept implementation, we will only support essential parts of @sgv.
 We therefore provide an implementation of only the following concepts:
 + Canonical Collection
-+ Group Strategy: only @uri templates
-+ Resource Description: only @shex
-+ Save Condition: always stored, prefer other, only stored when not redundant, and never stored
-+ Update Condition: prefer static, move to best matched, and disallow
++ Group Strategy: only @uri templates.
++ Resource Description: only @shex.
++ Save Condition: "always stored", "prefer other", "only stored when not redundant", and "never stored".
++ Update Condition: "prefer static", "move to best matched", and "disallow".
 
 To parse and validate our @shex descriptions, we use the
 #link("https://www.npmjs.com/package/rdf-validate-shacl")[rdf-validate-shacl library].
@@ -43,56 +42,37 @@ This library is known to be quite inefficient and could be replaced by the faste
 
 == Theoretical Evaluation
 
-In our theoretical evaluation, we will analyse a few metrics like: number of @http requests.
+In our theoretical evaluation, we analyse the number of @http requests.
+In @sec:hypotheses we hypothesize that the required number of @http quries of an @sgv aware client would at most be double that of a normal one. 
 
 
 === Insert Operation <sec:eval-insert>
 
-In this section, we analyse the cost of a simple insert operation like:
-#text-example[
-```sparql
-prefix ns1: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
-prefix xsd: <http://www.w3.org/2001/XMLSchema#>
-prefix card: <http://example.com/pod/profile/card#>
-prefix tag: <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/>
-PREFIX resource: <http://dbpedia.org/resource/>
-
-INSERT DATA {
-  <> a ns1:Post ;
-    ns1:browserUsed "Chrome" ;
-    ns1:content
-      "I want to eat an apple while scavenging for mushrooms in the forest." ;
-    ns1:creationDate "2024-05-08T23:23:56.830000+00:00"^^xsd:dateTime ;
-    ns1:id "416608218494388"^^xsd:long ;
-    ns1:hasCreator card:me ;
-    ns1:hasTag tag:Alanis_Morissette, tag:Austria ;
-    ns1:isLocatedIn resource:China ;
-    ns1:locationIP "1.83.28.23" .
-}
-```
-]
-
+In this section, we analyse the cost of a simple insert operation as seen in @fig:insert-data-complete in the emperical evaluation.
 In @sec:flow-create-rdf-resource we analysed the steps required for this operation.
 
 ==== Fetch the Description
 
 The query engine should request the @sgv description.
 This accounts to one @http request, assuming the @api publishes it as a single @http resource.
+It should be noted that the @sgv description can easily be cached since it will not change a lot.
 
 ==== Loop the Resource Descriptions
 
 The next thing a query engine must do is checking what canonical collections want to save the resource.
-In the worst-case scenario, all collections could save the resource, but they only discover this at the last resource description of each collection.
+Worst-case scenario, all collections could save the resource, but they only discover this at the last resource description of each collection.
 In such a case, all resource descriptions pointed to by canonical collections need to be checked.
 
 The cost of a single validation can be linear in the number of properties the description has.
 Since the focus of the resource is on a single named node, only that named node should be considered as a focus node in the validation.
 
-The computational load could be reduced when multiple resource descriptions share have overlapping descriptions.
+The computational load could be reduced when resource descriptions have overlapping descriptions.
 A shape could in that case be defined as a conjunction using `sh:and`.
 Take the example of images and personal images.
-A personal image could be described as:
-#text-example[
+A personal image could be described using logical constraint components as described in @sec:resource-description.
+
+#figure(
+text-example[
 ```turtle
 ex:PictureShape
   a sh:NodeShape .
@@ -107,9 +87,11 @@ ex:PersonalPictureShape
    ex:WhatMakesPicturePersonalShape
   ) .
 ```
-]
-In this case, a query engine could cache the evaluation result of `ex:Picture`.
-Optimizations like this could likely be automated.
+], caption: [SHACL description using logical constrained components]
+) <fig:logical-constrained-components>
+
+As an example, for the case described in @fig:logical-constrained-components, a query engine could cache the evaluation result of `ex:Picture`.
+Optimizations in the descriptions like this could likely be automated.
 
 ==== Filter Collections on Save Condition
 
@@ -140,24 +122,14 @@ also accept SPARQL queries.
 
 ==== Conclusion Resource Creation
 
-We now know that the resource creation takes 2 @http requests.
+We now know that the resource creation takes 2 @http requests: reading @sgv and creating the resource.
+This satisfies with our hypothesis.
 
 === Update Resource, No Move Required
 
 This section theoretically analyses the cost of updating a resource when the resource needs not be moved.
 A general update flow can be found in @sec:flow-update-rdf-resource.
-An example update query is:
-
-#text-example[
-```sparql
-PREFIX ns1: <http://www.ldbc.eu/ldbc_socialnet/1.0/vocabulary/>
-INSERT {
-    ?id ns1:hasTag <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Cheese> .
-} WHERE {
-    ?id ns1:hasTag <http://www.ldbc.eu/ldbc_socialnet/1.0/tag/Austria> .
-}
-```
-]
+An example update query is @fig:insert-where-tag in the emerical evaluation.
 
 ==== Fetch the Description and the Resource
 
@@ -178,7 +150,7 @@ We then have to check the update condition the resource matches and check if, an
 In most cases, this is a fairly simple process.
 
 In the case of Keep Distance, an update that stretches the shape description too hard might cause many updates.
-It's important to note though that the Amortized Computational Complexity would still make this a constant operation.
+It's important to note though that the Amortized Computational Complexity~@bib:tarjan1985amortized would still make this a constant operation.
 // https://en.wikipedia.org/wiki/Amortized_analysis -> Tarjan, Robert Endre (April 1985)
 
 ==== Commit Changes
@@ -194,33 +166,39 @@ two, non-parallel @http requests
 ==== Conclusion Resource Update, No Move
 
 We can conclude that the cost of an @rdf resource update is two in the case of an update that only deletes or adds triples, and three in the case of an update that both deletes and updates.
-
 It should, however, be possible to do it using only two @http requests.
+Whith is valid with our hypothesis.
 
 === Update Resource, Move Required
 
 In the previous section, we assume the update condition concludes no move is required.
-This section describes the cost when a resource is required.
+This section describes the cost when a move is required.
 In this case, we delete the original @rdf resource and follow the steps of @sec:eval-insert, disregarding the @sgv fetch step.
 
 Assuming we use N3Patch, and the @rdf resource is hosted by a different @http resource,
-the required number of requests will be three. One for getting the @sgv description (cacheable), one for getting the deleting the resource, and one for creating the updated resource.
+the required number of requests will be four. One for getting the @sgv description (cacheable), one for getting the deleting the resource, one for deleting the original resource, and one for creating the updated resource.
+When a resource would be moved without @sgv, a client would also require two requests, so our hypothesis is still valid.
 
+=== Conclusion theoretical evaluation
+
+We can thus conclude that our hypothesis about the number of @http requests is valid.
+An @sgv client requires at most double the number of @http requests a non @sgv client require.
 
 == Empirical Evaluation
 
-#MJDS[was Solidbench mentioned somewhere?]
-
 // What do we want to measure?
 After a theoretical evaluation, we also evaluate the implementation in an empirical way.
-We will perform time and memory benchmarks for different queries, all following the same use case.
+We perform time benchmarks for different queries, all following the same use case.
 The goal of this evaluation is to convince the reader the cost of @sgv on query execution is manageable.
-The hypothesis (@sec:hypotheses) is that the execution time for the same query is at most twice as high when using the @sgv enabled query engine.
+The hypothesis (@sec:hypotheses) is that the execution time for the same query is at most four times as high when using the @sgv enabled query engine.
 
 // using what technologies?
-The empirical evaluation is performed using SolidBench @bib:taelman-structure-assumptions and a slightly altered @rdf fragmenter, so each pod contains a @sgv description.
+The empirical evaluation is performed using
+#link("https://github.com/SolidBench/SolidBench.js")[SolidBench]
+and a slightly altered @rdf fragmenter, so each pod contains a @sgv description.
+SolidBench is a benchmark with a social network use case with the dataset derived from the Social Network Benchmark @bib:ldbc. 
 After the generation of our test data, we use SolidBench to host the data locally.
-Under the hood, SolidBench will use the Community Solid Server.
+Under the hood, SolidBench will use the Community Solid Server to expose the resources.
 
 In our evaluation, we will focus on the @rdf resource describing a post.
 Different pods will have different ways of storing these posts.
@@ -306,7 +284,7 @@ ex:PostShape {
 === Test Hardware Specification
 
 For completeness’s sake, we briefly describe the system used in the benchmarking.
-I am using a Dynabook Inc. Satallite Pro A50EC with 16 GiB memory, an Intel® Core™ i5-8250U x 8 processor and an Intel® Graphic UHD Graphics 620 (KBL GT2).
+The benchmarks are performed using a Dynabook Inc. Satallite Pro A50EC with 16 GiB memory, an Intel® Core™ i5-8250U x 8 processor and an Intel® Graphic UHD Graphics 620 (KBL GT2).
 The installed operating system is a Fedora Workstation 39 (64-bit), and firmware version 2.70.
 
 === Choke Point Queries
@@ -516,7 +494,7 @@ DELETE DATA {
 )
 
 
-=== Choke Point: Create New Resource
+=== Choke Point: Create New Resource <sec:choke-new-resource>
 
 #let prec = 3
 
@@ -578,12 +556,12 @@ Eventough it is worse accross the board, we still see that the fragmentation str
 
 This choke point is a vital one to defend @sgv as it is impossible to write a @sparql query that would show the same behaviour as the @sgv move.
 @sparql is unable to select the @cbd.
-Since a move moves the whole @cbd, potentially to a new @http resource, this behaviour cannot be translated into a @sparql query.
+Since a move moves the whole @cbd, potentially to a new @http document, this behaviour cannot be translated into a @sparql query.
 Because of this, the comparison between execution times is rather unfair.
-The @sgv engine requires multiple additional @http requests, that are not performed in parallel because of the bug previously mentioned.
+Additionally, the @sgv engine requires multiple additional @http requests, that are not performed in parallel because of the bug previously mentioned.
 @fig:res-delete-insert-id shows the execution times of query @fig:delete-insert-id.
 The ratios of operations are: $#calc.round(6/35, digits: prec)$ ; $#calc.round(2/5, digits: prec)$ ; $#calc.round(5/35, digits: prec)$ ; and $#calc.round(6/35, digits: prec)$
-We can thus say this breaks our hypothesis.
+We could conclude this breaks our hypothesis, but it should be noted that the non-@sgv client would have a slowdown if it was forced to create a new resource too. 
 Again, we highlight the difference between fragmentation strategies.
 Clearly, the delay experienced from loading the large file in the case all posts are saved in the same file is significant.
 
@@ -644,4 +622,4 @@ The hypothesis does however not hold in the case of the move choke point.
 Unfortunately, when a move of the @cbd of a resource is required, a developer cannot use a @sparql query engine since @sparql is not expressive enough to describe the @cbd. In case such behaviour is desired, a manual interaction with the interface is required.
 
 A different approach might be to use the "DESCRIBE" query of @sparql that is sometimes implemented as the @cbd of a resource.
-However, since this is not required by the @sparql spec, using describe to get the @cbd is not advised.
+However, since this choice is implementation specific, and is not required by the @sparql spec, using describe to get the @cbd is not advised.

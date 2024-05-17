@@ -42,9 +42,10 @@ This is interesting in the context of solid because it means we are discouraged 
 This consideration was possibly written down to warn readers that servers cannot validate the data.
 However, verifiable credentials might be able to change this view.
 Unfortunately, a @wac GitHub issue about this is open and inactive#footnote[https:\//github.com/solid/authorization-panel/issues/79].
+@fig:wac-example shows an example @wac description.
 
-An example @wac description is given below:
-#text-example[
+#figure(
+text-example[
 ```turtle
 @prefix acl: <http://www.w3.org/ns/auth/acl#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -62,7 +63,8 @@ An example @wac description is given below:
   acl:agent bob:card
 ] .
 ```
-]
+], caption: [Example WAC description]
+) <fig:wac-example>
 
 === ACP
 
@@ -75,9 +77,10 @@ In our opinion @acp is not powerful enough yet as it lacks the true meaning behi
 @acp requires you to provide a rule for each resource, but has no way to generalize resources.
 I might, for example, want to create an access control resource that grands Alice access to the subset of my pictures that they are contained in.
 Since rules relate to a specific resource, @acp lacks the ability to express this.
+We provide an @acp example in @fig:acp-example.
 
-We also provide an @acp example:
-#text-example[
+#figure(
+text-example[
 ```turtle
 ex:accessControlResourceA
   acp:resource ex:resourceX ;
@@ -91,7 +94,8 @@ ex:accessControlResourceA
       ] ;
   ] .
 ```
-]
+], caption: [Example ACP description]
+) <fig:acp-example>
 
 
 === Conclusion
@@ -114,8 +118,9 @@ To avoid this, a pod can have an index that can be used to speed up query execut
 The first index proposed for Solid was the Type Indexes specification~@bib:type-index. //https://solid.github.io/type-indexes/
 It suggests two indexes, a private and a public index.
 Each index contains entries that map a certain @rdf type to a set of @http resources.
-The example below shows a type index that states that @rdf resources that have a tuple like `<s rdf:type vcard:AddressBook>` can be found at path `/public/contacts/myPublicAddressBook.ttl`.
-#text-example[
+@fig:type-index-example shows a type index that states that @rdf resources that have a tuple like `<s rdf:type vcard:AddressBook>` can be found at path `/public/contacts/myPublicAddressBook.ttl`.
+#figure(
+text-example[
 ```turtle
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
@@ -129,7 +134,8 @@ The example below shows a type index that states that @rdf resources that have a
   solid:forClass vcard:AddressBook;
   solid:instance </public/contacts/myPublicAddressBook.ttl>.
 ```
-]
+], caption: [An example type index]
+) <fig:type-index-example>
 
 Besides the low granularity type indexes allow, they are inherently flawed because the access of resources cannot be grouped into "public" and "private" since more complex access control policies are the norm.
 
@@ -145,9 +151,10 @@ The shape tree specification defines a predicate `st:contains` that asserts a "p
 The "physical" containment is defined as @ldp containments.
 The shape tree spec also defines virtual containment, this is just another way of realizing directories above the underlying @ldp specification.
 It means you don’t need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
-Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree`:
+Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree` as seen in @fig:shape-trees-example.
 
-#grid(
+#figure(
+grid(
   columns: (1fr, 1fr),
   gutter: 10pt,
   text-example[
@@ -174,7 +181,8 @@ text-example[
   st:shape ex:AppleShape ;
 ```
 ]
-)
+), caption: []
+) <fig:shape-trees-example>
 
 By creating a graph of shape descriptions, access control using shape trees has a finer granuality compared to Type Indexes.
 Each Subtree can be exposed through its own @http resource and can therefore have its own access control policies.
