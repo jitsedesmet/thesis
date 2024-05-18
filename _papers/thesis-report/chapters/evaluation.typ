@@ -1,6 +1,6 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
-#import "./evaluation-tables.typ": *
+#import "../raw/evaluation-tables.typ": *
 
 = Evaluation
 
