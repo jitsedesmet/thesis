@@ -223,12 +223,20 @@ The collections then individually decide where to save the resource.
 
 === Derived Collection <sec:derived-collection>
 
-A `sgv:derived-collection` is a structured collection (@sec:structured-collection) that duplicates,
-or links to @rdf resources contained in some other structured collections.
+A `sgv:derived-collection` is a structured collection (@sec:structured-collection) that contains (part of) resources contained in one or more other collections.
+Existing work around derived resources in solid specifies a "template", "selector" and "filter"~@bib:vanherwergenderived.
+@sgv uses those same components but in a different format.
+The template describes where the resource should be saved, in @sgv this is done using the group strategy (@sec:group-strategy).
+The selector describes what resources are derived. In @sgv the selector is a combination of the Resource Description and Source in the "Derived from" node.
+As for the filter or projection, @sgv uses a construct query over the rdf resource.
+This is different than the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources~@bib:vanherwergenderived.
+In case no filter is present, each resource is derived as a whole.
+A derived collection without a filter defined on a pod with the "one file one resource" flag, can use soft/ hard links, such thus has a very low cost.
+
 When a structured collection inserts, updates or removes an @rdf resource, the collections that derive from that collection are informed to act accordingly.
 A derived collection can be used to create collections and knows a multitude of use cases, some examples are:
 - Create a collection of all pictures in my pod, even though I have multiple canonical collections managing pictures.
-- Create a restricted view of resources that I could then use to share with others. #todo[describe this in spec: use CONSTRUCT? look at derived resource]
+- Create a restricted view of resources that I could then use to share with others.
 
 === Grouped Collection <sec:grouped-collection>
 
@@ -240,7 +248,7 @@ on the left by city and depicted person, and on the right by creation date and d
 
 
 #figure([
-#block(breakable: false, width: 80%, inset: (left: 20%))[
+#block(breakable: false, width: 90%, inset: (left: 10%))[
   #set align(left)
   #set par(leading: 5pt)
   #grid(columns: (50%, 50%), [
@@ -286,12 +294,16 @@ The description is used to filter resources to be inserted in the pod, and could
 A structured collection should thus never contain a resource that does not match the shape description.
 Two popular choices for describing a resource are @shex and @shacl.
 
-Shape descriptions are powerful and allow expressing complicated expressions.
-They include #link("https://www.w3.org/TR/shacl/#core-components-logical")[
-logical constraint components] and #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[
-property pair constraint components]. #todo[What do they allow you to do???]
+Shape descriptions are powerful and allow expressing complicated expressions inclusing
+#link("https://www.w3.org/TR/shacl/#core-components-logical")[logical constraint components] and
+#link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[property pair constraint components].
+Logical constraint components allow you to perform boolean operations on existing shapes, through: `sh:not`, `sh:and`, `sh:or`, and `sh:xone`.
+This allows you to split shapes in parts, these parts could be evaluated once and the result of the evaluation can be shared with other shapes.
+The sharing of evaluation effectivelly creates a cache.
+Property pair constraint components allow you to asser relations between two values present within the same shape.
 
-=== Group Strategy
+
+=== Group Strategy <sec:group-strategy>
 
 A group strategy expresses how a structured collection (@sec:structured-collection) should group @rdf resources in grouped collections (@sec:grouped-collection).
 Every structured container describes one group strategy.
@@ -535,7 +547,7 @@ We use this condition when we want to have a collection that contains resources,
 When an @rdf resource is updated, the update condition with the shape description matching the original resource is consulted.
 To prevent links from breaking, we also suppose the optional usage of a forward referencing pattern, preventing links to break in clients that are aware of this.
 So when resource `ex:orininal-name` is moved to `ex:new-name`, there will be a tuple that describes just that: `ex:original-name sgv:moved-to ex:new-name`.
-Servers could also be made aware of this triple, returning a 301 redirect to `ex:new-name`. #todo[create predicate that shows we want this!]
+Servers could also be made aware of this triple, returning a 301 redirect to `ex:new-name`.
 A move procedure works by removing the existing resource and then inserting the resource in the pod using the insert procedure.
 We propose multiple update conditions:
 #inline-enum[

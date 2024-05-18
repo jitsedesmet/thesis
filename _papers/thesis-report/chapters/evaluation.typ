@@ -505,7 +505,6 @@ As expected, the @sgv engine is always slower.
 It is, however, still within the expected range.
 The ratios are in respective order: $#calc.round(22/35, digits: prec)$ ; $#calc.round(6/7, digits: prec)$ ; $#calc.round(10/13, digits: prec)$ ; and $#calc.round(23/35, digits: prec)$ .
 Interestingly, we see that the execution time varies more between fragmentation strategies than it does between using @sgv or not.
-#todo[make sure this is mentioned in our future work because it means that the idea of having multiple LDP interfaces makes sense beyond reading, also for writing!]
 
 #figure(
   insert-data-complete,

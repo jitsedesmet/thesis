@@ -46,7 +46,7 @@ Their work proves that the implementation of the @sgv derived collection is feas
 In their work, they solve the issue of access control granularity.
 
 In our empirical evaluation we discover that the execution time of our queries heavily relies on our pod structures (@sec:choke-new-resource).
-We could however also implement a smart server that knows what optimizations are possible by query engines.
+We therefore expect that a smart server that knows what optimizations are possible by query engines could have significant execution time benefits.
 Such a server could create resources dynamically to facilitate query executions.
 The resources to create could be based on the usage metrics the server has.
 
@@ -87,6 +87,9 @@ Through Solid, many applications are working on the same data and each applicati
 As a result, applications working on the same data all have their own local copy of the data, essentially creating a distributed system.
 It is important that one application does not just undo the work by another application.
 A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale.
+A #link("https://slidr.io/NoelDeMartin/solid-crdts-in-practice#36")[basic @crdt implementation for Solid] already exists,
+recently created by Noel De Martin, hosting the vocabulary #link("https://vocab.noeldemartin.com/crdt/")[online].
+that implementation is a nice starting point, but it does not yet contain logical clocks.
 
 === ACID Transactions
 
