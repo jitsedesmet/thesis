@@ -66,12 +66,11 @@ Access control extraction could help create uniform access rules across multiple
 == SGV Integration with Existing Structure Ontologies
 
 The vocabulary described in this work does not play nice with existing vocabularies.
-Since @sgv is related to shape trees, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
+Since @sgv is related to shape trees~@bib:shape-tree, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
 This alternative structure would likely be less expressive.
 
-#todo[link to Linked Data Event Streams in Solid LDP containers]
-
-#todo[talk about shape trees and Tree and LDES]
+In the same way that I think Integration with Shape Trees would be nice, I also think integration with @tree~@bib:tree would be nice. 
+Altough I am in this case not sure as to whether Tree should be seen as "a kind of structured data you can store using @ldp and @sgv." 
 
 == General Update Behaviour
 
