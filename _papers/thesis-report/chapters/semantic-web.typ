@@ -236,9 +236,8 @@ Behind the conceptually simple interface is a huge amount of technical complexit
 This technical complexity together with potential computational cost of a @sparql endpoint makes it unfit for some use cases.
 
 === LDP
-
-#MJDS[I don't think LDP under interfaces makes sence, because it is not an interface. better header?]
-@ldp isn't an interface itself /* It's domain agnostic - so each domain has own interface */, but rather a set of rules that allow you to create a simple RESTful interface mimicing an operating systems file structure.
+isn't an interface itself /* It's domain agnostic - so each domain has own interface */, but rather a
+@ldp is a set of rules that allow you to create a simple RESTful interface mimicing an operating systems file structure.
 Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
 @fig:ldp-container-example shows an example @ldp container.
 An @ldp interface allows CRUD operations through the @http methods.

@@ -6,6 +6,31 @@
 @sgv proves it is possible to create automated clients that can decide where to store resources.
 In the state we present it here, it is not production ready, but it opens the gate to interesting research.
 
+
+== Inter pod updates
+
+@sgv is resticted to updating a single pod.
+Additional research should go into updates that alter multiple pods.
+Handeling multiple pods is complex as many different decisions are valid.
+In the example of two pods, there is already a multitude of use cases, aech with different considerations.
++ As a pod owner, I want to transfer pictures I have to someone else, so they now own that picture.
+  Note that I am not guaranteed to have write permissions to the other Solid pod.
++ As a pod owner, I want to transfer a token to a pod I do, or do not have write access to.
+  The token should always exists _exactly once_, meaning there is always one person holding the token, and everyone can see who has it.
++ As a pod owner, I want to insert an additional property to an existing resource in someone elses pod.
+  For example, I transferred a picture and forgot to add a description.
++ As a pod owner, I want to delete a property of an existing resource in someone elses pod.
++ As a pod owner, I want to remove a resource in someone elses pod, so I don't see it anymore.
+  Essentially, I want to change my view over the resource.
+  This could be achieved by using the Subweb Specification~@bib:subweb and adding a rule that makes me ignore the "virtually" deleted triple.
++ As a pod owner, I want to remove a resource in someone else's pod, so no one can see it.
+  I might want to send a suggestion in a notification collection of the targetted pod.
+
+Besides access control problems and how to circomvent them, we also face the problem of backlinks.
+We already suggested the use of an `sgv:moved-to` predicate to prevent links from breaking,
+but it might be better to discover backlinks and alter them when a resource changes.
+
+
 == Other Interfaces
 
 This work focusses on @ldp exposed through a restful interface.
@@ -65,12 +90,12 @@ Access control extraction could help create uniform access rules across multiple
 
 == SGV Integration with Existing Structure Ontologies
 
-The vocabulary described in this work does not play nice with existing vocabularies.
-Since @sgv is related to shape trees~@bib:shape-tree, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
+The vocabulary described in this work has limitted interoperability with existing vocabularies.
+Since @sgv exists in the same domain as shape trees~@bib:shape-tree, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
 This alternative structure would likely be less expressive.
 
-In the same way that I think Integration with Shape Trees would be nice, I also think integration with @tree~@bib:tree would be nice. 
-Altough I am in this case not sure as to whether Tree should be seen as "a kind of structured data you can store using @ldp and @sgv." 
+In the same way, integration with @tree~@bib:tree would increase the vocabularies interoperability.
+It should however be noted that Tree could also be seen as "a kind of structured data you can store using @ldp and @sgv." 
 
 == General Update Behaviour
 
@@ -88,7 +113,7 @@ It is important that one application does not just undo the work by another appl
 A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale.
 A #link("https://slidr.io/NoelDeMartin/solid-crdts-in-practice#36")[basic @crdt implementation for Solid] already exists,
 recently created by Noel De Martin, hosting the vocabulary #link("https://vocab.noeldemartin.com/crdt/")[online].
-that implementation is a nice starting point, but it does not yet contain logical clocks.
+That implementation is a nice starting point, but it does not yet contain logical clocks.
 
 === ACID Transactions
 
