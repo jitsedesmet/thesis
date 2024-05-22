@@ -1,3 +1,5 @@
+#let title = "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment"
+
 #let inline-enum(body) = {
   show enum: it => {
     let i = 0

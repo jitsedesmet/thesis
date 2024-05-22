@@ -7,7 +7,6 @@
 
 #add[You could suggest addition], #delete[or deletion.]
 #MRT[Ruben makes margin note]
-We can refer to acronyms like: @oidc. It was long before, but now short @oidc.
 #IRT[Ruben makes inline note]
 // #todo[why start anew and not use Shape Trees?]
 

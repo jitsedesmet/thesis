@@ -102,7 +102,7 @@
   // #show ref: set text(fill: color.olive)
   // #show link: set text(fill: blue)
   show link: it => {
-    if type(it.dest) == "string" {
+    if type(it.dest) == "string" and (it.dest.starts-with("http")) {
       underline(stroke: (paint: blue, thickness: 1pt, dash: "dashed"), it)
       footnote(it.dest)
     } else {
@@ -157,8 +157,6 @@
   
   #pagebreak(weak: false)
   
-  
-  = Abstract
 
   #include "additional/abstract.typ"
 ]

@@ -6,6 +6,10 @@
 @sgv proves it is possible to create automated clients that can decide where to store resources.
 In the state we present it here, it is not production ready, but it opens the gate to interesting research.
 
+#todo[
+  auto discover resources that should be updated.
+  Shouldn't be harder than buidling on existing read functionaloty + source attribution!
+]
 
 == Inter pod updates
 

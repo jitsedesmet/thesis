@@ -1,9 +1,11 @@
+#import "../utils/review.typ": *
+#import "../utils/general.typ": *
 #import "../utils/ieee.typ": ieee
 
 #[
 #show: ieee.with(
   paper-size: "a4",
-  title: [Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment],
+  title: title,
   abstract: [
     To write an abstract is a delicate art that Jitse will need to master if he wants to get a masters degree.
   ],
