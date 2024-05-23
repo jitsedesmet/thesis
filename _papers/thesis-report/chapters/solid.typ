@@ -143,7 +143,7 @@ Besides the low granularity type indexes allow, they are inherently flawed becau
 
 Shape Trees~@bib:shape-tree are the proposed replacement to the Type Indexes.
 The specification uses shape descriptions like @shex and @shacl to validate @rdf graphs against a set of conditions.
-Shape trees can be used in combination with protocols that organize linked data graphs into resource hierarchies, expressing the layout of the resources and associating those resources with their respective shapes.
+Shape trees can be used in combination with protocols that organize Linked Data graphs into resource hierarchies, expressing the layout of the resources and associating those resources with their respective shapes.
 It is the natural extension of shape descriptions to those resource hierarchies.
 
 The shape tree specification can be used on top of any technology platform that supports the notion of containers and resources, but it is mostly used on top of @ldp.

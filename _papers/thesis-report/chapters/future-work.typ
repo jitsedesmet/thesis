@@ -40,7 +40,7 @@ but it might be better to discover backlinks and alter them when a resource chan
 This work focusses on @ldp exposed through a restful interface.
 For such an interface, data is linked to newly created tuples through `ldp:contains` predicates.
 When we don't use @ldp, or use a different kind of interface, the question we try to answer might shift from
-"Where do I save this resource?" to "What other resources are linked to this new one, and through what predicates"?
+"Where do I store this resource?" to "What other resources are linked to this new one, and through what predicates"?
 
 
 There is merit to investigating different interfacing technologies because @ldp is far from perfect.

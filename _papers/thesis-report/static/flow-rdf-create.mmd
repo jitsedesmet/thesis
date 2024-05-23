@@ -8,7 +8,7 @@ sequenceDiagram
     PA -->>- QE: 200 OK
 
     QE -> QE: Compute list of eligible collections
-    QE -> QE: Filter collections on save conditions
+    QE -> QE: Filter collections on store conditions
 
     loop Every remaining collection
         QE -> QE: Compute Named Node of created <br/> resource from Group Strategy

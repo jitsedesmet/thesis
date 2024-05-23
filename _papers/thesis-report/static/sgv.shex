@@ -29,7 +29,7 @@ PREFIX tree: <https://w3id.org/tree#>
 
 <CanonicalCollectionShape> {
   &<StructuredCollectionShape> ;
-  sgv:save-condition {
+  sgv:store-condition {
     rdf:type [
       sgv:state-required sgv:always-stored
       sgv:prefer-other sgv:prefer-most-specific

@@ -5,11 +5,6 @@
 
 = Storage Guidance Vocabulary <sec:storage-guidance-voc>
 
-#add[You could suggest addition], #delete[or deletion.]
-#MRT[Ruben makes margin note]
-#IRT[Ruben makes inline note]
-// #todo[why start anew and not use Shape Trees?]
-
 To empower automated clients to correctly store @rdf resources, we suggest the usage of a descriptive vocabulary.
 Existing structure definitions of data spaces like Type Index @bib:type-index and Shape Trees @bib:shape-tree focus on read queries and insufficiently support write queries.
 These structure definitions fail to express the underlying decision-making of why a resource is stored where it is.
@@ -28,11 +23,11 @@ We shortly introduce some basic concepts in @sgv:
 [*Derived Collection*: A resource collection that stores resources already stored by one or more other structured containers.],
 [*Resource Description*: A way of describing resources, for example through @shex or @shacl.],
 [*Group Strategy*: A description of how resources should be grouped together, for example: my images are grouped per creation date.],
-[*Save Condition*: When multiple collections are eligible to save a resource, the save condition decides what collection(s) actually save the resource.],
+[*Store Condition*: When multiple collections are eligible to store a resource, the store condition decides what collection(s) actually store the resource.
+Allowing the creation of a store priority system.],
 [*Update Condition*: Describes what to do when a containing resource is changed.],
-[*Client Control*: Describes the amount of freedom a client has when trying to save a resource.]
+[*Client Control*: Describes the amount of freedom a client has when trying to store a resource.]
 )
-#IRT["Not sure what you mean by saving in save condition."]
 
 We will first describe two simple flows, the creation, and the modification of an @rdf resource.
 This should provide an idea of what @sgv tries to accomplish without going into all the details first.
@@ -74,12 +69,12 @@ An automated client is now required to discover the base (`<>`) of this query.
 The client will follow the flow described below and visualized in @fig:rdf-create.
 + The client gets the @sgv description of the storage space (can be cached).
 + The client checks all canonical collections and checks if the resource to be inserted matches a resource description of the collection.
-+ If the resource matches a description, the client checks the save condition of the description given the eligible collections.
-+ For each collection that saves the resource:
++ If the resource matches a description, the client checks the store condition of the description given the eligible collections.
++ For each collection that stores the resource:
    + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
    + The client checks the collections that are derived from this collection.
         Step 4 is executed for all collections that are derived from this collection, and the resource matches the description.
-+ The client performs the save operation.
++ The client performs the store operation.
 
 #figure(
   image("../static/flow-rdf-create.png", width: 80%),
@@ -150,24 +145,24 @@ It might help to see the type `sgv:unstructured-collection` as similar to the `l
 
 An `sgv:structured-collection` is a resource collection (@sec:resource-collection) that explicitly describes its structure.
 The collection defines a filter, each resource is compared against this filter.
-If a resource passes, the resource is saved into the collection.
-The collection later defines where the resource should be saved.
+If a resource passes, the resource is stored into the collection.
+The collection later defines where the resource should be stored.
 Where a normal resource collection can contain resources in a graph structure,
 a structured container adds the important restriction of a tree.
 It has been proven that this tree structure limitation heavily restricts the interface @bib:whats-in-pod.
 
 === Canonical Collection <sec:canonical-collection>
 
-A `sgv:canonical-collection` is a structured collection (@sec:unstructured-collection) that saves @rdf resources.
-When entering a Solid pod, we check what canonical containers want to save the resource.
-The collections then individually decide where to save the resource.
+A `sgv:canonical-collection` is a structured collection (@sec:unstructured-collection) that stores @rdf resources.
+When entering a Solid pod, we check what canonical containers want to store the resource.
+The collections then individually decide where to store the resource.
 
 === Derived Collection <sec:derived-collection>
 
 A `sgv:derived-collection` is a structured collection (@sec:structured-collection) that contains (part of) resources contained in one or more other collections.
 Existing work around derived resources in solid specifies a "template", "selector" and "filter"~@bib:vanherwergenderived.
 @sgv uses those same components but in a different format.
-The template describes where the resource should be saved, in @sgv this is done using the group strategy (@sec:group-strategy).
+The template describes where the resource should be stored, in @sgv this is done using the group strategy (@sec:group-strategy).
 The selector describes what resources are derived. In @sgv the selector is a combination of the Resource Description and Source in the "Derived from" node.
 As for the filter or projection, @sgv uses a construct query over the rdf resource.
 This is different than the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources~@bib:vanherwergenderived.
@@ -330,13 +325,13 @@ This could be used as an attack vector if a bad actor creates a collection that 
 We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
 #cite(<bib:taelman-security>, form: "author") describe many more possible security issues in their paper @bib:taelman-security.
 
-=== Save Condition <sec:save-condition>
+=== Store Condition <sec:store-condition>
 
-The save condition decides when an @rdf resource is saved, given all canonical collections (@sec:canonical-collection) that are eligible to save the resource.
-Optionally, additional context could be given as input to the save condition.
-A canonical collection can have multiple save conditions,
-and each save condition has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
-We suggest six save conditions:
+The store condition decides when an @rdf resource is stored, given all canonical collections (@sec:canonical-collection) that are eligible to store the resource.
+Optionally, additional context could be given as input to the store condition.
+A canonical collection can have multiple store conditions,
+and each store condition has an update condition (@sec:update-condition) and therefore a resource description (@sec:resource-description).
+We suggest six store conditions:
 #inline-enum[
 + state required, and
 + always stored, and
@@ -347,17 +342,17 @@ We suggest six save conditions:
 ]
 
 ==== State Required
-The state required save condition is a simple @sparql query over the current Solid pod.
-The expected returning `?value` variable is coerced to a boolean, if true, the resource is saved in the collection.
-The save condition allows for flexible additional features like a basic locking mechanism, where a save is only allowed in case a lock is not present.
+The state required store condition is a simple @sparql query over the current Solid pod.
+The expected returning `?value` variable is coerced to a boolean, if true, the resource is stored in the collection.
+The store condition allows for flexible additional features like a basic locking mechanism, where a store is only allowed in case a lock is not present.
 
 ==== Always Stored
 
-A basic save condition, we always save the resource.
+A basic store condition, we always store the resource.
 
 ==== Prefer Other
 
-This save condition indicates another collection takes precedence to save over this one.
+This store condition indicates another collection takes precedence to store over this one.
 
 I could, for example, have the canonical collections "family pictures" and "pictures".
 Instead of creating a complex shape description for my "pictures" that excludes the shape of "family pictures",
@@ -371,7 +366,7 @@ text-example[
 @prefix sgv: <https://example.com/storage-guidance-vocabulary#> .
 
 ex:Pictures a sgv:canonical-collection ;
-  sgv:save-condition
+  sgv:store-condition
     [
       a sgv:prefer-other ;
       sgv:other ex:FamilyPictures ;
@@ -382,7 +377,7 @@ ex:Pictures a sgv:canonical-collection ;
 
 ==== Prefer Most Specific
 
-This save condition specifies that this collection would only save in case its resource description is the most specific to the @rdf resource in focus.
+This store condition specifies that this collection would only store in case its resource description is the most specific to the @rdf resource in focus.
 
 It uses a distance function to measure how good the resource description describes the resource.
 A distance function could be the inverce of "the number of triples a projection of the resource by the description would cover".
@@ -470,7 +465,7 @@ The shape projection on the right results in the most triples after projection a
 
 ==== Only Stored When Not Redundant
 
-The "only stored when not redundant" save condition saves only if no other collection stores the resource.
+The "only stored when not redundant" store condition stores only if no other collection stores the resource.
 When choosing between two collections that both have this condition, we select the collection with a named node that is alphabetically first.
 This condition can be used to create some kind of inbox collection containing resources that do not yet have a dedicated collection.
 The pod owner could then manually go over the inbox and create the required collections.
@@ -479,7 +474,7 @@ This would primarily be the case for power users that want full control of their
 
 ==== Never
 
-The save condition "never" is fairly simple, it means no new resource should be saved in this collection.
+The store condition "never" is fairly simple, it means no new resource should be stored in this collection.
 We use this condition when we want to have a collection that contains resources, but cannot get new resources.
 
 
@@ -538,7 +533,7 @@ The "removal only" update condition rejects all updates except the full removal 
 
 ==== State Dependent
 
-Like the "state required" save condition, this update condition allows you to create a @sparql query.
+Like the "state required" store condition, this update condition allows you to create a @sparql query.
 A return variable of a simple update condition is expected.
 
 === Client Control
@@ -557,35 +552,35 @@ When a state would be invalid to the @sgv description, the client needs to updat
 
 ==== Free Client
 
-A collection that specifies a client is free, specifies that the client itself can choose where a resource is saved.
+A collection that specifies a client is free, specifies that the client itself can choose where a resource is stored.
 Since the collection still needs to be in a correct state, the client might have to edit @sgv descriptions.
 Take again the example of "pictures" and "family pictures" collections, where normally a picture matching the family picture description, would be placed in that collection.
-A free client might choose to save the resource only in the general pictures collection and not in the family pictures collection. They can choose to do this without changing the @sgv description.
+A free client might choose to store the resource only in the general pictures collection and not in the family pictures collection. They can choose to do this without changing the @sgv description.
 
 ==== Additional Allowed
 
-The "additional allowed" client control describes that the client might decide that a canonical container saves a resource it would normally not. Take the pictures example above, the client might decide to save a family picture in both collections.
+The "additional allowed" client control describes that the client might decide that a canonical container stores a resource it would normally not. Take the pictures example above, the client might decide to store a family picture in both collections.
 
 ==== Allowed When Not Preferred
 
 The "allowed when not preferred" client control states that a client may decide where to store a resource when no collection explicitly wants to store the resource.
-The collections that want to explicitly save a resource are those collections that would save a resource, but do not have the save condition (@sec:save-condition) "only stored when not redundant".
-The idea here is that that save condition is only used for those collections that are a last resort to saving a resource automatically.
+The collections that want to explicitly store a resource are those collections that would store a resource, but do not have the store condition (@sec:store-condition) "only stored when not redundant".
+The idea here is that that store condition is only used for those collections that are a last resort to saving a resource automatically.
 A client can in this case see this last resort option and perform a more suitable action.
 
 ==== Allowed When Not Claimed
 
-The "allowed when not claimed" client control policy describes that a client may decide where to store a resource in case no collection wants to store the resource. This policy deviates from the "allowed when not preferred" policy because this one does not have a save condition filter.
+The "allowed when not claimed" client control policy describes that a client may decide where to store a resource in case no collection wants to store the resource. This policy deviates from the "allowed when not preferred" policy because this one does not have a store condition filter.
 
 ==== No Control
 
-The "no control" client control allows no deviation from the @sgv rules. If a resource is not saved, it will not be saved.
+The "no control" client control allows no deviation from the @sgv rules. If a resource is not stored, it will not be stored.
 
 
 ==== One File One Resource
 
 A big advantage of LDP is that it easily maps to the file structure storage of a typical file systems.
-If someone wants to save their Solid Pods on their own machine, it's easy for them to access the data.
+If someone wants to store their Solid Pods on their own machine, it's easy for them to access the data.
 The one file one resource flag signals an LDP server that no @http
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web#fragment")[fragments]
 are present in the named nodes in this collection.
@@ -607,7 +602,7 @@ We propose either notifying the owner, letting the client assume a location, or 
 
 When the owner would like to receive a notification when a resource is not claimed by their pod,
 they would create a "@sgv notification" collection.
-That collection would have a resource description that matches any resource and a corresponding save condition of "only stored when not redundant".
+That collection would have a resource description that matches any resource and a corresponding store condition of "only stored when not redundant".
 If the pod owner wants to force a client into this use case, the root resource collection would need a client control to be set to "no control".
 When the user of the client is also the pod owner, the client could provide the user with a popup requesting to handle the notification.
 
@@ -619,7 +614,7 @@ In addition, no notification collection as described above can be present if the
 
 === Deny
 
-In case the pod owner never wants to save a resource that cannot be saved by their @sgv description,
+In case the pod owner never wants to store a resource that cannot be stored by their @sgv description,
 the root resource collection would need to have a client control of "no control" and no notification collection should be made.
 
 // === Pitfalls of Shape Trees

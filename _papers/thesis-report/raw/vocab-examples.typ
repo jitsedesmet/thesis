@@ -22,7 +22,7 @@
 # An unstructured collection contains a structured collection "posts"
 <posts/> a ldp:Container, sgv:structured-collection, sgv:canonical-collection ;
   sgv:one-file-one-resource "false"^^xsd:boolean ;
-  sgv:save-condition [
+  sgv:store-condition [
       a sgv:always-stored ;
       sgv:update-condition [
           a sgv:update-prefer-static ;
@@ -96,7 +96,7 @@ PREFIX tree: <https://w3id.org/tree#>
 
 <CanonicalCollectionShape> {
   &<StructuredCollectionShape> ;
-  sgv:save-condition {
+  sgv:store-condition {
     rdf:type [
       sgv:state-required sgv:always-stored
       sgv:prefer-other sgv:prefer-most-specific

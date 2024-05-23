@@ -25,21 +25,20 @@ The source code of the implementation can found
 #link("https://github.com/jitsedesmet/sgv-update-engine")[online].
 The query engine acts as a wrapper around the modular Comunica query engine @bib:comunica.
 We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing Comunicas internal code.
-#IRT["For the paper, we'll have to implement it as part of Comunica, otherwise it defeats the whole purpose of Comunica :-)"]
 
 For this proof of concept implementation, we will only support essential parts of @sgv.
 We therefore provide an implementation of only the following concepts:
 + Canonical Collection
 + Group Strategy: only @uri templates.
 + Resource Description: only @shex.
-+ Save Condition: "always stored", "prefer other", "only stored when not redundant", and "never stored".
++ Store Condition: "always stored", "prefer other", "only stored when not redundant", and "never stored".
 + Update Condition: "prefer static", "move to best matched", and "disallow".
 
 To parse and validate our @shex descriptions, we use the
 #link("https://www.npmjs.com/package/rdf-validate-shacl")[rdf-validate-shacl library].
 This library is known to be quite inefficient and could be replaced by the faster
 #link("https://www.npmjs.com/package/shacl-engine")[SHACL engine library].
-#IRT["Devil's advocate: why do you use it then?"]
+Unfortunately, that library does not have type descriptions available making adoptions less desirable.
 
 #IRT["Can you also link to the experimental setup scripts repo for reproducibility?"]
 
@@ -67,8 +66,8 @@ It should be noted that the @sgv description can easily be cached since it will 
 
 ==== Loop the Resource Descriptions
 
-The next thing a query engine must do is checking what canonical collections want to save the resource.
-Worst-case scenario, all collections could save the resource, but they only discover this at the last resource description of each collection.
+The next thing a query engine must do is checking what canonical collections want to store the resource.
+Worst-case scenario, all collections could store the resource, but they only discover this at the last resource description of each collection.
 In such a case, all resource descriptions pointed to by canonical collections need to be checked.
 
 The cost of a single validation can be linear in the number of properties the description has.
@@ -101,7 +100,7 @@ ex:PersonalPictureShape
 As an example, for the case described in @fig:logical-constrained-components, a query engine could cache the evaluation result of `ex:Picture`.
 Optimizations in the descriptions like this could likely be automated.
 
-==== Filter Collections on Save Condition
+==== Filter Collections on Store Condition
 
 The complexity of filtering the list of eligible collections could be significant.
 We do, however, expect that this list will be small.
@@ -116,7 +115,7 @@ The worst-case performance is listed below:
 
 ==== Compute Named Node
 
-For each collection that will save the resource, we now have to compute the named node.
+For each collection that will store the resource, we now have to compute the named node.
 In the case of @uri templates with regexes, this cost negligible.
 
 ==== Create Resources
@@ -126,7 +125,7 @@ this means that each created resource requires its own @http request.
 
 Interestingly, some implementations of a solid server, like the
 #link("https://communitysolidserver.github.io/CommunitySolidServer/7.x/usage/example-requests/#patch-modifying-resources")[Community Solid Server]
-also accept SPARQL #IRT["update"] queries.
+also accept SPARQL update queries.
 
 ==== Conclusion Resource Creation
 
@@ -159,7 +158,6 @@ In most cases, this is a fairly simple process.
 
 In the case of Keep Distance, an update that stretches the shape description too hard might cause many updates.
 It's important to note though that the Amortized Computational Complexity~@bib:tarjan1985amortized would still make this a constant operation.
-// https://en.wikipedia.org/wiki/Amortized_analysis -> Tarjan, Robert Endre (April 1985)
 
 ==== Commit Changes
 
@@ -210,10 +208,13 @@ Under the hood, SolidBench will use the Community Solid Server to expose the res
 #IRT["Also mention details of dataset, such as number of pods, files, ..."]
 
 In our evaluation, we will focus on the @rdf resource describing a post.
+@fig:post-shex provides the @shex shape of a post.
 Different pods will have different ways of storing these posts.
-@fig:post-shex provides the @shex shape of a post while @fig:fragmentation-strategies shows the different fragmentation strategies used.
-#IRT["We'll have to explain these frag strategies in more detail."]
-
+We will use four such ways, called fragmentation strategies, in our evaluation:
++ Posts are grouped in files based on the creation data. Within that file they have a fragment based on the ID. (See @fig:frag-strat-creation-date)
++ Posts are groups in files based on the location. Within that file they have a fragment based on the ID. (See @fig:frag-strat-location)
++ All posts are stored in one file. Within that file they have a fragment based on the ID. (See @fig:frag-strat-one-file)
++ Each posed is stored in their own file based on the ID. (See @fig:frag-strat-own-file)
 
 #figure(
   text-example[
@@ -239,11 +240,10 @@ ex:PostShape {
   caption: [ShEx description of a post]
 ) <fig:post-shex>
 
-#figure(
-  grid(
+#block(breakable: false)[#grid(
     columns: (1fr, 1fr),
     gutter: 16pt,
-    text-example[
+  [#figure(text-example[
 ```turtle
 <posts/> a sgv:canonical-collection ;
   sgv:group-strategy
@@ -253,8 +253,10 @@ ex:PostShape {
         '{ldbc:creationDate:10}#{ldbc:id}' ;
     ] .
 ```
-    ],
-    text-example[
+], caption: [Group strategy - by creation date]
+  ) <fig:frag-strat-creation-date>],
+    
+    [#figure(text-example[
 ```turtle
 <posts/> a sgv:canonical-collection ;
   sgv:group-strategy [
@@ -265,8 +267,10 @@ ex:PostShape {
       sgv:regex-replace '$1/$2' ;
     ] .
 ```
-    ],
-    text-example[
+], caption: [Group strategy - by locations]
+) <fig:frag-strat-location>],
+
+[#figure(text-example[
 ```turtle
 <posts> a sgv:canonical-collection ;
   sgv:group-strategy
@@ -276,8 +280,10 @@ ex:PostShape {
         '#{ldbc:id}' ;
     ] .
 ```
-    ],
-    text-example[
+], caption: [Group strategy - one file]
+) <fig:frag-strat-one-file> ],
+
+[#figure(text-example[
 ```turtle
 <posts/> a sgv:canonical-collection ;
   sgv:group-strategy
@@ -286,10 +292,9 @@ ex:PostShape {
       sgv:uri-template '{ldbc:id}' ;
     ] .
 ```
-    ],
-  ),
-  caption: [Pseudo description of the four fragmentation strategies used.]
-) <fig:fragmentation-strategies>
+], caption: [Group strategy - own file],
+) <fig:frag-strat-own-file> ],
+)]
 
 === Test Hardware Specification
 
@@ -508,7 +513,7 @@ DELETE DATA {
 
 #let prec = 3
 
-The creation of a new resource is a type of query where we know we should find the collections the resource belongs to and save it there.
+The creation of a new resource is a type of query where we know we should find the collections the resource belongs to and store it there.
 The non-@sgv variant of query @fig:insert-data-complete simply replaces the base @uri with the named node we decided for the resource.
 The execution time results are given in @fig:res-insert-data-complete.
 As expected, the @sgv engine is always slower.
@@ -572,7 +577,7 @@ Additionally, the @sgv engine requires multiple additional @http requests, that 
 The ratios of operations are: $#calc.round(6/35, digits: prec)$ ; $#calc.round(2/5, digits: prec)$ ; $#calc.round(5/35, digits: prec)$ ; and $#calc.round(6/35, digits: prec)$
 We could conclude this breaks our hypothesis, but it should be noted that the non-@sgv client would have a slowdown if it was forced to create a new resource too. 
 Again, we highlight the difference between fragmentation strategies.
-Clearly, the delay experienced from loading the large file in the case all posts are saved in the same file is significant.
+Clearly, the delay experienced from loading the large file in the case all posts are stored in the same file is significant.
 
 #figure(
   delete-insert-id,

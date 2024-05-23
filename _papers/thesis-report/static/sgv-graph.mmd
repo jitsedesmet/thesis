@@ -42,7 +42,7 @@ classDiagram
  
   class CC["Canonical Collection"] {
     "Stores data matching the shape"
-    + Save Conditions
+    + Store Conditions
   }
 
   class DC["Derived Collection"] {
@@ -50,8 +50,8 @@ classDiagram
     + Derivations
   }
 
-  CC "0..n" --o "1..n" SaveCond
-  class SaveCond["Save Condition"] {
+  CC "0..n" --o "1..n" StoreCond
+  class StoreCond["Store Condition"] {
     + Update Condition
     ---
     + state-required
@@ -81,7 +81,7 @@ classDiagram
     + duration ago 
   }
 
-  SaveCond "0..n" --o "1" UCond
+  StoreCond "0..n" --o "1" UCond
   class UCond["Update Condition"] {
     + Resource descriptions
     ---
