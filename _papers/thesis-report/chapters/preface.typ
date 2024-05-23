@@ -23,6 +23,7 @@ These initiatives allow people to choose where their data is stored,
 either in personal data vaults~@bib:solid, shared federation instances~@bib:mastodon, or publicly~@bib:nakamoto2008bitcoin.
 // Could cite: https://www.cnbc.com/2022/11/04/web-inventor-tim-berners-lee-wants-us-to-ignore-web3.html or https://www.techtarget.com/whatis/feature/Tim-Berners-Lees-Solid-explained-What-you-need-to-know
 Blockchains are not considered a viable data management system because all records are public, and the computational cost is huge.
+#IRT("Many people would disagree with the statement above, so I'd nuance it a bit. You could say it's less suitable for private data since data is inherently shared across all/many nodes.")
 They were also never intended for data management, rather they serve the purpose of a distributed ledger.
 // They are seeing increasing adoption
 Recent privacy scandals and emerging legislation such as @gdpr and @ccpa
@@ -41,7 +42,7 @@ Solid can theoretically be described as a permissioned decentralized data store.
 This large data store is split into many different pods that are individually governed.
 Contrary to widely used NoSQL databases, Solid does not create shards over these pods.
 Instead, when a pod is experiences network partitioning, Solid accepts that the data on that pod is not reachable.
-This works because the underlying linked data principles always assume an open world principle,
+This works because the underlying linked data #IRT("Linked Data") principles always assume an open world principle,
 meaning that when data is not found, it doesn't conclude that it does not exist.
 Solid also deviates from blockchain because of this, nodes do not contain all data of the system, but only a fraction.
 Additionally, access control, and even usage control are of great importance to Solid.
@@ -51,11 +52,11 @@ This research asks both how to answer a query as completely as possible over dif
 Solid currently describes only a single interface type, @ldp.
 
 The idea of @ldp is to map a simple, document oriented file structure to a linked data interface over @http.
-The interface allows simple server implementation and limited computational overload for servers.
-This means that all required intelligence comes from the client.
-To relieve application developers from needing to write complex software to communicate with these pods, we use packages. These help developers though a linked data querying @api, commonly called a query engine.
+The interface allows for a simple server implementation and limited computational overload for servers.
+This means that all required intelligence comes from the client.#IRT("Not really all intelligence though. I'd say instead we need client-side logic to take up part of the search effort. Also make sure to explain why this search is difficult with LDP.")
+To relieve application developers from needing to write complex software to communicate with these pods, we use packages #IRT("we require an abstraction layer to shield the developer from complexities?"). These help developers though a linked data querying @api, commonly called a query engine. #IRT("This sentence needs rephrasing")
 
-These query engines already allow developers to query pods efficiently.
+These query engines already allow developers to query pods efficiently.#IRT("Not sure about it being efficient yet :-)")
 Through a technique called link traversal querying, a developer can give the root path of a Solid pod and query the whole pod.
 Speed-ups can be gained by incorporation the structure of the pod in the query evaluation~@bib:taelman-structure-assumptions.
 This structure can be described through different vocabularies, examples include, Type Index~@bib:type-index, Shape Trees~@bib:shape-tree, @void~@bib:void, @tree~@bib:tree, and @ldes~@bib:ldes.
@@ -75,9 +76,9 @@ The scope of this thesis is limited to Solid and the @ldp interface.
 The research question for this thesis is:
 *How can we abstract data updates over a document oriented interface of a permissioned decentralized environment behind a query abstraction layer?*
 We quickly go over the different terms in that question.
-- Abstract data updates: We aim to abstract the query process, so a developer does not need to interact with the pods interface themselves.
+- Abstract data updates: We aim to abstract the query process, so a developer does not need to interact with the pod interfaces directly.
 - Document oriented interface: the interface we interact with exposes data through @http documents.
-- Permissioned: each @http resource has access rights configured, these rights can either grand or deny access to resources.
+- Permissioned: each @http resource has access rights configured, these rights can either grant or deny access to resources. #IRT("to specific users")
 - Decentralized: each pod is self governed and limited rules apply to the system. A loosely defined system allows data publisher to be opinionated.
 - Query abstraction layer: we want the abstraction to happen through a declarative query. In this work we use the @sparql query language.
 
@@ -86,8 +87,9 @@ We quickly go over the different terms in that question.
 // Can we do it without a large cost?
 Our hypothesis is that we can create an automated client capable of deciding where to store a resource given a pod.
 We hypothesize that the overhead such an intelligent client has, in comparison to a client that is not smart, is limited.
-Concretely, we expect a maximum overhead of four times slower, and maximum double the @http requests.
+Concretely, we expect a maximum overhead of four times slower #IRT("execution time"), and maximum double the @http requests.
 For applications that do not write too often, this is an acceptable overhead for the amount of complexity it takes away from developers.
+#IRT("I'd also say that write speeds are usually not critical in apps, since users do not require them for interactivity (while reads do!)")
 
 == Outline
 
