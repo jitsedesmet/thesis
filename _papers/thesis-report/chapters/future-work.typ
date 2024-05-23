@@ -6,10 +6,21 @@
 @sgv proves it is possible to create automated clients that can decide where to store resources.
 In the state we present it here, it is not production ready, but it opens the gate to interesting research.
 
-#todo[
-  auto discover resources that should be updated.
-  Shouldn't be harder than buidling on existing read functionaloty + source attribution!
-]
+== Source Discovery
+
+In this work we don't talk about source discovery when updating a resource.
+In our implementation, we take the classical where you need to provide a resource that should be updated.
+This means we acctually still have a data access path dependence!
+The only access path dependence we solved is the one where a resource is created.
+When preforming an update, we expect the user to update only one resource at a time, this way,
+they will know the NamedNode of the resource and therefore they know where it is stored.
+
+The problem is that a user does not always know the resource they want to update.
+Imagine going changing your name. in that case, you would like to update all @http resources that contain your name, but how do you know what resources contain your name.
+In the context of read queries, one might want to preform a link traversal query over their pod.
+A query engine should be able to do something simular for the case of update queries.
+When confronted with a query to change you name, it should find all documents containeing your name and alter them.
+This might be possible through a query techinque that supports source discovery, like link traversal, and source attribution. #todo[cite/ link/ explain source attribution!]
 
 == Inter pod updates
 
