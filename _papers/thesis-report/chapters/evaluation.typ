@@ -25,6 +25,7 @@ The source code of the implementation can found
 #link("https://github.com/jitsedesmet/sgv-update-engine")[online].
 The query engine acts as a wrapper around the modular Comunica query engine @bib:comunica.
 We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing Comunicas internal code.
+#IRT["For the paper, we'll have to implement it as part of Comunica, otherwise it defeats the whole purpose of Comunica :-)"]
 
 For this proof of concept implementation, we will only support essential parts of @sgv.
 We therefore provide an implementation of only the following concepts:
@@ -38,12 +39,17 @@ To parse and validate our @shex descriptions, we use the
 #link("https://www.npmjs.com/package/rdf-validate-shacl")[rdf-validate-shacl library].
 This library is known to be quite inefficient and could be replaced by the faster
 #link("https://www.npmjs.com/package/shacl-engine")[SHACL engine library].
+#IRT["Devil's advocate: why do you use it then?"]
+
+#IRT["Can you also link to the experimental setup scripts repo for reproducibility?"]
 
 
 == Theoretical Evaluation
 
 In our theoretical evaluation, we analyse the number of @http requests.
 In @sec:hypotheses we hypothesize that the required number of @http quries of an @sgv aware client would at most be double that of a normal one. 
+
+#IRT["What you explain here below is good, but I would also expect a formal formula for calculating the number of requests based on parameters such as the number of triples to be added, number of collections, ..."]
 
 
 === Insert Operation <sec:eval-insert>
@@ -56,6 +62,8 @@ In @sec:flow-create-rdf-resource we analysed the steps required for this operati
 The query engine should request the @sgv description.
 This accounts to one @http request, assuming the @api publishes it as a single @http resource.
 It should be noted that the @sgv description can easily be cached since it will not change a lot.
+
+#IRT["There is a major danger when an SGV is used that is outdated, as it can lead to incorrect update ops. This problem seems much bigger to me than stale read results. So maybe we need to nuance this a bit."]
 
 ==== Loop the Resource Descriptions
 
@@ -118,7 +126,7 @@ this means that each created resource requires its own @http request.
 
 Interestingly, some implementations of a solid server, like the
 #link("https://communitysolidserver.github.io/CommunitySolidServer/7.x/usage/example-requests/#patch-modifying-resources")[Community Solid Server]
-also accept SPARQL queries.
+also accept SPARQL #IRT["update"] queries.
 
 ==== Conclusion Resource Creation
 
@@ -199,10 +207,12 @@ and a slightly altered @rdf fragmenter, so each pod contains a @sgv description.
 SolidBench is a benchmark with a social network use case with the dataset derived from the Social Network Benchmark @bib:ldbc. 
 After the generation of our test data, we use SolidBench to host the data locally.
 Under the hood, SolidBench will use the Community Solid Server to expose the resources.
+#IRT["Also mention details of dataset, such as number of pods, files, ..."]
 
 In our evaluation, we will focus on the @rdf resource describing a post.
 Different pods will have different ways of storing these posts.
 @fig:post-shex provides the @shex shape of a post while @fig:fragmentation-strategies shows the different fragmentation strategies used.
+#IRT["We'll have to explain these frag strategies in more detail."]
 
 
 #figure(
