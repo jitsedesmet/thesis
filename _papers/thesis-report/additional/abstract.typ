@@ -15,12 +15,29 @@
 // Conclusion:   What the findings mean for the audience
 // Perspectives: What the future holds, beyond this work
 
-= #title
+#[
+  #show heading: set text(size: 15pt)
+  = #title
+]
 #[
   #set par(leading: 0.65em)
   #align(center)[
+  
   Jitse De Smet\
-  #link("mailto:jitse.desmet@ugent.be")[jitse.desmet\@ugent.be]
+  #link("mailto:jitse.desmet@ugent.be")[jitse.desmet\@ugent.be]\
+  Master's dissertation submitted in order to obtain the academic degree of\
+  `Master of Science in Computer Science Engineering`\
+  Academic Year 2023-2024\
+  Faculty of Engineering and Architecture\
+  Ghent University
+  #grid(columns: (1fr, 1fr), gutter: 1em,
+      [Supervisors:],
+      [Counsellors:],
+      [Dr. ir. Ruben Taelman],
+      [Dr. ir. Ruben Taelman],
+      [Prof. dr. ir. Ruben Verborgh],
+      [Bryan-Elliott Tam],
+  )
 ]
 ]
 
