@@ -12,6 +12,8 @@ Messages have an id, a browser, a location IP, content, tags, and a creator.
 @fig:schema-snb shows the schema used within this use case as copied from the
 #link("https://github.com/ldbc/ldbc_snb_datagen_hadoop#graph-schema")[LDBC @snb] GitHub. 
 
+#IRT("Could we also have an example read and write query here?")
+
 #figure(
   image("../static/schema-snb.png", width: 90%),
   caption: [Social Network Benchmark data schema],
