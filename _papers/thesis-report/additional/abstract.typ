@@ -52,6 +52,7 @@ In a response to these crises, various initiatives are working towards re-decent
 // Need
 The re-decentralization of the Web comes with various challenges to overcome because the world is not the same as it used to.
 These challenges range from efficient and interoperable reading and writing to expressing potentially complex usage/ access policies.
+#IRT("Let's emphasize first that read has received some research attention, while write has not")
 The domain of efficient writing, without data dependencies, in the context of a decentralized system remains rather unexplored.
 // Task
 We therefore looked at the current state of the Solid specification to investigate the data dependencies updates currently face.
