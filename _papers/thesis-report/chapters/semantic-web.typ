@@ -4,7 +4,7 @@
 = Semantic Web
 
 The Semantic Web is a @w3c initiative that aims to extend the human-readable web to a machine-readable web.
-The initiative started in 2001 by the maker of the web, Sir Tim Berners-Lee, and has grown to be a mature technology.
+The initiative started in 2001 by the maker #IRT("inventor") of the web, Sir Tim Berners-Lee, and has grown to be a mature technology.
 Even though the technology is mature, it is not outdated, with new specifications still being created to keep the syste up to date with todays requirements.
 This chapter aims to give a high-level overview that is limited to the technologies used in this work.
 
@@ -28,9 +28,9 @@ When adding a graph to each triple, we define an @rdf entry as a quad: `<s, p, o
 In this work, we will always work in the default graph as a simplification.
 We can make this simplification because Solid does not rely on graphs, and adding them would be a nuance.
 
-=== Consise Bouneded Description
+=== Consise Bounded Description
 
-The @cbd~@bib:concise-bounded-description of an @rdf resource is the set of tuples that can be created as follows:
+The @cbd~@bib:concise-bounded-description of an @rdf resource is the set of tuples #IRT("triples") that can be created as follows:
 + Create a `to-visit` set equal to the set of triples that has the focussed resource as a subject
 + Iterate over the triples in the `to-visit` set and:
   + Add the curent triple to the result set.
