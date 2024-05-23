@@ -32,6 +32,7 @@ We shortly introduce some basic concepts in @sgv:
 [*Update Condition*: Describes what to do when a containing resource is changed.],
 [*Client Control*: Describes the amount of freedom a client has when trying to save a resource.]
 )
+#IRT["Not sure what you mean by saving in save condition."]
 
 We will first describe two simple flows, the creation, and the modification of an @rdf resource.
 This should provide an idea of what @sgv tries to accomplish without going into all the details first.
