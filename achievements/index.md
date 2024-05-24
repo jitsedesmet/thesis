@@ -10,3 +10,4 @@ title: Achievements
 5. [Fix multiple fragmentation strategies](https://github.com/SolidBench/rdf-dataset-fragmenter.js/pull/26)
 6. [Implement SGV wrapper for Comunica](https://github.com/jitsedesmet/sgv-update-engine)
 7. [Write thesis report](../solution/report.pdf)
+8. [Write thesis extended abstract](../solution/paper.pdf)

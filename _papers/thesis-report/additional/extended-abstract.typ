@@ -5,6 +5,7 @@
 // multiple bibliography issues: https://github.com/typst/typst/issues/1097
 // And title scope undesired... would scope titles
 // -> We will use a pdf concat :/
+// https://github.com/typst/templates/blob/main/charged-ieee/lib.typ
 
 #set document(title: title, author: "Jitse De Smet")
 #set text(font: "Times New Roman", size: 10pt)
@@ -74,19 +75,20 @@
   _Keywords_ - #keywords.join(", ")
 ]
 
-= Intro 
+// The extended abstract has a standard length of minimum 2 and maximum 6 pages.
 
-== subclass
-== subclass
-== subclass
-== subclass
-=== subsub
+= Introdution
 
+= Related Work
 
-apple#footnote()[a second one]
+= Storage Guidance Vocabulary
+
+= Evaluation
+
+= Future Work
+
+= Conclusion
 
 = Acknowledgements
 
 = References
-
-// #[
