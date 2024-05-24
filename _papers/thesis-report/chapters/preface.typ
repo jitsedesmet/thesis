@@ -1,7 +1,12 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
 
-= Preface
+#[
+  #show heading.where(level: 1): it => [
+    #it
+  ]
+  = Preface
+]
 
 == Introduction
 

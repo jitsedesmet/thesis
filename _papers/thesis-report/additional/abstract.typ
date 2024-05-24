@@ -17,7 +17,7 @@
 
 #[
   #show heading: set text(size: 15pt)
-  = #title
+  = #title <sec:abstract>
 ]
 #[
   #set par(leading: 0.65em)
@@ -47,9 +47,8 @@
 Data is the new gold, you hear it constantly.
 Much of that gold, flows through Web technologies into centralized data stores of massive companies like Amazon, Google, and TikTok.
 The Web, however, was envisioned as a decentralized information space to which anyone could read and write information. // Remember good old Wikipedia?
-Todays centralization of data causes numerous problems, such as privacy related-issues since people are not in control of their data,
-but also the centralization of attention.
-The centralization of attention and control causes social turbulence.
+Todays centralization of data causes numerous problems, such as privacy related-issues and the centralization of attention.
+The centralization of attention and media control causes social turbulence.
 Such as the US ban on TikTok or more recently the ban of TikTok by France in response to protests.
 In a response to these crises, various initiatives are working towards re-decentralizing the Web, such as Solid and Mastodon.
 // Need

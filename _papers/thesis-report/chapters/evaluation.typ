@@ -21,7 +21,7 @@ We finish with an empirical evaluation of the query engine.
 
 
 To analyse the capabilities of @sgv, we implemented a query engine capable of parsing a pod's @sgv description and acting accordingly.
-The source code of the implementation can found
+The source code of the implementation and benchmark can be found
 #link("https://github.com/jitsedesmet/sgv-update-engine")[online].
 The query engine acts as a wrapper around the modular Comunica query engine @bib:comunica.
 We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing Comunicas internal code.
@@ -40,15 +40,11 @@ This library is known to be quite inefficient and could be replaced by the faste
 #link("https://www.npmjs.com/package/shacl-engine")[SHACL engine library].
 Unfortunately, that library does not have type descriptions available making adoptions less desirable.
 
-#IRT["Can you also link to the experimental setup scripts repo for reproducibility?"]
-
 
 == Theoretical Evaluation
 
 In our theoretical evaluation, we analyse the number of @http requests.
 In @sec:hypotheses we hypothesize that the required number of @http quries of an @sgv aware client would at most be double that of a normal one. 
-
-#IRT["What you explain here below is good, but I would also expect a formal formula for calculating the number of requests based on parameters such as the number of triples to be added, number of collections, ..."]
 
 
 === Insert Operation <sec:eval-insert>
@@ -62,7 +58,17 @@ The query engine should request the @sgv description.
 This accounts to one @http request, assuming the @api publishes it as a single @http resource.
 It should be noted that the @sgv description can easily be cached since it will not change a lot.
 
-#IRT["There is a major danger when an SGV is used that is outdated, as it can lead to incorrect update ops. This problem seems much bigger to me than stale read results. So maybe we need to nuance this a bit."]
+Do note however that using an outated version can be detremental.
+Unfortunetly, since @ldp exposes a pod through multiple different @http resources,
+there is no way of checking whether your @sgv description has not grown outdated when you start updating data.
+For example, you could compute the change, than fetch the @sgv again using an
+#link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since")[if-moified-since header] and recompute in case it did change.
+However, in between confirming you have the  latest value and writing the data, the
+@sgv could have been changed, causing you to write in outdated way nevertheless.
+Because @ldp exposes multiple @http resources, using the
+#link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since")[If-Unmodified-Since] is not possible.
+// in conclusion, either expand a pod so it knows what it is, or get rid of ldp?
+
 
 ==== Loop the Resource Descriptions
 
@@ -205,7 +211,6 @@ and a slightly altered @rdf fragmenter, so each pod contains a @sgv description.
 SolidBench is a benchmark with a social network use case with the dataset derived from the Social Network Benchmark @bib:ldbc. 
 After the generation of our test data, we use SolidBench to host the data locally.
 Under the hood, SolidBench will use the Community Solid Server to expose the resources.
-#IRT["Also mention details of dataset, such as number of pods, files, ..."]
 
 In our evaluation, we will focus on the @rdf resource describing a post.
 @fig:post-shex provides the @shex shape of a post.
@@ -215,6 +220,11 @@ We will use four such ways, called fragmentation strategies, in our evaluation:
 + Posts are groups in files based on the location. Within that file they have a fragment based on the ID. (See @fig:frag-strat-location)
 + All posts are stored in one file. Within that file they have a fragment based on the ID. (See @fig:frag-strat-one-file)
 + Each posed is stored in their own file based on the ID. (See @fig:frag-strat-own-file)
+
+In hignsight the scope of SolidBench was to big, it creates 1528 pods, but we will only query 4 of them.
+We query the @sgv file, containing approximetly 33 triples and as well as the files that store the the resources.
+For the writing use case, those are either empty, or in the case of "one file" contain 2947 triples.
+When updating, we first prepare the file with the insertion of a single post, adding an additiona 9 triples.
 
 #figure(
   text-example[

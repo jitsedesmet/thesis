@@ -17,17 +17,9 @@
 #show: make-glossary
 
 #let wrapped-in-home-style(body) = {
-  set page(margin: (y: 4em), numbering: "1", header: context {
-    if calc.odd(here().page()) {
-      align(right, emph(hydra(1)))
-    } else {
-      align(left, emph(hydra(2)))
-    }
-    line(length: 100%)
-  })
-
-  set text(ligatures: false)
-  set text(font: "New Computer Modern Sans")
+  set text(ligatures: false, font: "New Computer Modern")
+  show raw: set text(font: "New Computer Modern Mono")
+  show math.equation: set text(font: "New Computer Modern Math")
   // Set numbering mode
   set page(numbering: "1", margin: 2.5cm)
   set math.equation(numbering: "(1)")
@@ -40,21 +32,13 @@
   set raw(syntaxes: ("utils/turtle.sublime-syntax", "utils/sparql.sublime-syntax"))
 
 
-  // Set fonts
-  set text(font: "New Computer Modern")
-  show raw: set text(font: "New Computer Modern Mono")
-  show math.equation: set text(font: "New Computer Modern Math")
-
   // Set font size
   show heading.where(level: 3): set text(size: 1.05em)
   show heading.where(level: 4): set text(size: 1.0em)
   show figure: set text(size: 0.9em)
-  set figure(placement: auto)
-  set enum(numbering: "1.i")
 
   // Set spacing
-  set par(leading: 0.9em, first-line-indent: 1.8em, justify: true)
-  set par(leading: 16pt)
+  set par(leading: 16pt, first-line-indent: 1.8em, justify: true)
   show par: set block(spacing: 1em)
   set table(inset: 6.5pt)
   show table: set par(justify: false)
@@ -66,10 +50,8 @@
   show heading.where(level: 3): set block(above: 1.75em, below: 1em)
   show heading.where(level: 4): set block(above: 1.55em, below: 1em)
 
-  show heading.where(level: 1): it => [
-    #pagebreak(weak: true)
-    #it
-  ]
+  set figure(placement: auto)
+  set enum(numbering: "1.i")
   
   // Names for headings
   set heading(supplement: it => {
@@ -110,6 +92,7 @@
     }
   }
 
+  // Set table style
   show table.cell.where(y: 0): set text(weight: "bold")
   show figure: set block(breakable: true)
   // See the strokes section for details on this!
@@ -146,17 +129,28 @@
   #set page(numbering: "i")
   #set heading(numbering: none)
   
-  = Preface
-  #pagebreak(weak: false)
+  = Foreword
+
+  I would like to thank...
+]
   
-  = Remark on the master’s dissertation and the oral presentation
-  
+  #align(center + horizon)[
+  The author gives permission to make this master dissertation available for
+  consultation and to copy parts of this master dissertation for personal use.
+  In all cases of other use, the copyright terms have to be respected, in particular with
+  regard to the obligation to state explicitly the source when quoting results from this
+  master dissertation.
+
+  #v(50pt)
+
   This master's dissertation is part of an exam. Any comments formulated by the
   assessment committee during the oral presentation of the master's dissertation are
   not included in this text.
+  ]
   
-  #pagebreak(weak: false)
-  
+#wrapped-in-home-style()[
+  #set page(numbering: "i")
+  #set heading(numbering: none)
 
   #include "additional/abstract.typ"
 ]
@@ -169,75 +163,97 @@
 // ------ Content ------
 
 // Set defaults
-#wrapped-in-home-style()[
-#set page(numbering: "i")
-#set heading(numbering: none)
-#set par(leading: 0.65em, first-line-indent: 0pt, justify: false)
-#set par(leading: 16pt)
+#wrapped-in-home-style[
+  #show heading.where(level: 1): it => [
+    #pagebreak(weak: true)
+    #it
+  ]
+  
+  #set page(numbering: "i")
+  #set heading(numbering: none)
+  #set par(leading: 0.65em, first-line-indent: 0pt, justify: false)
+  #set par(leading: 16pt)
 
-// style table-of-contents
-#show outline.entry.where(
-  level: 1
-): it => {
-  v(1em, weak: true)
-  strong(it)
-}
+  // style table-of-contents
+  #show outline.entry.where(
+    level: 1
+  ): it => {
+    v(1em, weak: true)
+    strong(it)
+  }
+
+  // Table of contents.
+  #outline(
+    title: {
+      text(1.3em, weight: 700, "Contents")
+      v(10mm)
+    },
+    indent: 2em,
+    depth: 3
+  )
+
+  // List of figures.
+  #outline(
+    title: [List of Figures],
+    target: figure.where(kind: image),
+  )
+
+  // List of tables.
+  #outline(
+    title: [List of Tables],
+    target: figure.where(kind: table)
+  )  
+
+  // List of listings.
+  #outline(
+    title: [List of listings],
+    target: figure.where(kind: raw)
+  )  
 
 
-// Table of contents.
-#outline(
-  title: {
-    text(1.3em, weight: 700, "Contents")
-    v(10mm)
-  },
-  indent: 2em,
-  depth: 3
-)
+  // List of Acronyms.
+  #heading(numbering: none)[List of Acronyms]
+  #print-glossary(glossary)
 
-// List of figures.
-#heading(numbering: none, level: 1)[List of Figures]
-#outline(
-  title: none,
-  target: figure.where(kind: image),
-)
-
-// List of tables.
-#heading(numbering: none, level: 1)[List of Tables]
-#outline(
-  title: none,
-  target: figure.where(kind: table)
-)  
-
-// List of listings.
-#heading(numbering: none, level: 1)[List of listings]
-#outline(
-  title: none,
-  target: figure.where(kind: raw)
-)  
-
-
-// List of Acronyms.
-#heading(numbering: none)[List of Acronyms]
-#print-glossary(glossary)
+]
 
 
 // --- Main Chapters ---
-#set par(leading: 0.9em, first-line-indent: 1.8em, justify: true)
-#set par(leading: 16pt)
-#set page(numbering: "1.")
-#set heading(numbering: "1.1")
-#counter(page).update(1)
-#set-page-properties()
+#wrapped-in-home-style[
+    // Set upper hydra part
+  #set page(margin: (y: 4em), numbering: "1", header: context {
+    if calc.odd(here().page()) {
+      align(right, emph(hydra(1)))
+    } else {
+      align(left, emph(hydra(2)))
+    }
+    line(length: 100%)
+  })
+
+  #set par(leading: 0.9em, first-line-indent: 1.8em, justify: true)
+  #set par(leading: 16pt)
+  #set page(numbering: "1.")
+  #set heading(numbering: "1.1")
+  #counter(page).update(1)
+  #set-page-properties()
 
 
-#include "chapters/preface.typ"
-#include "chapters/semantic-web.typ"
-#include "chapters/solid.typ"
-#include "chapters/use-case.typ"
-#include "chapters/storage-guidance-vocab.typ"
-#include "chapters/evaluation.typ"
-#include "chapters/future-work.typ"
-#include "chapters/conclusion.typ"
+  #include "chapters/preface.typ"
+
+  // Force new page on top heading (can not don on top due to bug with hydra)
+  #show heading.where(level: 1): it => [
+    #pagebreak(weak: true)
+    #it
+  ]
+
+  #include "chapters/semantic-web.typ"
+  #include "chapters/solid.typ"
+  #include "chapters/use-case.typ"
+  #include "chapters/storage-guidance-vocab.typ"
+  #include "chapters/evaluation.typ"
+  #include "chapters/future-work.typ"
+  #include "chapters/conclusion.typ"
+
 
 // --- Bibliography ---
 

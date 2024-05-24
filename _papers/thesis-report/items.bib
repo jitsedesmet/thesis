@@ -213,6 +213,17 @@ done | pbcopy
   year        = "2022",
 }
 
+@TechReport{bib:prov,
+  author      = "Satya Sahoo and Timothy Lebo and Deborah McGuinness",
+  title       = "{PROV}-O: The {PROV} Ontology",
+  month       = apr,
+  note        = "https://www.w3.org/TR/2013/REC-prov-o-20130430/",
+  year        = "2013",
+  bibsource   = "https://w2.syronex.com/jmr/w3c-biblio",
+  type        = "{W3C} Recommendation",
+  institution = "W3C",
+}
+
 @article{bib:codd1970relational,
   title={A relational model of data for large shared data banks},
   author={Codd, Edgar F},
@@ -449,4 +460,19 @@ series = {PODS '19}
 @article{bib:vanherwergenderived,
   title={Granular Access to Policy-Governed Linked Data via Partial Server-Side Query},
   author={Van Herwegen, Joachim and Verborgh, Ruben}
+}
+
+@article{bib:data-provenance,
+author = {Becker, Richard A. and Chambers, John M.},
+title = {Auditing of Data Analyses},
+journal = {SIAM Journal on Scientific and Statistical Computing},
+volume = {9},
+number = {4},
+pages = {747-760},
+year = {1988},
+doi = {10.1137/0909049},
+URL = {https://doi.org/10.1137/0909049},
+eprint = { 
+    https://doi.org/10.1137/0909049},
+    abstract = { We describe concepts and software for the auditing of data analyses. Auditing begins with the record of a data analysis session. The record tells what statements were executed and what objects were accessed or changed, and can be processed to recreate chosen statements in the analysis for purposes of verification. It can also be the starting point for asking a variety of questions about the analysis, through an interactive, exploratory interface, as a data analyst’s assistant.We have constructed such an auditing facility and examined some actual data analyses with it. The record of the data analysis is converted into a special data structure; the data structure in turn is used to examine and display the interconnections among statements in the record. Our facility demonstrates that the verification process is possible and computationally reasonable, even for quite large analyses. At the same time, interactive exploration of the audited analyses presents some interesting and extremely challenging problems. }
 }
