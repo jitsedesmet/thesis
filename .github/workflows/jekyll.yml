@@ -52,7 +52,7 @@ jobs:
       - name: link combine
         working-directory: .
         run: |
-          gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=combine.pdf -dBATCH pre-extended.pdf paper.pdf main.pdf
+          gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=combine.pdf -dBATCH pre-extended.pdf paper.pdf report.pdf
           mv _papers/thesis-report/combine.pdf solution/report.pdf
 
       - name: Setup Ruby
