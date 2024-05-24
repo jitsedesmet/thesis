@@ -155,11 +155,6 @@
   #include "additional/abstract.typ"
 ]
 
-#include "additional/extended-abstract.typ"
-
-#pagebreak(weak: false)
-
-
 // ------ Content ------
 
 // Set defaults
@@ -168,7 +163,7 @@
     #pagebreak(weak: true)
     #it
   ]
-  
+
   #set page(numbering: "i")
   #set heading(numbering: none)
   #set par(leading: 0.65em, first-line-indent: 0pt, justify: false)
