@@ -36,21 +36,22 @@ jobs:
       - uses: typst-community/setup-typst@v3
         with:
           cache-dependency-path: ./_papers/thesis-report/main.typ
-      - name: Book - compile
+      - name: pre - paper
         working-directory: ./_papers/thesis-report
         run: typst compile main.typ report.pdf
-      - name: link book
-        working-directory: .
-        run: |
-          mv _papers/thesis-report/report.pdf solution/report.pdf
+
+      - name: Book - compile
+        working-directory: ./_papers/thesis-report
+        run: typst compile pre-extended-abstract.typ pre-extended.pdf
 
       - name: Paper - compile
         working-directory: ./_papers/thesis-report
         run: typst compile additional/extended-abstract.typ --root . paper.pdf
-      - name: link paper
+      - name: link combine
         working-directory: .
         run: |
-          mv _papers/thesis-report/paper.pdf solution/paper.pdf
+          gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=combine.pdf -dBATCH pre-paper.pdf paper.pdf main.pdf
+          mv _papers/thesis-report/combine.pdf solution/report.pdf
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
