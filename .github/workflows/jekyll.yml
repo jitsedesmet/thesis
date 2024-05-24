@@ -38,17 +38,19 @@ jobs:
           cache-dependency-path: ./_papers/thesis-report/main.typ
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y ghostscript && sudo apt-get clean
-      - name: pre - paper
-        working-directory: ./_papers/thesis-report
-        run: typst compile main.typ report.pdf
 
-      - name: Book - compile
+      - name: pre-paper - compile
         working-directory: ./_papers/thesis-report
         run: typst compile pre-extended-abstract.typ pre-extended.pdf
 
       - name: Paper - compile
         working-directory: ./_papers/thesis-report
         run: typst compile additional/extended-abstract.typ --root . paper.pdf
+
+      - name: Book - compile
+        working-directory: ./_papers/thesis-report
+        run: typst compile main.typ report.pdf
+
       - name: link combine
         working-directory: .
         run: |
