@@ -46,7 +46,7 @@ jobs:
 
       - name: Paper - compile
         working-directory: ./_papers/thesis-report
-        run: typst watch additional/extended-abstract.typ --root . paper.pdf
+        run: typst compile additional/extended-abstract.typ --root . paper.pdf
       - name: link paper
         working-directory: .
         run: |
