@@ -1,6 +1,6 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
-#import "../raw/abstract.typ": *
+#import "../raw/consts.typ": *
 
 // multiple bibliography issues: https://github.com/typst/typst/issues/1097
 // And title scope undesired... would scope titles
@@ -62,7 +62,7 @@
   ]
   #counter(footnote).update(0)
 
-  Supervisors: Dr. ir. Ruben Taelman, Prof. dr. ir. Ruben Verborgh
+  Supervisors: #supervisors.join(", ")
 ]
 
 
@@ -205,6 +205,8 @@ It thus makes sense to speculate that a similar structural description can help 
 
 
 = Acknowledgements
+
+#acknowledgements
 
 
 = References

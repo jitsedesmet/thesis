@@ -1,5 +1,5 @@
 #import "../utils/review.typ": *
-#import "../raw/abstract.typ": *
+#import "../raw/consts.typ": *
 #import "../utils/general.typ": *
 
 // The abstract is maximum one page and contains at least the following:
@@ -32,12 +32,8 @@
   Faculty of Engineering and Architecture\
   Ghent University
   #grid(columns: (1fr, 1fr), gutter: 1em,
-      [Supervisors:],
-      [Counsellors:],
-      [Dr. ir. Ruben Taelman],
-      [Dr. ir. Ruben Taelman],
-      [Prof. dr. ir. Ruben Verborgh],
-      [Bryan-Elliott Tam],
+      [Supervisors:], [Counsellors:],
+      ..supervisors.zip(counsellors).flatten()
   )
 ]
 ]

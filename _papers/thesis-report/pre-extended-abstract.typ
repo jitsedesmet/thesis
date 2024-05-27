@@ -1,4 +1,5 @@
 #import "utils/general.typ": * 
+#import "raw/consts.typ": * 
 #set document(
   title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment",
   author: ("Jitse De Smet"),
@@ -18,7 +19,7 @@
   
   = Foreword
 
-  I would like to thank...
+  #acknowledgements
 ]
   
   #align(center + horizon)[
