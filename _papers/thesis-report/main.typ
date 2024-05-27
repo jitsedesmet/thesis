@@ -1,7 +1,7 @@
 #import "@preview/drafting:0.2.0": set-page-properties // https://typst.app/universe/package/drafting
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 #import "@preview/hydra:0.4.0": hydra
-#import "utils/general.typ": * 
+#import "utils/general.typ": *
 #import "@preview/wordometer:0.1.2": word-count, total-words
 #set document(
   title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment",
@@ -26,7 +26,7 @@
 #[
   #set text(size: 100pt)
   #set align(center)
-  
+
   #total-words
 ]
 
@@ -73,13 +73,13 @@
   #outline(
     title: [List of Tables],
     target: figure.where(kind: table)
-  )  
+  )
 
   // List of listings.
   #outline(
     title: [List of listings],
     target: figure.where(kind: raw)
-  )  
+  )
 
 
   // List of Acronyms.

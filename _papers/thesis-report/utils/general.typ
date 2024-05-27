@@ -14,8 +14,8 @@
 #let text-example(radius: 5pt, width: auto, inset: 8pt, body) = {
   set align(center)
   set par(leading: 0.65em, justify: false)
-  
-  
+
+
   block(breakable: false, width: width,
         fill: rgb("#f4f0ec"),
         inset: inset,
@@ -58,7 +58,7 @@
 
   set figure(placement: auto)
   set enum(numbering: "1.i")
-  
+
   // Names for headings
   set heading(supplement: it => {
     // [#json.encode(it)]
@@ -81,11 +81,11 @@
   // #show ref: it => {
   //   let el = it.element
   //   if el != none and el.func() == heading {
-  
+
   //     [#it (#el.body)]
   //   } else [#it]
   // }
-  
+
   // color links and references
   // #show ref: set text(fill: color.olive)
   // #show link: set text(fill: blue)
@@ -113,6 +113,6 @@
     stroke: frame(rgb("21222C")),
   )
 
-  
+
   body
 }
