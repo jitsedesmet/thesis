@@ -41,9 +41,8 @@
 #show figure.caption: set align(left)
 #show figure.where(kind: raw): set figure(kind: image)
 
-#import "../glossary.typ": glossary
-#import "@preview/glossarium:0.2.6": make-glossary, print-glossary, gls, glspl
-#show: make-glossary
+#set enum(numbering: "1.i.")
+#set figure(placement: auto)
 
 // Title
 #[
@@ -113,7 +112,7 @@ Such an interface is essentially exposes a file sytsem over HTTP, it creates dir
 that group together data documents and directories.
 Each of the exposed HTTP resources has their own access control policy declared through either WAC~@bib:wac or ACP~@bib:acp.
 
-// CBD
+== Consice Bounded Description
 In this work, we will try to store RDF resources, defined as the CBD (Consice Bounded Description)~@bib:concise-bounded-description of a Named Node.
 The CBD of a resources is defined as the collection of triples that can be accessed by recursivelly following objects, without following named nodes.
 As an example, @fig:rdf-example contains some RDF data in turtle~@bib:turtle format, taking the CBD of named node `<me>` resultes in @fig:cbd-example. 
@@ -150,7 +149,7 @@ text-example(
 ), caption: [The CBD of named node \<me> in @fig:rdf-example.]
 ) <fig:cbd-example>
 
-// Resource descriptions
+== Resource Descriptions
 RDF datastores, and by extention, Solid pods, are schemaless, meaning data contained does not follow a specific a rigid format like for example a relational database.
 In the context of Big Data, this is beneficial because defining a schema that should be followed by all actors that write data, is imposible since both the actors, and their way of working constantly changes.
 Data consumers on might expect data they consume to follow a certain format.
@@ -160,7 +159,7 @@ A self descriptive decrlaration of ShEX can be found in @fig:shex-example.
 We do not prove a similar example for SHACL since it's syntax uses turtle, this is more verbose but the predicate names are self-describing. 
 
 #figure(
-  text-example[
+text-example[
 ```
 # our EmployeeShape reuses the FOAF ontology
 # An <EmployeeShape> has:
@@ -173,10 +172,11 @@ We do not prove a similar example for SHACL since it's syntax uses turtle, this 
 }
 ```
   ],
-  caption: [Self-explanetory example ShEx shape]
+  caption: [Self-explanetory example ShEx shape.]
 ) <fig:shex-example>
 
 // Pod descriptions (Type Index & Shape trees) -> Why do we need SGV?
+== Storage Organization Descriptions
 Just like RDF does not define it's data schema, so does LDP not define it's data organization.
 As a result, someone reading a pod does not know where it can find the data relevant to them.
 However, just like RDF data can be described using a resource description, so can an LDP interface organization be described.
@@ -193,6 +193,94 @@ by for example consulting the type indexes can be beneficial~@bib:taelman-struct
 It thus makes sense to speculate that a similar structural description can help write queries.
 
 = Storage Guidance Vocabulary
+
+Unfortunatly, neither Type Indexes~@bib:type-index, nor Shape Trees~@bib:shape-tree are sufficiently descriptive to assess whether a resource should be stored in a document.
+As an example we give a small list of questions that can not be answered by either data store descriptions:
++ What if multiple directories match? Do I dublicate the resource?
++ What should I do if no documents match?
++ How are resources grouped?
+  + Can I infer that resources grouped by some property are always grouped by that property?
+  + Does that mean that if I get a new object for that property that I can just create a new document?
++ What should I do when I update a resource?
+  + Should I alter the data store description? 
+  + Should I move the resource? (Assign a new named node?)
++ Are all clients equal? Do they all abide the strctural information description?
+
+To answer these questions, we develop a new vocabulary, namely, the Storage Guidance Vocabulary (SGV).
+The basic concepts of the vocabulary are:
+#[
+  #set list(marker: "", indent: 0cm, body-indent: 0cm)
+  - *Resource Collection*: Corresponds to a group of RDF resources.
+  - *Unstructured Collection*: Corresponds to a classical LDP container or HTTP resource
+  - *Structured Collection*: A canonical or derived collection. (below)
+  - *Canonical Collection*: A resource collection containing resources.
+  - *Derived Collection*: A resource collection that stores resources already stored by one or more other structured containers.
+  - *Resource Description*: A way of describing resources, for example through ShEx or SHACL.
+  - *Group Strategy*: A description of how resources should be grouped together, for example: my images are grouped per creation date.
+  - *Store Condition*: When multiple collections are eligible to store a resource, the store condition decides what collection(s) actually store the resource. Allowing the creation of a store priority system.
+  - *Update Condition*: Describes what to do when a containing resource is changed.
+  - *Client Control*: Describes the amount of freedom a client has when trying to store a resource
+]
+
+== Flow: Create Resource
+
+To clearify the different consepts we walk through an example flow to create a resource.
+@fig:example-insert shows a query that would trigger this flow.
+The query engine will essentially discover what URI should be used as a base.
+To do so, it goes through the following ssteps:
++ The client gets the SGV description of the storage space (can be cached).
++ The client checks all canonical collections and checks if the resource to be inserted matches a resource description of the collection.
++ If the resource matches a description, the client checks the store condition of the description given the eligible collections.
++ For each collection that stores the resource:
+   + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
+   + The client checks the collections that are derived from this collection.
+        Step 4 is executed for all collections that are derived from this collection, and the resource matches the description.
++ The client performs the store operation.
+
+#figure(
+text-example[
+```SPARQL
+INSERT DATA {
+  <> a ns1:Post ;
+    ns1:content
+      "I want to eat an apple." ;
+    ns1:creationDate "2024-05-08T23:23:56Z"^^xsd:dateTime ;
+    ns1:id "416608218494388"^^xsd:long ;
+    ns1:hasCreator card:me ;
+    ns1:hasTag tag:Austria ;
+    ns1:isLocatedIn resource:China .
+}
+```
+], caption: [Example resource insertion query]
+) <fig:example-insert>
+
+== Flow: Update Resource
+
+Creating a resource is of course only one facet, we now look at the flow of updating, or simularly, deleting data.
+@fig:example-update shows an example update query that would trigger an update flow:
++ The client gets the SGV description of the storage space and the HTTP resource containing the updated RDF resource.
++ The client virtually constructs the resource that would result from the requested operation.
++ The client check the update condition of the original matching resource description. Following action depends on the update condition.
+    Typically, the update-condition will say whether an RDF resource is moved or not.
+    + Move required: remove the existing resource and follow the steps described in the create resource flow.
+    + No move required: just update the resource as requested by the user.
+
+#figure(
+text-example(
+```SPARQL
+DELETE {
+  ?id ns1:id "416608218494388"^^xsd:long .
+} INSERT {
+  ?id ns1:id "416608218494389"^^xsd:long .
+} where {
+    BIND(:416608218494388 as ?id)
+}
+```
+), caption: [Example resource update query]
+) <fig:example-update>
+
+
+#todo[Skipping Datails and use cases! (for now. We'll see how much place is available?)]
 
 
 = Evaluation

@@ -57,7 +57,7 @@
   show heading.where(level: 4): set block(above: 1.55em, below: 1em)
 
   set figure(placement: auto)
-  set enum(numbering: "1.i")
+  set enum(numbering: "1.i.")
 
   // Names for headings
   set heading(supplement: it => {
