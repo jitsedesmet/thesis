@@ -156,11 +156,41 @@ In the context of Big Data, this is beneficial because defining a schema that sh
 Data consumers on might expect data they consume to follow a certain format.
 Shape descriptions describe the format of data and can be used to validate that data indeed follows the expected format.
 Two RDF shape description languages are important, ShEx~@bib:shex and SHACL~@bib:shacl.
+A self descriptive decrlaration of ShEX can be found in @fig:shex-example.
+We do not prove a similar example for SHACL since it's syntax uses turtle, this is more verbose but the predicate names are self-describing. 
 
+#figure(
+  text-example[
+```
+# our EmployeeShape reuses the FOAF ontology
+# An <EmployeeShape> has:
+<EmployeeShape> {
+# at least one givenName.
+  foaf:givenName xsd:string+,
+  foaf:familyName xsd:string, # one familyName.
+  foaf:phone IRI*, # any number of phone numbers.
+  foaf:mbox IRI # one FOAF mbox.
+}
+```
+  ],
+  caption: [Self-explanetory example ShEx shape]
+) <fig:shex-example>
 
 // Pod descriptions (Type Index & Shape trees) -> Why do we need SGV?
+Just like RDF does not define it's data schema, so does LDP not define it's data organization.
+As a result, someone reading a pod does not know where it can find the data relevant to them.
+However, just like RDF data can be described using a resource description, so can an LDP interface organization be described.
+Solid proposes two ways of describing a pod, Type Indexes~@bib:type-index and Shape Trees~@bib:shape-tree.
+The Type Indexes specification was a first attempt at describing the resources of a Pod, it describes the use of a public and private index over the `rdf:type` predicate.
+The construction of a public and private index is however fundamentally flawed since resources cannot be grouped into either public or private because more complex access control is te norm.
 
-// 
+Shape Trees are the proposed replacement of Type Indexes.
+Type indexes was limited to creating a indexes based on the type predicate, as an improvement, Shape Trees index based on some Resource Description.
+Moreover, Shape Trees are the natural extension of these resource descriptions to resource hyrarchies.
+
+In the context of read queries, it has been proven that using the structure of a pod,
+by for example consulting the type indexes can be beneficial~@bib:taelman-structure-assumptions.
+It thus makes sense to speculate that a similar structural description can help write queries.
 
 = Storage Guidance Vocabulary
 
