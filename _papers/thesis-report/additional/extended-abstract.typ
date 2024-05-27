@@ -37,9 +37,13 @@
   }
 }
 
-#show figure: set figure.caption(position: top)
+#show figure.where(kind: "table"): set figure.caption(position: top)
 #show figure.caption: set align(left)
 #show figure.where(kind: raw): set figure(kind: image)
+
+#import "../glossary.typ": glossary
+#import "@preview/glossarium:0.2.6": make-glossary, print-glossary, gls, glspl
+#show: make-glossary
 
 // Title
 #[
@@ -54,7 +58,7 @@
   Jitse De Smet#footnote(numbering: it => [])[
     #show: columns.with(2, gutter: 12pt)
   J. De Smet is a master student with the KNowledge On Web Scale team within IDLab, Ghent University (UGent), Gent, Belgium.
-  Email #link("mailto:jitse.desmet@ugent.be")[jitse.desmet\@ugent.be]
+  Email: #link("mailto:jitse.desmet@ugent.be")[jitse.desmet\@ugent.be]
   ]
   #counter(footnote).update(0)
 
@@ -102,6 +106,61 @@ We hypothesize that such query engine has a 2x overhead in the number of HTTP re
 
 = Related Work
 
+// Solid uses RDF & LDP 
+The Solid specification~@bib:solid-spec builds ontop of existing Semantic Web technologies sush as RDF (Resource Description Framework)~@bib:rdf and LDP (Linked Data Platform)~@bib:ldp.
+LDP is a set of rules that is used to create a document oriented interface accecable through HTTP.
+Such an interface is essentially exposes a file sytsem over HTTP, it creates directries, called Containers,
+that group together data documents and directories.
+Each of the exposed HTTP resources has their own access control policy declared through either WAC~@bib:wac or ACP~@bib:acp.
+
+// CBD
+In this work, we will try to store RDF resources, defined as the CBD (Consice Bounded Description)~@bib:concise-bounded-description of a Named Node.
+The CBD of a resources is defined as the collection of triples that can be accessed by recursivelly following objects, without following named nodes.
+As an example, @fig:rdf-example contains some RDF data in turtle~@bib:turtle format, taking the CBD of named node `<me>` resultes in @fig:cbd-example. 
+
+#figure(
+text-example(
+```turtle
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+<me> a foaf:Person ;
+  foaf:givenName "Alice" ;
+  foaf:knows ex:Bob, ex:Carol ;
+  foaf:knows [
+      foaf:givenName "Dave"
+    ] .
+ex:Bob
+  foaf:givenName "Bob" ;
+  foaf:familyName "Builder" .
+```
+), caption: [An example RDF file.]
+) <fig:rdf-example>
+#figure(
+text-example(
+```turtle
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+<me> a foaf:Person ;
+  foaf:givenName "Alice" ;
+  foaf:knows ex:Bob, ex:Carol ;
+  foaf:knows [
+      foaf:givenName "Dave"
+    ] .
+```
+), caption: [The CBD of named node \<me> in @fig:rdf-example.]
+) <fig:cbd-example>
+
+// Resource descriptions
+RDF datastores, and by extention, Solid pods, are schemaless, meaning data contained does not follow a specific a rigid format like for example a relational database.
+In the context of Big Data, this is beneficial because defining a schema that should be followed by all actors that write data, is imposible since both the actors, and their way of working constantly changes.
+Data consumers on might expect data they consume to follow a certain format.
+Shape descriptions describe the format of data and can be used to validate that data indeed follows the expected format.
+Two RDF shape description languages are important, ShEx~@bib:shex and SHACL~@bib:shacl.
+
+
+// Pod descriptions (Type Index & Shape trees) -> Why do we need SGV?
+
+// 
 
 = Storage Guidance Vocabulary
 
@@ -119,7 +178,4 @@ We hypothesize that such query engine has a 2x overhead in the number of HTTP re
 
 
 = References
-
-
-#bibliography("../items.bib")
-
+#bibliography(title: none, "../items.bib")
