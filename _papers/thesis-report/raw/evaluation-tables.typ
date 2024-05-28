@@ -1,3 +1,18 @@
+/*
+┌─────────┬──────────────────────────────────────────────┬─────────┬────────────────────┬──────────┬─────────┐
+│ (index) │ Task Name                                    │ ops/sec │ Average Time (ns)  │ Margin   │ Samples │
+├─────────┼──────────────────────────────────────────────┼─────────┼────────────────────┼──────────┼─────────┤
+│ 0       │ 'delete insert id by creation date: SGV'     │ '7'     │ 139087340.65000007 │ '±0.92%' │ 100     │
+│ 1       │ 'delete insert id by creation date: RAW'     │ '31'    │ 31506357.520000163 │ '±3.26%' │ 100     │
+│ 2       │ 'delete insert id all in one file: SGV'      │ '2'     │ 337700179.4699989  │ '±1.60%' │ 100     │
+│ 3       │ 'delete insert id all in one file: RAW'      │ '5'     │ 168110947.49000025 │ '±5.88%' │ 100     │
+│ 4       │ 'delete insert id own file: SGV'             │ '5'     │ 180586969.8300003  │ '±0.45%' │ 100     │
+│ 5       │ 'delete insert id own file: RAW'             │ '32'    │ 30525821.86000043  │ '±2.80%' │ 100     │
+│ 6       │ 'delete insert id by creation location: SGV' │ '7'     │ 135774830.83999717 │ '±0.78%' │ 100     │
+│ 7       │ 'delete insert id by creation location: RAW' │ '32'    │ 30422259.46000166  │ '±3.14%' │ 100     │
+└─────────┴──────────────────────────────────────────────┴─────────┴────────────────────┴──────────┴─────────┘
+*/
+
 #let insert-data-complete = table(
   columns: (auto, auto, auto, auto),
   table.header(

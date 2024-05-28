@@ -280,7 +280,7 @@ DELETE {
 ) <fig:example-update>
 
 
-#todo[Skipping Datails and use cases! (for now. We'll see how much place is available?)]
+#todo[Skipping Datails and use cases! -> \@RT: is it worth adding more given the 6p limit?]
 
 
 = Evaluation
@@ -435,7 +435,25 @@ This is in sharp contrast to a distributed database that duplicates data accross
 Related to the CAP theorem, taht means that data spaces to not have strong Partition Tolerance requirements, allowing us to devote more attention into consistency and availability.
 
 = Conclusion
+// Small resume
+In this work, we presented a vocabulary that allows smart clients to autonomously discover the location a created or updated resource should be stored within a document oriented decentralized interface of a permissioned decentralized environment.
+The vocabulary also introduces checks on whether a resource can be created or removed.
+Additionally, we proved that our vocabulary is indeed expressive by implementing a smart client that consumes it.
 
+We hypothesized that such a smart client would be a maximum of four times slower and would require a maximum of double the amount of HTTP requests.
+Through theoretical evaluation, we discover that the amount of HTTP requests is within those bound.
+Unfortunately, the execution time of a single query was slower than four times the execution time of the same query when not consuming the proposed vocabulary.
+We concluded that the execution time is less than four times slower in the case that the behavior of our solution could be modeled using a SPARQL query.
+
+// Questions to myself
+In essence, SGV tries to provide structure to a widely unstructured document store, namely LDP.
+It does this by defining a server-side description of the structure that should be enforced by clients.
+In reality, clients can still interact with the data store however they want since the server is not aware that a structure should be followed.
+This lack of server-side verification is perhaps the biggest shortcoming of this work.
+That being said, it is entirely possible to extend an existing data store server with an SGV verification system.
+The downside at that being that both the client and server need to calculate the proposed location of a resource.
+Unfortunately, this is a shortcoming of the choosing for an low-complexity server, only to later conclude you want to assert complex guarantees.
+What's more, since one server interface is used by many decentraliced clients, it becomes almost impossible to guarantee a system that respects the structure of a permissive interface without creating server-side validation.
 
 = Acknowledgements
 
