@@ -284,10 +284,155 @@ DELETE {
 
 
 = Evaluation
+To verify our hypothesis we implemented an SGV aware query engine and benchmarked it
+#footnote[Both the implementation, and the benchmark are available at:\ #link(thesis-code)[#thesis-code]].
+The provided implementation does not implementent all features of SGV, but provides a sufficient implementation to verify the hypothesis.
+Our hypothesis is two-fold, we want to verify both the HTTP-request overhead and the execution time overhead.
+The former will be evaluated in a theoretical matter as it provides more insights in the system, while the latter will require an empirical evaluation.
+
+== Theoretical Evaluation
+Depending on the operation, a different number of HTTP requests is required.
+We will analyse three different cases:
+#inline-enum[
++ creating a resource,
++ updating a resource, but not moving it, and
++ updating a resource and moving it.
+]
+
+=== Creating a Resource
+The creation of a resource requires the client to fetch the SGV description.
+Assuming the description is located in a single file, this amounts to one HTTP request.
+
+After getting the description, the client computes the location the resource should be stored.
+When done, the client performs another HTTP resuest to store the resource there.
+
+Our hypothesis is hold for this operation since a client not using SGV would require but one HTTP resuest, namely to create the resource.
+
+=== Updatinging a resource, not moving it
+
+In case of updating a resource, we need to both get the SGV description and the original resource.
+Getting both resources can hoverver be done in parallel.
+
+A client will now compute whether the resource should be moved, and conclude it need not be moved.
+The client will thus perform another request to update the HTTP resource it just received.
+
+In total this amounds to tree HTTP requests.
+A non-SGV aware client would require two HTTP requests,
+one to get the original resource in order to create its binding, and one to perform the update.
+The hyputhesis thus holds true.
+
+=== Updating a resource, moving it
+
+In case a move is requred, an SGV engine would do the same steps as before, but when updating the resource, it would need two (parallel) HTTP requests.
+One to delete the original and one to create the new one. Resulting in four HTTP requets.
+An non-SGV query engine would require at least three HTTP requests to achieve the same result, two of which can also be parallelized.
+This thus verifies our HTTP requests count hypothesis.
+
+== Emperical evaluation
+
+#let solidbench = "https://github.com/SolidBench/SolidBench.js"
+For our emperical evaluation, we benchmark our SGV-aware engine using SolidBench
+#footnote[#link(solidbench)[#solidbench]].
+Which exposes pods containing LDBC Social Network Benchmark (SNB)~@bib:ldbc data.
+We created four pods with their own way of organizing social media posts:
+#inline-enum[
++ organising all posts in a directory with a file for each creation date,
++ organising all posts in a directory with a file for each creation location,
++ organising all posts in a directory with a file post, and
++ organizing all posts in one file.
+]
+
+These organization structures are then evaluated using queries that test five different choke points:
+#inline-enum[
++ creating a resource,
++ updating a resource, not moding it,
++ updating a resource, moving it,
++ performing an illegal update, and
++ Deleting a resource.
+]
+
+From these evaluations, we conculded that our hypothesis holds for all choke points exept one.
+A SGV-aware query engine evaluating a query that does move the resource is slower than the same query evaluated by a non-SGV aware engine.
+Note that the other engine does not move the resource, and that a SPARQL query has no way of expressing a resource move because it can not express the CBD.
+
+We can thus conclude from our benchmarks that the hypothesis holds only in case the SGV-query behaviour could be expressed using a SPARQL query.
 
 
 = Future Work
 
+To our knowledge, this is the first effort of abstracting data updates over a document-oriented interface of a decentraliced permisioned environment.
+As such, there is a plenty of future work.
+
+== Inter-Pod updates
+
+In this work we reduced the complexity by assuming that we want to update a single pod.
+Of cource, updating multiple pods with a single query is a logical next step where different considerations need to be made.
++ As a pod owner, I want to transfer pictures I have to someone else, so they now own that picture.
+  Note that I am not guaranteed to have write permissions to the other Solid pod.
++ As a pod owner, I want to transfer a token to a pod I do, or do not have write access to.
+  The token should always exists _exactly once_, meaning there is always one person holding the token, and everyone can see who has it.
++ As a pod owner, I want to insert an additional property to an existing resource in someone elses pod.
+  For example, I transferred a picture and forgot to add a description.
++ As a pod owner, I want to delete a property of an existing resource in someone elses pod.
++ As a pod owner, I want to remove a resource in someone elses pod, so I don't see it anymore.
+  Essentially, I want to change my view over the resource.
+  This could be achieved by using the Subweb Specification~@bib:subweb and adding a rule that makes me ignore the "virtually" deleted triple.
++ As a pod owner, I want to remove a resource in someone else's pod, so no one can see it.
+  I might want to send a suggestion in a notification collection of the targetted pod.
+
+== Other Interfaces
+
+In this work we investigate document-oriented interfaces, focussing on LDP.
+With document-oriented interface, the question when inserting a resource is mostly: "Where do I store this resource?"
+When using a different interface, that question might shift to "What other resources are linked to this new one, and though what links?"
+There is merit in investigating different interfaces for the use of descentraliced data storages document orineted interfaces come with drawbacks~@bib:whats-in-pod.
+Beyond the drawbacks listed there, much of the complexities of SGV are a result of the unordered, document oriented nature of SGV.
+This non-descriptiveness however is at the benefit of the data provider and thus it's unlikely that LDP will disapear.
+
+Another interesting approach would be to create multiple interfaces on the same data, as an example one interface would serve as a SPARQL endpoint.
+Another endpoint could be an LDP interface that derives collections based on the canonical collection that is the SPARQL endpoint.
+
+== View Creation And Discovery
+
+Derived resources have already proved to be beneficial to solve issues of LDP~@bib:vanherwergenderived.
+In our benchmarks we see that the pods data organization heavily influences the execution time of queries.
+The application exposing the data could infer what kind of resource organization would benefit clients through usage statistics.
+The server could than decide to create a derived collection to enable faster query execution.
+
+== Smart Access Control
+
+Access control policies are currently created per document.
+This makes access control hard to understand since it not clear why a single document has a certain access policy.
+SGV describes why and what data is stored in a certain document.
+Configuring an access policy in a certain document can thus be translated to what kind of resources follow what policy.
+Extracting policies based on the data can be usefull when derived resources come into play.
+For example, it could be infered when you have access to some resource in a canonical collection, that you should also have access to that resource in a derived collection given no data enrichment happened when the derived resource was created.
+
+== Update Behavior
+
+In this work we created a client that autonomically created an RDF resource without requireing to specify a URI. 
+To achieve this we used a query engine that abstracts complex operations.
+A query engine, just like any update API, have to power to choose where to position themselves within the CAP (Consistency, Availability, Partition tolerace) space~@bib:cap. CAP essentially says you can only have two of three properties of {C, A, P} with choice of a distributed system either being the ACID~@bib:acid or BASE~@bib:base properties.
+
+When choosing the BASE properties, a user chooses to drop consistency.
+One way of doing so is by creating CRDTs (Conflict-free Repicated Data Types)~@bib:crdt.
+Essentially, when multiple people are using the same resource, they will all have their own local copy of the resource.
+When the resource is edited, a CRDT will edit the local copy and syncronize the state later.
+This means that the user does not always have the latest state of a resource, thus sacreficing consistency.
+When syncronizig the resource however, the syncronization should not just undo changes made by others.
+Instead, both changes should be considered when updating the canonical resource.
+A query engine that implements a CRDTs helps developers to create faster software.
+
+Another approach is to choose the ACID properties.
+These properties are widly used in the form of relational database transactions.
+They are not only expected by developors, but many applications are unable to operate without the consistency guarantees ACID brings.
+We therefore believe that we should examine the posibility of ACID transaction within a the decentraliced data storage research.
+This does not mean that we completly drop the availability property, as the inventors of the CAP theorem later describe~@bib:continous-cap.
+Futhermore, we believe that within the CAP space, Web technologies take on an interesting position.
+Namely, the Web intentionally does not break when links do~@bib:links-can-break.
+in the context of distributed data spaces this means that when a data store is unavailable, so is the data managed by that store.
+This is in sharp contrast to a distributed database that duplicates data accross many nodes so that all data remains accessible when a node goes offline.
+Related to the CAP theorem, taht means that data spaces to not have strong Partition Tolerance requirements, allowing us to devote more attention into consistency and availability.
 
 = Conclusion
 
