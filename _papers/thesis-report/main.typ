@@ -17,18 +17,8 @@
 #show: make-glossary
 
 
-// ------- Preface -----
 
-#counter(page).update(5)
-
-#show: word-count
-
-#[
-  #set text(size: 100pt)
-  #set align(center)
-
-  #total-words
-]
+#counter(page).update(11)
 
 
 // ------ Content ------

@@ -13,6 +13,8 @@
 
 // ------- Preface -----
 
+#counter(page).update(2)
+
 #wrapped-in-home-style()[
   #set page(numbering: "i")
   #set heading(numbering: none)
