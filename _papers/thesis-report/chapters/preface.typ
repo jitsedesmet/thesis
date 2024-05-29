@@ -36,7 +36,7 @@ such as _BBC_ (UK), _Digita_ (Flanders) and _Inrupt_ (USA).
 // Introduces more complexity compared to centralized mgmt. (also large number of sources!)
 The *fundamental shift* from centralized data management comes with various challenges.
 The Solid community tries to tackle these challenges through a specification.
-Interestingly, a rather unexplored domain is that of effectively writing data eventhough effective reads have achieved some attention.
+Interestingly, a rather unexplored domain is that of effectively writing data even though effective reads have achieved some attention.
 In this thesis, I will explore how we can *abstract data updates*, with a focus on Solid.
 
 == Problem Statement
@@ -45,7 +45,7 @@ Solid can theoretically be described as a permissioned decentralized data store.
 This large data store is split into many different pods that are individually governed.
 Contrary to widely used NoSQL databases, Solid does not create shards over these pods.
 Instead, when a pod experiences network partitioning, Solid accepts that the data on that pod is not reachable.
-This works because the underlying Linked Data principles always assumes an open world principle,
+This works because the underlying Linked Data principles always assume an open world principle,
 meaning that when data is not found, it doesn't conclude that it does not exist.
 Solid also deviates from blockchain because of this, nodes do not contain all data of the system, but only a fraction.
 Additionally, access control, and even usage control are of great importance to Solid.
@@ -57,20 +57,20 @@ Solid currently describes only a single interface type, @ldp.
 The idea of @ldp is to map a simple, document oriented file structure to a Linked Data interface over @http.
 The interface allows for a simple server implementation and limited computational overload for servers.
 This means that much client-side logic is required to take up part of the search effort.
-To make matters worse for client-side searching, the interface structure depends on data provider preferences and does not neet to be described by @ldp.
+To make matters worse for client-side searching, the interface structure depends on data provider preferences and does not need to be described by @ldp.
 We require an abstraction layer to shield developers from these complexities.
 These abstractions can happen through query engines that fetch data requested through a declarative query.
 
 These query engines already allow developers to query pods effectively through a technique called link traversal querying.
 A developer gives the root path of a Solid pod and the engine queries the whole pod.
-Eventhough it's effective, it could still benefit from effcientcy improvements.
+Even though it's effective, it could still benefit from efficiency improvements.
 Speed-ups can be gained by incorporation the structure/organization of the pod in the query evaluation~@bib:taelman-structure-assumptions.
-This oraganization can be described through different vocabularies, examples include, Type Index~@bib:type-index, Shape Trees~@bib:shape-tree, @void~@bib:void, @tree~@bib:tree, and @ldes~@bib:ldes.
+This organization can be described through different vocabularies, examples include, Type Index~@bib:type-index, Shape Trees~@bib:shape-tree, @void~@bib:void, @tree~@bib:tree, and @ldes~@bib:ldes.
 
 A pod can thus be organized, and since @ldp maps to a file system, everyone, from data consumer, data producer and data owner, benefit from a good organization.
 Unfortunately, as of currently, there are no automated clients that infer where to store a resource in a way that does not break the organization.
-Developers that want to write data to a pod thus need to have numerous checks in place, and often times, either break the organization, or store their data in a hard-coded location and then alter the organization description to be complient with the new organization.
-This way of working with data is unmaintainable and it's precicelly these data dependencies that caused Knuth to create the relational database~@bib:codd1970relational.
+Developers that want to write data to a pod thus need to have numerous checks in place. Often times, they either break the organization or store their data in a hard-coded location and then alter the organization description to be compliant with the new organization.
+This way of working with data is unmaintainable, and it's precisely these data dependencies that caused Knuth to create the relational database~@bib:codd1970relational.
 
 In this thesis, we look at how we can create a query engine that can, in an application agnostic way, infer where a resource should be stored in a Solid pod.
 The scope of this thesis is limited to Solid and the @ldp interface.
@@ -95,9 +95,10 @@ Our hypothesis is that we can create an automated client capable of deciding whe
 We hypothesize that the overhead such an intelligent client has, in comparison to a client that is not smart, is limited.
 Concretely, we expect a maximum execution time overhead of four times, and maximum double the @http requests.
 For applications that do not write too often, this is an acceptable overhead for the amount of complexity it takes away from developers.
-Even more so, write speeds are, in contrast to read speeds, often not critical, since users often don't need them for interactivity.
-// If they would, a local first approuch would have been chosen.
+Even more so, write speeds are, in contrast to read speeds, typically not critical, since users often don't need them for interactivity.
+// If they would, a local first approach would have been chosen.
 
 == Outline
 
 #todo[describe outline when we are done]
+
