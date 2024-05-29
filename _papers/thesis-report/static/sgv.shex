@@ -50,18 +50,18 @@ PREFIX tree: <https://w3id.org/tree#>
 
 # Any ldp:Container in a structured collection is a GroupedCollection
 <GroupedCollection> {
-  &<GroupStrategy>
+  &<GroupStrategyShape>
 }
 
 <GroupStrategyShape> {
-    rdf:type sgv:group-strategty-uri-template ;
+  (rdf:type sgv:group-strategty-uri-template ;
     sgv:uri-template xsd:string ;
     sgv:regexMatch xsd:string ;
     sgv:refexReplace xsd:string ;
-  |
+  )|(
     rdf:type sgv:group-strategy-sparql ;
     sgv:sparql-query xsd:string ;
-}
+)}
 
 <UpdateConditionShape> {
   (
@@ -72,6 +72,7 @@ PREFIX tree: <https://w3id.org/tree#>
   |
     rdf:type [ sgv:keep-distance ] ;
     sgv:distance xsd:decimal ;
+    sgv:original-description <ResourceDescriptionShape> ;
   ) ;
   sgv:resource-descripion <ResourceDescriptionShape> ;
 }
