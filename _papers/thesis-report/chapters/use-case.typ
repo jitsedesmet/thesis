@@ -8,7 +8,7 @@ In this work, we will work with a social media use case where a pod contains the
 This use case follows the LDBC @snb~@bib:ldbc use case.
 Every person has information about themselves and can create _posts_ and _comments_.
 Both posts and comments are _messages_, and a comment is a reply to some message.
-Messages have an id, a browser, a location IP, content, tags, and a creator.
+Messages have an ID, a browser, a location IP, content, tags, and a creator.
 @fig:schema-snb shows the schema used within this use case as copied from the
 #link("https://github.com/ldbc/ldbc_snb_datagen_hadoop#graph-schema")[LDBC @snb] GitHub. 
 @fig:snb-read and @fig:snb-write show two example queries over the @snb data that respectively read, and write data.
@@ -64,5 +64,6 @@ INSERT DATA {
 ```
 ], caption: [Example LDBC SNB write query]
 ) <fig:snb-write>
+
 
 
