@@ -4,7 +4,7 @@
 = Semantic Web
 
 The Semantic Web is a @w3c initiative that aims to extend the human-readable web to a machine-readable web.
-The initiative started in 2001 by the inventor of the web, Sir Tim Berners-Lee, and has grown to be a mature technology.
+The initiative started in 2001 by the inventor of the web, Sir Tim Berners-Lee~@bib:semantic-web, and has grown to be a mature technology.
 Even though the technology is mature, it is not outdated, with new specifications still being created to keep the syste up to date with todays requirements.
 This chapter aims to give a high-level overview that is limited to the technologies used in this work.
 
@@ -14,7 +14,7 @@ This chapter aims to give a high-level overview that is limited to the technolog
 A triple `<s, p, o>` contains a subject, predicate, and object.
 Each element of the triple can be a @uri and can thus be dereferenced using an @http GET request.
 A dereferenced @uri should contain additional info about that subject.
-A triple can thus be modelled as an arrow labelled with a predicate from subject to predicate, and each of these is a node that describes itself.
+A triple can thus be modelled as an arrow labelled with a predicate from subject to object, and each of these is a node that describes itself.
 Objects can also be literal values like strings, integers, etc.
 
 // Blank node
@@ -28,17 +28,6 @@ When adding a graph to each triple, we define an @rdf entry as a quad: `<s, p, o
 In this work, we will always work in the default graph as a simplification.
 We can make this simplification because Solid does not rely on graphs, and adding them would be a nuance.
 
-=== Consise Bounded Description
-
-The @cbd~@bib:concise-bounded-description of an @rdf resource is the set of triples that can be created as follows:
-+ Create a `to-visit` set equal to the set of triples that has the focussed resource as a subject
-+ Iterate over the triples in the `to-visit` set and:
-  + Add the curent triple to the result set.
-  + In case the object of the current triple is not a named node: add all triples with that object as a subject to the `to-visit` set.
-  + Remove the current triple from the `to-vist` set.
-
-In this work we often use "the @rdf resource" to refer to the @cbd.
-
 === Serializations
 
 @rdf can be serialized using different formats.
@@ -46,7 +35,7 @@ The formats used in this work are the machine format n-triples and the human for
 
 ==== N-Triples
 
-The N-Triples format is an unordered serialization, serializing each triple separated by a dot~@bib:n-triples.
+The N-Triples~@bib:n-triples format is an unordered serialization, serializing each triple separated by a dot.
 The symbols `<>` are used to denote a @uri.
 Values not contained within `<>` are considered either blank nodes or literal values.
 Blank nodes are represented by a "`_:`" prefix followed by an identifier.
@@ -107,13 +96,56 @@ ex:Bob
   caption: [An example Turtle document]
 ) <fig:example-turtle>
 
+=== Consise Bounded Description
+
+The @cbd~@bib:concise-bounded-description of an @rdf resource is the set of triples that can be created as follows:
++ Create a `to-visit` set equal to the set of triples that has the focussed resource as a subject
++ Iterate over the triples in the `to-visit` set and:
+  + Add the curent triple to the result set.
+  + In case the object of the current triple is not a named node: add all triples with that object as a subject to the `to-visit` set.
+  + Remove the current triple from the `to-vist` set.
+
+In this work we often use "the @rdf resource" to refer to the @cbd.
+As an example @fig:example-cbd shows the @cbd of @fig:example-turtle.
+
+#figure(
+text-example[
+```turtle
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+<me> a foaf:Person ;
+  foaf:givenName "Alice" ;
+  foaf:familyName "Rabit" ;
+  foaf:knows ex:Bob, ex:Carol ;
+  foaf:knows [
+      foaf:givenName "Dave"
+    ] .
+```
+],
+  caption: [The Consise Bounded Description of \<me> from @fig:example-turtle]
+) <fig:example-cbd>
 
 == SPARQL <sec:sparql>
 
 The @sparql query language is a declarative query language like, for example, SQL, but specifically designed for RDF~@bib:sparql.
 The query language is very extensive, in this section we explain what is needed to understand this work.
 
-@sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration. Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
+@sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration.
+Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
+Additionaly, a uery specifies the operation used, like `SELECT`.
+@fig:example-sparql shows an example @sparql select query.
+
+#figure(
+text-example[
+```turtle
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox WHERE {
+  ?x foaf:name ?name .
+  ?x foaf:mbox ?mbox
+}
+```
+], caption: [An example SPARQL select query]
+) <fig:example-sparql>
 
 === Variable
 
@@ -134,8 +166,9 @@ The STR function gets the raw string representation of a value, for example when
 === Property Paths
 
 Property paths allow you to describe a route between two nodes.
-In this work, we use the `*` property path, which means, following a property zero or more times.
-To express that we want to bind the variable "location" to each geographic location in which our variable "city" is located, we could use: `?city ex:locatedIn* ?location`.
+In this work, we use the `*` property path, which means, following a property/ predicate zero or more times.
+To express that we want to bind the variable "location" to each geographic location in which our variable "city" is located,
+we could use: `?city ex:locatedIn* ?location`.
 
 === Different kind of queries <sec:sparql-query-types>
 
@@ -144,19 +177,23 @@ Until now, we kept it easy by focussing on read queries. Since this work focuses
 ==== Insert Data
 
 An insert data query adds some triples listed to a data source.
+The operation is structured as `INSERT DATA { ... }` replacing the ellipsis with turtle formatted triples.
 
 ==== Delete Data
 
 A delete data query simply removes the triples listed from a data source.
 If a triple that should be deleted is not present, it is ignored.
+The operation is structured as `DELETE DATA { ... }` replacing the ellipsis with turtle formatted triples.
 
 ==== Delete / Insert Where
 
 A delete insert query consists of an optional delete clause followed by an optional insert clause, followed by a where clause.
 Either the delete or insert clause, or both, need to be present.
+When both are present the query will have a structure like: `DELETE { ... } INSERT { ... } WHERE { ... }`.
 Unlike the "insert data" and "delete data" queries, these queries can contain variables.
 Important to note is that the where clause is evaluated only once.
 The resulting binding are then substituted in both delete and insert clauses, and afterwards the delete clause is executed followed by the insert clause.
+
 
 ==== Delete Where
 
@@ -174,13 +211,13 @@ An in-depth comparison between schema and schemaless data storage is beyond the 
 
 Schemaless data can after the creation still be validated against some *schema*, this is useful for application developers that expect the data they consume to be in a specific format.
 In this work, we will use schemas to group similar data together.
-Within the @rdf ecosystem, two schema descriptions are important, @shex and @shacl.
+Within the @rdf ecosystem, two schema languages are important, @shex and @shacl.
 @shex was created out of a community need to describe shapes and has a compact syntax. @shacl was created later as a @w3c recommendation. This work primarily uses @shacl because it is a @w3c recommendation, we assume it will be more future-proof. We will sporadically use @shex in this text for its compressed format.
 
 === ShEx
 
 A @shex~@bib:shex shape essentially lists properties and their accompanying object type, as well as the cardinality of that property in relation to the focussed subject.
-@fig:shex-example shows a self-explanatory shape example taken from the @shex website.
+@fig:shex-example shows a self-explanatory shape example taken from the #link("https://www.w3.org/community/shex/")[@shex website].
 
 #figure(
   text-example[
@@ -210,7 +247,7 @@ In other words, say a data owner has some @rdf data, how does a data consumer ga
 In this work, we will focus on web interfaces.
 Numerous @rdf interfaces exist, a data owner could choose to expose all data in a compressed format, use a @sparql endpoint, use @tpf~@bib:tpf, etc.
 Another possibility, is to group @rdf triples together in different @http documents and provide an interface that links those documents together accordingly.
-This essentially created an endpoint following the REST architecture. //cite REST
+This essentially creates an endpoint following the REST architecture. //cite REST
 
 // Interfaces differentiate in more areas than just client/ server load.
 // Each interface can be classified as either a domain-specific interface or a domain-agnostic interface.
@@ -220,6 +257,8 @@ This essentially created an endpoint following the REST architecture. //cite RES
 A @sparql endpoint is a conceptually simple interface.
 You ask a @sparql query to the interface and you get the result.
 As an example, @fig:sparql-all-triples shows how to get all data behind a @sparql endpoint.
+Behind the conceptually simple interface is a huge amount of technical complexity.
+This technical complexity together with a potentially large computational cost of a @sparql endpoint makes it unfit for some use cases.
 
 #figure(
 text-example[
@@ -232,11 +271,8 @@ SELECT ?s ?p ?o WHERE {
 caption: [SPARQL query to select all triples]
 ) <fig:sparql-all-triples>
 
-Behind the conceptually simple interface is a huge amount of technical complexity.
-This technical complexity together with potential computational cost of a @sparql endpoint makes it unfit for some use cases.
-
 === LDP
-isn't an interface itself /* It's domain agnostic - so each domain has own interface */, but rather a
+
 @ldp is a set of rules that allow you to create a simple RESTful interface mimicing an operating systems file structure.
 Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
 @fig:ldp-container-example shows an example @ldp container.
