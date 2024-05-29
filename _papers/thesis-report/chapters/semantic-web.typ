@@ -5,14 +5,14 @@
 
 The Semantic Web is a @w3c initiative that aims to extend the human-readable web to a machine-readable web.
 The initiative started in 2001 by the inventor of the web, Sir Tim Berners-Lee~@bib:semantic-web, and has grown to be a mature technology.
-Even though the technology is mature, it is not outdated, with new specifications still being created to keep the syste up to date with todays requirements.
+Even though the technology is mature, it is not outdated, with new specifications still being created to keep the system up to date with today's requirements.
 This chapter aims to give a high-level overview that is limited to the technologies used in this work.
 
 == RDF
 // Triples
 @rdf~@bib:rdf is a @w3c specification that models graph data using triples.
 A triple `<s, p, o>` contains a subject, predicate, and object.
-Each element of the triple can be a @uri and can thus be dereferenced using an @http GET request.
+Each element of the triple can be an @uri and can thus be dereferenced using an @http GET request.
 A dereferenced @uri should contain additional info about that subject.
 A triple can thus be modelled as an arrow labelled with a predicate from subject to object, and each of these is a node that describes itself.
 Objects can also be literal values like strings, integers, etc.
@@ -24,7 +24,7 @@ The info related to that blank node is contained within the same document the tr
 
 // Graph
 A triple exists in the context of a named graph, and when no graph is provided, the triple exists in the `defaultgraph`.
-When adding a graph to each triple, we define an @rdf entry as a quad: `<s, p, o, g>`.
+When adding a graph to each triple, we define a @rdf entry as a quad: `<s, p, o, g>`.
 In this work, we will always work in the default graph as a simplification.
 We can make this simplification because Solid does not rely on graphs, and adding them would be a nuance.
 
@@ -36,7 +36,7 @@ The formats used in this work are the machine format n-triples and the human for
 ==== N-Triples
 
 The N-Triples~@bib:n-triples format is an unordered serialization, serializing each triple separated by a dot.
-The symbols `<>` are used to denote a @uri.
+The symbols `<>` are used to denote an @uri.
 Values not contained within `<>` are considered either blank nodes or literal values.
 Blank nodes are represented by a "`_:`" prefix followed by an identifier.
 The format of a literal is first the value of the literal between double quotation marks (`""`), followed by "`^^`" and then the data type.
@@ -47,7 +47,7 @@ text-example[
 ```
 <http://base.example.com/me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
 <http://base.example.com/me> <http://xmlns.com/foaf/0.1/givenName> "Alice" .
-<http://base.example.com/me> <http://xmlns.com/foaf/0.1/familyName> "Rabit"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://base.example.com/me> <http://xmlns.com/foaf/0.1/familyName> "Rabbit"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://base.example.com/me> <http://xmlns.com/foaf/0.1/knows> <http://example.org/Bob> .
 <http://base.example.com/me> <http://xmlns.com/foaf/0.1/knows> <http://example.org/Carol> .
 <http://base.example.com/me> <http://xmlns.com/foaf/0.1/knows> _:ub2bL9C5 .
@@ -79,7 +79,7 @@ text-example[
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 <me> a foaf:Person ;
   foaf:givenName "Alice" ;
-  foaf:familyName "Rabit" ;
+  foaf:familyName "Rabbit" ;
 # Two triples sharing the same subject and predicate
   foaf:knows ex:Bob, ex:Carol ;
 # A blank node
@@ -96,17 +96,17 @@ ex:Bob
   caption: [An example Turtle document]
 ) <fig:example-turtle>
 
-=== Consise Bounded Description
+=== Concise Bounded Description
 
-The @cbd~@bib:concise-bounded-description of an @rdf resource is the set of triples that can be created as follows:
+The @cbd~@bib:concise-bounded-description of a @rdf resource is the set of triples that can be created as follows:
 + Create a `to-visit` set equal to the set of triples that has the focussed resource as a subject
 + Iterate over the triples in the `to-visit` set and:
-  + Add the curent triple to the result set.
+  + Add the current triple to the result set.
   + In case the object of the current triple is not a named node: add all triples with that object as a subject to the `to-visit` set.
   + Remove the current triple from the `to-vist` set.
 
 In this work we often use "the @rdf resource" to refer to the @cbd.
-As an example @fig:example-cbd shows the @cbd of @fig:example-turtle.
+As an example, @fig:example-cbd shows the @cbd of @fig:example-turtle.
 
 #figure(
 text-example[
@@ -115,14 +115,14 @@ text-example[
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 <me> a foaf:Person ;
   foaf:givenName "Alice" ;
-  foaf:familyName "Rabit" ;
+  foaf:familyName "Rabbit" ;
   foaf:knows ex:Bob, ex:Carol ;
   foaf:knows [
       foaf:givenName "Dave"
     ] .
 ```
 ],
-  caption: [The Consise Bounded Description of \<me> from @fig:example-turtle]
+  caption: [The Concise Bounded Description of \<me> from @fig:example-turtle]
 ) <fig:example-cbd>
 
 == SPARQL <sec:sparql>
@@ -132,7 +132,7 @@ The query language is very extensive, in this section we explain what is needed 
 
 @sparql and turtle share a lot of syntax, with a minor nuance in prefix declaration.
 Turtle uses `@PREFIX` to define a prefix, while @sparql just uses `PREFIX`. Turtle also expects a dot at the end of a prefix declaration, while @sparql does not.
-Additionaly, a uery specifies the operation used, like `SELECT`.
+Additionally, a query specifies the operation used, like `SELECT`.
 @fig:example-sparql shows an example @sparql select query.
 
 #figure(
@@ -189,10 +189,10 @@ The operation is structured as `DELETE DATA { ... }` replacing the ellipsis with
 
 A delete insert query consists of an optional delete clause followed by an optional insert clause, followed by a where clause.
 Either the delete or insert clause, or both, need to be present.
-When both are present the query will have a structure like: `DELETE { ... } INSERT { ... } WHERE { ... }`.
+When both are present, the query will have a structure like: `DELETE { ... } INSERT { ... } WHERE { ... }`.
 Unlike the "insert data" and "delete data" queries, these queries can contain variables.
 Important to note is that the where clause is evaluated only once.
-The resulting binding are then substituted in both delete and insert clauses, and afterwards the delete clause is executed followed by the insert clause.
+The resulting bindings are then substituted in both delete and insert clauses, and afterwards the delete clause is executed followed by the insert clause.
 
 
 ==== Delete Where
@@ -273,10 +273,10 @@ caption: [SPARQL query to select all triples]
 
 === LDP
 
-@ldp is a set of rules that allow you to create a simple RESTful interface mimicing an operating systems file structure.
-Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
+@ldp is a set of rules that allow you to create a simple RESTful interface mimicking an operating system's file structure.
+Within a @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
 @fig:ldp-container-example shows an example @ldp container.
-An @ldp interface allows CRUD operations through the @http methods.
+A @ldp interface allows CRUD operations through the @http methods.
 
 #figure(
   text-example[
@@ -303,3 +303,4 @@ A query engine aims to shield the developers from the complexities that are omni
 These complexities range from different data formats, to different interfaces, to possible optimizations.
 
 The Comunica query engine~@bib:comunica has been especially designed to be modular, allowing easy extensibility in the different areas mentioned above. This work will use that engine because of its modular design, existing feature richness and free software nature.
+
