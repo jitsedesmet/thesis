@@ -12,7 +12,7 @@ This chapter aims to give a high-level overview that is limited to the technolog
 // Triples
 @rdf~@bib:rdf is a @w3c specification that models graph data using triples.
 A triple `<s, p, o>` contains a subject, predicate, and object.
-Each element of the triple can be an @uri and can thus be dereferenced using an @http GET request.
+Each element of the triple can be a @uri and can thus be dereferenced using an @http GET request.
 A dereferenced @uri should contain additional info about that subject.
 A triple can thus be modelled as an arrow labelled with a predicate from subject to object, and each of these is a node that describes itself.
 Objects can also be literal values like strings, integers, etc.
@@ -24,7 +24,7 @@ The info related to that blank node is contained within the same document the tr
 
 // Graph
 A triple exists in the context of a named graph, and when no graph is provided, the triple exists in the `defaultgraph`.
-When adding a graph to each triple, we define a @rdf entry as a quad: `<s, p, o, g>`.
+When adding a graph to each triple, we define an @rdf entry as a quad: `<s, p, o, g>`.
 In this work, we will always work in the default graph as a simplification.
 We can make this simplification because Solid does not rely on graphs, and adding them would be a nuance.
 
@@ -36,7 +36,7 @@ The formats used in this work are the machine format n-triples and the human for
 ==== N-Triples
 
 The N-Triples~@bib:n-triples format is an unordered serialization, serializing each triple separated by a dot.
-The symbols `<>` are used to denote an @uri.
+The symbols `<>` are used to denote a @uri.
 Values not contained within `<>` are considered either blank nodes or literal values.
 Blank nodes are represented by a "`_:`" prefix followed by an identifier.
 The format of a literal is first the value of the literal between double quotation marks (`""`), followed by "`^^`" and then the data type.
@@ -274,9 +274,9 @@ caption: [SPARQL query to select all triples]
 === LDP
 
 @ldp is a set of rules that allow you to create a simple RESTful interface mimicking an operating system's file structure.
-Within a @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
+Within an @ldp interface, each @http resource returns @rdf triples that either describe some resource, or describe some collection that contains other @rdf resources.
 @fig:ldp-container-example shows an example @ldp container.
-A @ldp interface allows CRUD operations through the @http methods.
+An @ldp interface allows CRUD operations through the @http methods.
 
 #figure(
   text-example[
