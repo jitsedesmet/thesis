@@ -1,5 +1,6 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
+#import "../raw/consts.typ": *
 #import "../raw/evaluation-tables.typ": *
 
 = Evaluation
@@ -22,15 +23,15 @@ We finish with an empirical evaluation of the query engine.
 
 To analyse the capabilities of @sgv, we implemented a query engine capable of parsing a pod's @sgv description and acting accordingly.
 The source code of the implementation and benchmark can be found
-#link("https://github.com/jitsedesmet/sgv-update-engine")[online].
+#link(thesis-code)[online].
 The query engine acts as a wrapper around the modular Comunica query engine @bib:comunica.
 We chose to implement a wrapper around Comunica for convenience because it allows us to quickly get results without the need of understanding, or changing Comunicas internal code.
 
-For this proof of concept implementation, we will only support essential parts of @sgv.
-We therefore provide an implementation of only the following concepts:
+For this proof of concept implementation, we only support essential parts of @sgv.
+We therefore only provide an implementation of the following concepts:
 + Canonical Collection
 + Group Strategy: only @uri templates.
-+ Resource Description: only @shex.
++ Resource Description: only @shacl.
 + Store Condition: "always stored", "prefer other", "only stored when not redundant", and "never stored".
 + Update Condition: "prefer static", "move to best matched", and "disallow".
 
@@ -44,7 +45,7 @@ Unfortunately, that library does not have type descriptions available making ado
 == Theoretical Evaluation
 
 In our theoretical evaluation, we analyse the number of @http requests.
-In @sec:hypotheses we hypothesize that the required number of @http quries of an @sgv aware client would at most be double that of a normal one. 
+In @sec:hypotheses we hypothesize that the required number of @http queries of an @sgv aware client would at most be double that of a normal one. 
 
 
 === Insert Operation <sec:eval-insert>
@@ -64,7 +65,7 @@ there is no way of checking whether your @sgv description has not grown outdated
 For example, you could compute the change, than fetch the @sgv again using an
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since")[if-moified-since header] and recompute in case it did change.
 However, in between confirming you have the  latest value and writing the data, the
-@sgv could have been changed, causing you to write in outdated way nevertheless.
+@sgv could have been changed, causing you to write in an outdated way nevertheless.
 Because @ldp exposes multiple @http resources, using the
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since")[If-Unmodified-Since] is not possible.
 // in conclusion, either expand a pod so it knows what it is, or get rid of ldp?
@@ -83,6 +84,9 @@ The computational load could be reduced when resource descriptions have overlapp
 A shape could in that case be defined as a conjunction using `sh:and`.
 Take the example of images and personal images.
 A personal image could be described using logical constraint components as described in @sec:resource-description.
+
+As an example, for the case described in @fig:logical-constrained-components, a query engine could cache the evaluation result of `ex:Picture`.
+Optimizations in the descriptions like this could likely be automated.
 
 #figure(
 text-example[
@@ -103,9 +107,6 @@ ex:PersonalPictureShape
 ], caption: [SHACL description using logical constrained components]
 ) <fig:logical-constrained-components>
 
-As an example, for the case described in @fig:logical-constrained-components, a query engine could cache the evaluation result of `ex:Picture`.
-Optimizations in the descriptions like this could likely be automated.
-
 ==== Filter Collections on Store Condition
 
 The complexity of filtering the list of eligible collections could be significant.
@@ -115,7 +116,7 @@ We will thus disregard that case here.
 The worst-case performance is listed below:
 - Always Stored: Constant
 - Prefer Other: linear search in list of eligible collections.
-- Prefer Most Specific: linear scan trough eligible collections and distance function dependent cost for each collection. The cost is cacheable.
+- Prefer Most Specific: linear scan trough eligible collections and distance function dependent cost for each collection. The distance could be cached.
 - Only stored when not redundant: linear scan through collections in case no collection is clear-cut
 - Never: constant
 
@@ -136,7 +137,7 @@ also accept SPARQL update queries.
 ==== Conclusion Resource Creation
 
 We now know that the resource creation takes 2 @http requests: reading @sgv and creating the resource.
-This satisfies with our hypothesis.
+This is complient with our hypothesis.
 
 === Update Resource, No Move Required
 
@@ -147,7 +148,7 @@ An example update query is @fig:insert-where-tag in the emerical evaluation.
 ==== Fetch the Description and the Resource
 
 Like with creating a resource, we need to fetch the @sgv, costing us one @http request.
-Additionally, we need to fetch the current state of the resource, costing us at least one additional @http request.
+Additionally, we need to fetch the current state of the resource, costing us one additional @http request.
 Luckily, these requests can be done in parallel, minimizing delay.
 
 ==== Construct the result
@@ -162,7 +163,7 @@ We know the canonical collection this @rdf resource is stored in because the pre
 We then have to check the update condition the resource matches and check if, and how, we can update.
 In most cases, this is a fairly simple process.
 
-In the case of Keep Distance, an update that stretches the shape description too hard might cause many updates.
+In the case of Keep Distance, an update that stretches the shape description too might cause many updates.
 It's important to note though that the Amortized Computational Complexity~@bib:tarjan1985amortized would still make this a constant operation.
 
 ==== Commit Changes
@@ -177,9 +178,10 @@ two, non-parallel @http requests
 
 ==== Conclusion Resource Update, No Move
 
-We can conclude that the cost of an @rdf resource update is two in the case of an update that only deletes or adds triples, and three in the case of an update that both deletes and updates.
-It should, however, be possible to do it using only two @http requests.
-Whith is valid with our hypothesis.
+We can conclude that the cost of an @rdf resource update is three in the case of an update that only deletes or adds triples, and four in the case of an update that both deletes and updates.
+It should, however, be possible to do it using only three @http requests.
+Whith is valid with our hypothesis, since a non-@sgv query engine would require either two or three requests.
+One to get the original resource, and one or two to update.
 
 === Update Resource, Move Required
 
@@ -187,9 +189,10 @@ In the previous section, we assume the update condition concludes no move is req
 This section describes the cost when a move is required.
 In this case, we delete the original @rdf resource and follow the steps of @sec:eval-insert, disregarding the @sgv fetch step.
 
-Assuming we use N3Patch, and the @rdf resource is hosted by a different @http resource,
+Assuming we use N3Patch, and the @rdf resource is moved to by a different @http resource,
 the required number of requests will be four. One for getting the @sgv description (cacheable), one for getting the deleting the resource, one for deleting the original resource, and one for creating the updated resource.
-When a resource would be moved without @sgv, a client would also require two requests, so our hypothesis is still valid.
+When a resource would be moved without @sgv, a client would also require three requests, one to get the resource, one to delete the old, and one to insert the new resource.
+As a result, our hypothesis is still valid.
 
 === Conclusion theoretical evaluation
 
@@ -200,31 +203,29 @@ An @sgv client requires at most double the number of @http requests a non @sgv c
 
 // What do we want to measure?
 After a theoretical evaluation, we also evaluate the implementation in an empirical way.
-We perform time benchmarks for different queries, all following the same use case.
+We perform time benchmarks for different queries, all following the our use case.
 The goal of this evaluation is to convince the reader the cost of @sgv on query execution is manageable.
 The hypothesis (@sec:hypotheses) is that the execution time for the same query is at most four times as high when using the @sgv enabled query engine.
 
 // using what technologies?
 The empirical evaluation is performed using
-#link("https://github.com/SolidBench/SolidBench.js")[SolidBench]
-and a slightly altered @rdf fragmenter, so each pod contains a @sgv description.
-SolidBench is a benchmark with a social network use case with the dataset derived from the Social Network Benchmark @bib:ldbc. 
+#link("https://github.com/SolidBench/SolidBench.js")[SolidBench], which uses the same data as our use case, namely, the Social Network Benchmark @bib:ldbc. 
 After the generation of our test data, we use SolidBench to host the data locally.
-Under the hood, SolidBench will use the Community Solid Server to expose the resources.
+Under the hood, SolidBench will use the Community Solid Server~@bib:comunity-solid-server to expose the resources.
 
-In our evaluation, we will focus on the @rdf resource describing a post.
+In our evaluation, we will focus on the @rdf resource of a post.
 @fig:post-shex provides the @shex shape of a post.
-Different pods will have different ways of storing these posts.
-We will use four such ways, called fragmentation strategies, in our evaluation:
-+ Posts are grouped in files based on the creation data. Within that file they have a fragment based on the ID. (See @fig:frag-strat-creation-date)
-+ Posts are groups in files based on the location. Within that file they have a fragment based on the ID. (See @fig:frag-strat-location)
+Different pods will have different ways of storing these posts, called fragmentation strategies.
+We will use four fragmentation strategies in our evaluation:
++ Posts are grouped in files based on the creation date. Within that file they have a fragment based on the ID. (See @fig:frag-strat-creation-date)
++ Posts are grouped in files based on the location. Within that file they have a fragment based on the ID. (See @fig:frag-strat-location)
 + All posts are stored in one file. Within that file they have a fragment based on the ID. (See @fig:frag-strat-one-file)
 + Each posed is stored in their own file based on the ID. (See @fig:frag-strat-own-file)
 
-In hignsight the scope of SolidBench was to big, it creates 1528 pods, but we will only query 4 of them.
-We query the @sgv file, containing approximetly 33 triples and as well as the files that store the the resources.
-For the writing use case, those are either empty, or in the case of "one file" contain 2947 triples.
-When updating, we first prepare the file with the insertion of a single post, adding an additiona 9 triples.
+In hignsight the scope of SolidBench was to big as it creates 1528 pods, but we will only query 4 of them.
+Each @sgv file contains approximetly 33 triples.
+For the writing data use case, the accessed data files are either empty, or in the case of the "one file" fragmentation strategty contain 2947 triples.
+When updating, we first prepare the file with the insertion of a single post, adding an additional 9 triples to each data file.
 
 #figure(
   text-example[
@@ -308,9 +309,11 @@ ex:PostShape {
 
 === Test Hardware Specification
 
-For completeness’s sake, we briefly describe the system used in the benchmarking.
-The benchmarks are performed using a Dynabook Inc. Satallite Pro A50EC with 16 GiB memory, an Intel® Core™ i5-8250U x 8 processor and an Intel® Graphic UHD Graphics 620 (KBL GT2).
+For completeness's sake, we briefly describe the system used in the benchmarking.
+The benchmarks are performed on a `Dynabook Inc. Satallite Pro A50EC` with 16 GiB memory, an `Intel® Core™ i5-8250U x 8` processor and an `Intel® Graphic UHD Graphics 620 (KBL GT2)`.
 The installed operating system is a Fedora Workstation 39 (64-bit), and firmware version 2.70.
+It should further be noted that both the query engine and SolidBench run on this machine.
+As a result, our benchmark does not truelly capture the large delays an @http requist causes over a real network. 
 
 === Choke Point Queries
 
@@ -322,7 +325,7 @@ The choke points we will be testing are:
 + *Illegal update resource*: @fig:insert-data-id, @fig:delete-data-id
 + *Delete resource*: @fig:delete-data-complete, @fig:delete-where-complete
 
-The queries should cover all different queries from the update @sparql spec (see @sec:sparql-query-types).
+The queries should cover all different queries from the update @sparql specification (see @sec:sparql-query-types).
 Because we want to cover all types of queries, some choke points are represented by more than one query.
 
 

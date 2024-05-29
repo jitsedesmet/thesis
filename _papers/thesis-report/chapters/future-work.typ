@@ -12,18 +12,19 @@ In this work we do not talk about source discovery when updating a resource.
 In our implementation, we take the classical approach where you need to provide a resource that should be updated.
 This means we acctually still have a data access path dependency!
 The only access path dependency we solved is the one where a resource is created.
-When preforming an update, we expect the user to update only one resource at a time, this way,
-they will know the NamedNode of the resource and therefore they know where it is stored.
+When preforming an update, we expect the user to update only one specifically specified resource at a time.
+This way, they will know the Named Node of the resource and therefore they know where it is stored.
 
 The problem is that a user does not always know the resource they want to update.
 Imagine changing your name, you would like to update all @http resources that contain your name.
 How do you know what resources contain your name?
 In the context of read queries, one might want to preform a link traversal query over their pod.
-An query engine should be able to do something simular for the case of update queries.
+A query engine should be able to do something simular for the case of update queries.
 When confronted with a query to change you name, it should find all documents containeing your name and alter them.
 Finding these resources can happen using any source discovery technique.
 When constructing the result, the query engine should keep a source attribution list
-#footnote[Interestingly, this has recently been implemented in Comunica.], and update these sources.
+#footnote[Interestingly, this is currently being implemented in Comunica:\ https:\//github.com/comunica/comunica/pull/1325],
+and update these sources.
 The construction of a source attribution list is related to the domain of data provenance~@bib:data-provenance,
 which is well established research within the semantic web comunity~@bib:prov.
 
@@ -34,7 +35,7 @@ which is well established research within the semantic web comunity~@bib:prov.
 @sgv is resticted to updating a single pod.
 Additional research should go into updates that alter multiple pods.
 Handeling multiple pods is complex as many different decisions are valid.
-In the example of two pods, there is already a multitude of use cases, aech with different considerations.
+In the example of two pods, there is already a multitude of use cases, each with different considerations.
 + As a pod owner, I want to transfer pictures I have to someone else, so they now own that picture.
   Note that I am not guaranteed to have write permissions to the other Solid pod.
 + As a pod owner, I want to transfer a token to a pod I do, or do not have write access to.
@@ -55,7 +56,7 @@ but it might be better to discover backlinks and alter them when a resource chan
 
 == Other Interfaces
 
-This work focusses on @ldp exposed through a restful interface.
+This work focusses on @ldp interfaces.
 For such an interface, data is linked to newly created tuples through `ldp:contains` predicates.
 When we don't use @ldp, or use a different kind of interface, the question we try to answer might shift from
 "Where do I store this resource?" to "What other resources are linked to this new one, and through what predicates"?
@@ -75,21 +76,21 @@ Another interface could be @ldp powered and be constructed based on an @sgv desc
 == Guided queries
 
 // Intermediate work shows results?
-Within the research around querying the semantic web is the link traversal approach is exciting.
+Within the research around querying the semantic web, there exists link traversal.
 Unlike federated querying where you define the sources to query over beforehand, link traversal will discover new sources while executing queries.
 This comes with various difficulties, like safety issues~@bib:taelman-security, completeness modelled by completeness guarantees, and execution time.
-There has been the assumption that we cannot reduce the execution time of a link traversal power query over the semantic web because of its enormous size.
+There has been the assumption that we cannot reduce the execution time of a link traversal powered query over the semantic web because of its enormous size.
 The consensus has thus been that we should just make sure most results are received fast through link prioritization~@bib:hartig2016walking, that way we can set a timeout and assume no results would be found after a time. 
 Recent work that uses completeness guarantees and the structured nature of some interfaces has shown that it is possible to speed up queries and be complete to a certain extent @bib:taelman-structure-assumptions.
 That early work uses type indexes to get structural descriptions, but the complexity could be increased to use shape trees or even @sgv.
-@sgv can prove to be more valuable than shape trees in this context because it expresses the underlying data flow better.
-For example, a collection that is derived from another should not be consulted if the canonical container has already been consulted.
+In this extension, @sgv can prove to be more valuable than shape trees because it expresses the underlying data flow better.
+For example, a collection that is derived from another should not be consulted if the canonical containers has already been consulted.
 
 == View Creation and Discovery
 
 The issues related to the document-based nature of the current Solid specification that have been described @bib:whats-in-pod can be solved by creating derived resources~@bib:vanherwergenderived.
 The work by #cite(<bib:vanherwergenderived>, form: "author") shows that derived resources are a way forward.
-Their work proves that the implementation of the @sgv derived collection is feasible.
+Given the simularities between their work and @sgv\s derived resuorces, we are comfident that an implemntation is feasible.
 In their work, they solve the issue of access control granularity.
 
 In our empirical evaluation we discover that the execution time of our queries heavily relies on our pod structures (@sec:choke-new-resource).
@@ -121,7 +122,7 @@ It should however be noted that Tree could also be seen as "a kind of structured
 
 == General Update Behaviour
 
-The question we asked ourselves when starting this paper was: "how can we make updating solid pods easier?"
+The question we asked ourselves when starting this work was: "how can we make updating solid pods easier?"
 We ended up creating a base layer that allows query engines to decide how to store resources.
 That was not the only possible way of making updates easier.
 In this section, we list a few more possible improvements related to data updates.
@@ -132,7 +133,7 @@ May it inspire anyone to work on these challenging topics.
 Through Solid, many applications are working on the same data and each application likely has their own cache in place.
 As a result, applications working on the same data all have their own local copy of the data, essentially creating a distributed system.
 It is important that one application does not just undo the work by another application.
-A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale.
+A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale~@bib:cap.
 A #link("https://slidr.io/NoelDeMartin/solid-crdts-in-practice#36")[basic @crdt implementation for Solid] already exists,
 recently created by Noel De Martin, hosting the vocabulary #link("https://vocab.noeldemartin.com/crdt/")[online].
 That implementation is a nice starting point, but it does not yet contain logical clocks.
