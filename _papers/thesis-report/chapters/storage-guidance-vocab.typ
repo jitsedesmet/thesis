@@ -8,10 +8,21 @@
 To empower automated clients to correctly store @rdf resources, we suggest the usage of a descriptive vocabulary.
 Existing structure definitions of data spaces like Type Index @bib:type-index and Shape Trees @bib:shape-tree focus on read queries and insufficiently support write queries.
 These structure definitions fail to express the underlying decision-making of why a resource is stored where it is.
+As an example we give a small list of questions that can not be answered by either data store descriptions:
++ What if multiple directories match? Do I dublicate the resource?
++ What should I do if no documents match?
++ How are resources grouped?
+  + Can I infer that resources grouped by a property are always grouped by that property?
+  + Does that mean that if I get a new object for that property that I can just create a new document?
++ What should I do when I update a resource?
+  + Should I alter the data store description? 
+  + Should I move the resource? (Assign a new named node?)
++ Are all clients equal? Do they all abide the strctural information description?
 
-We therefore introduce a new vocabulary, @sgv.
+
+To answer these questions, we develop a new vocabulary, namely, @sgv.
 This vocabulary takes inspiration from the Shape Tree Specification, but does not extend it.
-The vocabulary aims to express where and why a resource is stored in a location.
+The vocabulary aims to express where a resource is stored and why.
 @sgv is created with a primary focus on @ldp @bib:ldp interfaces, extending @ldp containers to be structured.
 A container marked as structured has a strict definition of where containing containers/resources are located.
 We shortly introduce some basic concepts in @sgv:
@@ -40,6 +51,17 @@ Inserts happen on a pod level, meaning you specify to the client what pod you'd 
 The client will then discover a fiting location for the resource.
 @fig:example-insert is an example query that would trigger the resource creation flow.
 
+An automated client is now required to discover the base (`<>`) of this query.
+The client will follow the flow described below and visualized in @fig:rdf-create.
++ The client gets the @sgv description of the storage space (can be cached).
++ The client checks all canonical collections and checks if the resource to be inserted matches a resource description of the collection.
++ If the resource matches a description, the client checks the store condition of the description given the eligible collections.
++ For each collection that stores the resource:
+   + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
+   + The client checks the collections that are derived from this collection.
+        Step 4 is executed for all collections that are derived from this collection, and the resource matches the description.
++ The client performs the store operation.
+
 #figure(
 text-example[
 ```SPARQL
@@ -64,17 +86,6 @@ INSERT DATA {
 ```
 ], caption: [Example resource insertion query]
 ) <fig:example-insert>
-
-An automated client is now required to discover the base (`<>`) of this query.
-The client will follow the flow described below and visualized in @fig:rdf-create.
-+ The client gets the @sgv description of the storage space (can be cached).
-+ The client checks all canonical collections and checks if the resource to be inserted matches a resource description of the collection.
-+ If the resource matches a description, the client checks the store condition of the description given the eligible collections.
-+ For each collection that stores the resource:
-   + The client checks the group strategy of the collection and groups the resource accordingly, deciding on the name of the new resource.
-   + The client checks the collections that are derived from this collection.
-        Step 4 is executed for all collections that are derived from this collection, and the resource matches the description.
-+ The client performs the store operation.
 
 #figure(
   image("../static/flow-rdf-create.png", width: 80%),
@@ -107,10 +118,11 @@ The vocabulary is constructed with future expansions in mind, missing features c
 In @fig:sgv-vocab-overview an overview of the different components can be consulted.
 The figure can be used as a reference while reading the different sections.
 There are three arrows used in the graph, each with a different meaning, visualized in @fig:sgv-vocab-overview-legend.
-Firstly, a full arrow means that there is can be a triple `?a ldp:contains ?b`.
+Firstly, a full arrow means that there can be a triple `?a ldp:contains ?b`.
 Secondly, the dotted arrow means that the destination has the same fields or more as the source.
 Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be considered a property of the source.
 @fig:example-sgv-description is provided as an example description to help clarify the vocabulary.
+For completeness we also provide the @shex description of the vocabulary in @fig:shex-descr-sgv.
 
 #figure(
   image("../static/sgv-graph-legend.png", width: 80%),
@@ -126,7 +138,7 @@ Finally, a diamond shaped arrow entails a link from the source to the destinatio
   caption: [Example pod description using Storage Guidance Vocabulary]
 ) <fig:example-sgv-description>
 
-#figure(vocab-shex, caption: [Shape description of Storage Guidance Vocabulary. Starts left, continues on the right.])
+#figure(vocab-shex, caption: [Shape description of Storage Guidance Vocabulary. Starts left, continues on the right.]) <fig:shex-descr-sgv>
 
 === Resource Collection <sec:resource-collection>
 
@@ -155,7 +167,7 @@ It has been proven that this tree structure limitation heavily restricts the int
 
 A `sgv:canonical-collection` is a structured collection (@sec:unstructured-collection) that stores @rdf resources.
 When entering a Solid pod, we check what canonical containers want to store the resource.
-The collections then individually decide where to store the resource.
+The collections then individually decide where to store the resource given the other collections that are eligible to store.
 
 === Derived Collection <sec:derived-collection>
 
@@ -164,10 +176,10 @@ Existing work around derived resources in solid specifies a "template", "selecto
 @sgv uses those same components but in a different format.
 The template describes where the resource should be stored, in @sgv this is done using the group strategy (@sec:group-strategy).
 The selector describes what resources are derived. In @sgv the selector is a combination of the Resource Description and Source in the "Derived from" node.
-As for the filter or projection, @sgv uses a construct query over the rdf resource.
-This is different than the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources~@bib:vanherwergenderived.
+As for the filter or projection, @sgv uses a construct query over the @rdf resource.
+This is different than the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources which contain multiple resources~@bib:vanherwergenderived.
 In case no filter is present, each resource is derived as a whole.
-A derived collection without a filter defined on a pod with the "one file one resource" flag, can use soft/ hard links, such thus has a very low cost.
+A derived collection without a filter defined on a pod with the "one file one resource" flag, can use soft/ hard links, and thus has a very low cost.
 
 When a structured collection inserts, updates or removes an @rdf resource, the collections that derive from that collection are informed to act accordingly.
 A derived collection can be used to create collections and knows a multitude of use cases, some examples are:
@@ -236,7 +248,7 @@ Shape descriptions are powerful and allow expressing complicated expressions inc
 Logical constraint components allow you to perform boolean operations on existing shapes, through: `sh:not`, `sh:and`, `sh:or`, and `sh:xone`.
 This allows you to split shapes in parts, these parts could be evaluated once and the result of the evaluation can be shared with other shapes.
 The sharing of evaluation effectivelly creates a cache.
-Property pair constraint components allow you to asser relations between two values present within the same shape.
+Property pair constraint components allow you to assert relations between two values present within the same shape.
 
 
 === Group Strategy <sec:group-strategy>
@@ -264,6 +276,14 @@ The template
 `{https%3A%2F%2Fexample.com%2Fowns-house/https%3A%2F%2Fexample.com%2Faddress}` evaluated over @fig:uri-template-nesting-example
 would expand to the percent encoded representation of "Front Street 1": `Front%20Street%201`.
 
+Just like we use the "`/`" to convey special meaning, we also use the ":" to access special variables.
+We can use the ":" because it is encoded by percent encoding, and is unused by URI-templates.
+We currently support only one special variable, being "UUID_V4".
+As an example, the @uri template `one-file#{:UUID_V4}` could expand to `one-file#956242de-2c18-4985-8e9e-d490bc8f97b6`.
+
+@uri templates by themselves do not allow very complex structures.
+@sgv therefore allows you to express a regex replace over the result of the template.
+
 #figure(
 text-example[
 ```turtle
@@ -277,14 +297,6 @@ ex:Alice a ex:Person ;
 ], caption: [Simple resource with blank nodes]
 ) <fig:uri-template-nesting-example>
 
-Just like we use the "`/`" to convey special meaning, we also use the ":" to access special variables.
-We can use the ":" because it is encoded by percent encoding, and is unused by URI-templates.
-We currently support only one special variable, being "UUID_V4".
-As an example, the @uri template `one-file#{:UUID_V4}` could expand to `one-file#956242de-2c18-4985-8e9e-d490bc8f97b6`.
-
-@uri templates by themselves do not allow very complex structures.
-@sgv therefore allows you to express a regex replace over the result of the template.
-
 
 ==== SPARQL Query
 
@@ -297,6 +309,14 @@ We suggest a SPARQL query that uses the variable `?key`.
 This variable is bounded to the (temporary) named node of the @rdf resource.
 The query expects the return of a variable `?value` returning the location of the resource relative to the collection.
 @fig:sparql-group-strategy shows an example grouping @sparql query.
+
+It's possible the query needs to be evaluated over other sources to discover required information.
+For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[Wikidata].
+A federated query allows us to dereference different sources.
+This could be used as an attack vector if a bad actor creates a collection that contains everything and then uses the
+@sparql query to pass through sensitive information to its own endpoint @bib:taelman-security.
+We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
+#cite(<bib:taelman-security>, form: "author") describe many more possible security issues in their paper @bib:taelman-security.
 
 #figure(
 text-example[
@@ -316,14 +336,6 @@ LIMIT 1
 ```
 ], caption: [Example group strategy SPARQL query]
 ) <fig:sparql-group-strategy>
-
-It's possible the query needs to be evaluated over other sources to discover required information.
-For example, the query above might find its city/country data through data made available by #link("https://www.wikidata.org/wiki/")[Wikidata].
-A federated query allows us to dereference different sources.
-This could be used as an attack vector if a bad actor creates a collection that contains everything and then uses the
-@sparql query to pass through sensitive information to its own endpoint @bib:taelman-security.
-We therefore suggest that a pod lists trusted sources in some top-level resource. This would mean that query federation happens top level.
-#cite(<bib:taelman-security>, form: "author") describe many more possible security issues in their paper @bib:taelman-security.
 
 === Store Condition <sec:store-condition>
 
@@ -378,13 +390,30 @@ ex:Pictures a sgv:canonical-collection ;
 ==== Prefer Most Specific
 
 This store condition specifies that this collection would only store in case its resource description is the most specific to the @rdf resource in focus.
-
 It uses a distance function to measure how good the resource description describes the resource.
 A distance function could be the inverce of "the number of triples a projection of the resource by the description would cover".
 
 We clarify using an example.
 It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible.
 @fig:person describes a person with their name, alternative name and birthdate.
+Assume we have the two @shacl resource descriptions listed in @fig:two-shape-descriptions.
+After projection, we would get 1 triple for the left description, being:
+#text-example()[
+```
+<http://example.org/Alice> <http://example.org/birthdate> "1865-10-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+```
+]
+#block(breakable: false)[
+The right description would return the two triples listed below.
+The shape projection on the right results in the most triples after projection and would thus have the lowest distance.
+#text-example()[
+```
+<http://example.org/Alice> <http://example.org/birthName> "Alice"@en .
+<http://example.org/Alice> <http://example.org/alternativeName> "Rabbit"@en .
+```
+]
+]
+
 #figure(
 text-example()[
 ```turtle
@@ -398,8 +427,6 @@ ex:Alice a ex:Person ;
 ],
 caption: [RDF description of a person]
 ) <fig:person>
-
-Assume we have the two @shacl resource descriptions listed in @fig:two-shape-descriptions.
 
 #figure(
 grid(columns: (1fr, 1fr), column-gutter: 4pt,
@@ -446,22 +473,6 @@ ex:right-shape a ex:Shape ;
 caption: [Two open shape descriptions of the person in @fig:person]
 ) <fig:two-shape-descriptions>
 
-After projection, we would get 1 triple for the left description, being:
-#text-example()[
-```
-<http://example.org/Alice> <http://example.org/birthdate> "1865-10-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-```
-]
-
-The right description would return the two triples listed below.
-The shape projection on the right results in the most triples after projection and would thus have the lowest distance.
-#text-example()[
-```
-<http://example.org/Alice> <http://example.org/birthName> "Alice"@en .
-<http://example.org/Alice> <http://example.org/alternativeName> "Rabbit"@en .
-```
-]
-
 
 ==== Only Stored When Not Redundant
 
@@ -502,7 +513,7 @@ In case the resource description does not match the updated resource, it should 
 ==== Keep Distance
 
 The "keep distance" update condition works similar to the "always keep" condition,
-but places a limit on how much a description can stretch from its original form.
+but places a limit on how much a resource description can stretch from its original form.
 To implement this update condition, we require some distance metric between shape descriptions.
 When the distance grows too big, the original description is reapplied and resources not matching the description are moved.
 
@@ -577,7 +588,7 @@ The "allowed when not claimed" client control policy describes that a client may
 The "no control" client control allows no deviation from the @sgv rules. If a resource is not stored, it will not be stored.
 
 
-==== One File One Resource
+=== One File One Resource
 
 A big advantage of LDP is that it easily maps to the file structure storage of a typical file systems.
 If someone wants to store their Solid Pods on their own machine, it's easy for them to access the data.
@@ -604,7 +615,7 @@ When the owner would like to receive a notification when a resource is not claim
 they would create a "@sgv notification" collection.
 That collection would have a resource description that matches any resource and a corresponding store condition of "only stored when not redundant".
 If the pod owner wants to force a client into this use case, the root resource collection would need a client control to be set to "no control".
-When the user of the client is also the pod owner, the client could provide the user with a popup requesting to handle the notification.
+When the user of the client is also the pod owner, the client could provide the user with a popup requesting to handle the notification immediately.
 
 === Assume
 

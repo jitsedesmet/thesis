@@ -120,18 +120,18 @@ text-example[
 
 # Any ldp:Container in a structured collection is a GroupedCollection
 <GroupedCollection> {
-  &<GroupStrategy>
+  &<GroupStrategyShape>
 }
 
 <GroupStrategyShape> {
-    rdf:type sgv:group-strategty-uri-template ;
+  (rdf:type sgv:group-strategty-uri-template ;
     sgv:uri-template xsd:string ;
     sgv:regexMatch xsd:string ;
     sgv:refexReplace xsd:string ;
-  |
+  )|(
     rdf:type sgv:group-strategy-sparql ;
     sgv:sparql-query xsd:string ;
-}
+)}
 
 <UpdateConditionShape> {
   (
@@ -142,6 +142,7 @@ text-example[
   |
     rdf:type [ sgv:keep-distance ] ;
     sgv:distance xsd:decimal ;
+    sgv:original-description <ResourceDescriptionShape> ;
   ) ;
   sgv:resource-descripion <ResourceDescriptionShape> ;
 }
