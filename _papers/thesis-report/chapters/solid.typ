@@ -74,8 +74,8 @@ These matchers can return a value true or false based on the agent that requests
 Policies are used to connect matchers to resources, and the access modes used are the same as @wac.
 We provide an @acp example in @fig:acp-example.
 
-Altough @acp is more expressive than @wac, neither solutions are perfect.
-The both lack the true meaning behind a policy.
+Altough @acp is more expressive than @wac, neither of the solutions are perfect.
+They both lack the true meaning behind a policy.
 @acp requires you to provide a rule for each resource, but has no way to generalize resources.
 I might, for example, want to create an access control resource that grands Alice access to the subset of my pictures that they are contained in.
 Since rules relate to a specific resource, @acp and @wac lack the ability to express this.
@@ -104,7 +104,7 @@ ex:accessControlResourceA
 Beyond access control, the Solid Community is increasingly investigating usage control solutions.
 Usage Control takes access control that decides whether you have access to a resource, and expands on it by describing how you can get access @bib:init-usage-control.
 Additionally, it describes what you can do with the resource after access has been granted.
-These permissions are  related too to the deontic concepts: Permission, Prohibition, Obligation and Dispensation.
+These permissions are  related to the deontic concepts: Permission, Prohibition, Obligation and Dispensation.
 
 == Pod Descriptions
 
@@ -112,7 +112,7 @@ A Solid pod following the current specification has an @ldp interface.
 Such an interface is unstructured by design, forcing a data consumer to traverse all links in the same pod to get a complete pod overview.
 If completeness is of importance, this makes an @ldp interface worse than a bulk download.
 To avoid this, a pod can have an index that can be used to speed up query execution.
-When creatig an index, special care should be given as not leak information about the data stored in the pod that the requistor would not have access to.
+When creating an index, special care should be given to not leak information about the data stored in the pod that the requestor would not have access to.
 
 
 === Type Index
@@ -144,7 +144,7 @@ text-example[
 
 === Shape Tree
 
-Shape Trees~@bib:shape-tree are the proposed replacement to the Type Indexes.
+Shape Trees~@bib:shape-tree are the proposed replacement for the Type Indexes.
 The specification uses shape descriptions like @shex and @shacl to validate @rdf graphs against a set of conditions.
 Shape trees can be used in combination with protocols that organize Linked Data graphs into resource hierarchies, expressing the layout of the resources and associating those resources with their respective shapes.
 It is the natural extension of shape descriptions to those resource hierarchies.
@@ -154,10 +154,10 @@ The shape tree specification defines a predicate `st:contains` that asserts a "p
 The "physical" containment is defined as @ldp containments.
 The shape tree specification also defines virtual containment, this is just another way of realizing directories above the underlying @ldp specification.
 It means you do not need `ldp:contains` for defining containers, but can define another predicate, and use that predicate to create directories.
-Essentially it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree` as seen in @fig:shape-trees-example.
+Essentially, it makes you able to view `ex:apple1` and `ex:apple2` as containing resources of `ex:appleTree` as seen in @fig:shape-trees-example.
 
-By creating a graph of shape descriptions, access control using shape trees has a finer granuality compared to Type Indexes.
-Each Subtree can be exposed through its own @http resource and can therefore have its own access control policies.
+By creating a graph of shape descriptions, access control using shape trees has a finer granularity compared to Type Indexes.
+Each Subtree can be exposed through its @http resource and can therefore have their own access control policies.
 The privacy of a user can thus be protected by exposing a shape tree in a small documents.
 
 #figure(
@@ -211,3 +211,4 @@ It considers data to be stored in data registries, each indexed using a shape tr
 
 // === Restrictions
 // What's in a pod? And more
+
