@@ -27,8 +27,8 @@
   (key: "wac", short: "WAC", long: "Web Access Control", desc: [@bib:wac]),
   (key: "acp", short: "ACP", long: "Access Control Policy", desc: [@bib:acp]),
   (key: "acl", short: "ACL", long: "Access Control List"),
-  (key: "crdt", short: "CRDT", long: "Conflict-free Replicated data Type", desc: [@bib:crdt]),
-  (key: "cap", short: "CAP", long: "Consistency Availability Partition tolerance", desc: [@bib:cap]),
+  (key: "crdt", short: "CRDT", long: "Conflict-free Replicated Data Type", desc: [@bib:crdt]),
+  (key: "cap", short: "CAP", long: "Consistency, Availability, Partition tolerance", desc: [@bib:cap]),
   (key: "acid", short: "ACID", long: "atomicity, consistency, isolation, durability", desc: [@bib:acid]),
   (key: "snb", short: "SNB", long: "Social Network Benchmark", desc: [@bib:ldbc])
 )
