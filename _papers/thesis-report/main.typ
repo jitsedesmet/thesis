@@ -2,6 +2,7 @@
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 #import "@preview/hydra:0.4.0": hydra
 #import "utils/general.typ": *
+#import "raw/consts.typ": * 
 #import "@preview/wordometer:0.1.2": word-count, total-words
 #set document(
   title: "Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment",
@@ -16,10 +17,44 @@
 #import "@preview/glossarium:0.2.6": make-glossary, print-glossary, gls, glspl
 #show: make-glossary
 
+// Pre extended
 
+#counter(page).update(2)
+#set page(numbering: "i")
 
-#counter(page).update(11)
+#wrapped-in-home-style()[
+  #set heading(numbering: none)
 
+  = Foreword
+
+  #acknowledgements
+]
+
+#align(center + horizon)[
+  The author gives permission to make this master dissertation available for
+  consultation and to copy parts of this master dissertation for personal use.
+  In all cases of other use, the copyright terms have to be respected, in particular with
+  regard to the obligation to state explicitly the source when quoting results from this
+  master dissertation.
+
+  #v(50pt)
+
+  This master's dissertation is part of an exam. Any comments formulated by the
+  assessment committee during the oral presentation of the master's dissertation are
+  not included in this text.
+]
+  
+// Abstract
+#wrapped-in-home-style()[
+  #set heading(numbering: none)
+
+  #include "additional/abstract.typ"
+]
+
+// Extended abstarct
+#[
+  #include "additional/extended-abstract.typ"
+]
 
 // ------ Content ------
 
@@ -30,7 +65,6 @@
     #it
   ]
 
-  #set page(numbering: "i")
   #set heading(numbering: none)
   #set par(leading: 0.65em, first-line-indent: 0pt, justify: false)
   #set par(leading: 16pt)
@@ -81,6 +115,8 @@
 
 // --- Main Chapters ---
 #wrapped-in-home-style[
+  #context counter(heading).update(0)
+
     // Set upper hydra part
   #set page(margin: (y: 4em), numbering: "1", header: context {
     if calc.odd(here().page()) {

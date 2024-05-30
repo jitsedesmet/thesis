@@ -27,7 +27,7 @@
   show raw: set text(font: "New Computer Modern Mono")
   show math.equation: set text(font: "New Computer Modern Math")
   // Set numbering mode
-  set page(numbering: "1", margin: 2.5cm)
+  set page(margin: 2.5cm)
   set math.equation(numbering: "(1)")
   set heading(numbering: "1.1")
   show heading.where(level: 4): it =>[
