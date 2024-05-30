@@ -441,9 +441,9 @@ The vocabulary also introduces checks on whether a resource can be created or re
 Additionally, we proved that our vocabulary is indeed expressive by implementing a smart client that consumes it.
 
 We hypothesized that such a smart client would be a maximum of four times slower and would require a maximum of double the amount of HTTP requests.
-Through theoretical evaluation, we discover that the amount of HTTP requests is within those bound.
-Using emperical evaluation we also validated that the execution time overhead is within the accepted range.
-Moreover, we saw that the some of SGVs behaviour cannot be modeled using a SPARQL query.
+Through theoretical evaluation, we discovered that the amount of HTTP requests is within those bound.
+Using empirical evaluation, we also validated that the execution time overhead is within the accepted range.
+Moreover, we saw that some of SGVs behaviour cannot be modelled using a SPARQL query.
 
 // Questions to myself
 In essence, SGV tries to provide structure to a widely unstructured document store, namely LDP.

@@ -9,18 +9,18 @@ The vocabulary also introduces checks on whether a resource can be created or re
 Additionally, we proved that our vocabulary is indeed expressive enough by implementing a smart client that consumes it.
 
 We hypothesized that such a smart client would be a maximum of four times slower and would require a maximum of double the amount of @http requests.
-Through theoretical evaluation, we discover that the amount of @http requests is within those bound.
-Using emperical evaluation we also validated that the execution time overhead is within the accepted range.
-Moreover, we saw that the some of @sgv\s behaviour cannot be modeled using a @sparql query.
+Through theoretical evaluation, we discovered that the amount of @http requests is within those bound.
+Using empirical evaluation, we also validated that the execution time overhead is within the accepted range.
+Moreover, we saw that some of @sgv\s behaviour cannot be modelled using a @sparql query.
 
 // Questions to myself
 In essence, @sgv tries to provide structure to a widely unstructured document store that is @ldp.
 It does this by defining a server-side description of the structure that should be enforced by clients.
-In reality, clients can still interact with the Solid pod however they want since the server is not aware that a structure should be followed.
+In reality, clients can still interact with the Solid pod however they want, since the server is not aware that a structure should be followed.
 This lack of server-side verification is perhaps the biggest shortcoming of this work.
 That being said, it is entirely possible to extend an existing Solid server with a @sgv verification system.
 The downside at that being that both the client and server need to calculate the proposed location of a resource.
-Unfortunately, this is a shortcoming of the @ldp interface itself, as it chooses for an low-complexity server.
+Unfortunately, this is a shortcoming of the @ldp interface itself, as it chooses for a low-complexity server.
 This choice often comes at the cost of a complex client side.
 What's more, since one server interface is used by many clients, it becomes almost impossible to guarantee a system that respects the structure of a permissive interface.
 
