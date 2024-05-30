@@ -8,48 +8,48 @@ In the state we present it here, it is not production ready, but it opens the ga
 
 == Source Discovery
 
-In this work we do not talk about source discovery when updating a resource.
+In this work, we do not discuss source discovery when updating a resource.
 In our implementation, we take the classical approach where you need to provide a resource that should be updated.
-This means we acctually still have a data access path dependency!
+This means we actually still have a data access path dependency!
 The only access path dependency we solved is the one where a resource is created.
 When preforming an update, we expect the user to update only one specifically specified resource at a time.
-This way, they will know the Named Node of the resource and therefore they know where it is stored.
+This way, they will know the Named Node of the resource, and therefore they know where it is stored.
 
 The problem is that a user does not always know the resource they want to update.
 Imagine changing your name, you would like to update all @http resources that contain your name.
 How do you know what resources contain your name?
 In the context of read queries, one might want to preform a link traversal query over their pod.
-A query engine should be able to do something simular for the case of update queries.
-When confronted with a query to change you name, it should find all documents containeing your name and alter them.
+A query engine should be able to do something similar for the case of update queries.
+When confronted with a query to change your name, it should find all documents containing your name and alter them.
 Finding these resources can happen using any source discovery technique.
 When constructing the result, the query engine should keep a source attribution list
 #footnote[Interestingly, this is currently being implemented in Comunica:\ https:\//github.com/comunica/comunica/pull/1325],
 and update these sources.
 The construction of a source attribution list is related to the domain of data provenance~@bib:data-provenance,
-which is well established research within the semantic web comunity~@bib:prov.
+which is well established research within the semantic web community~@bib:prov.
 
-// Data provinence https://en.wikipedia.org/wiki/Provenance#Computer_science 
+// Data providence https://en.wikipedia.org/wiki/Provenance#Computer_science 
 
 == Inter pod updates
 
-@sgv is resticted to updating a single pod.
+@sgv is restricted to updating a single pod.
 Additional research should go into updates that alter multiple pods.
-Handeling multiple pods is complex as many different decisions are valid.
+Handling multiple pods is complex as many decisions are valid.
 In the example of two pods, there is already a multitude of use cases, each with different considerations.
 + As a pod owner, I want to transfer pictures I have to someone else, so they now own that picture.
   Note that I am not guaranteed to have write permissions to the other Solid pod.
-+ As a pod owner, I want to transfer a token to a pod I do, or do not have write access to.
-  The token should always exists _exactly once_, meaning there is always one person holding the token, and everyone can see who has it.
-+ As a pod owner, I want to insert an additional property to an existing resource in someone elses pod.
++ As a pod owner, I want to transfer a token to a pod I do, or do not, have write access to.
+  The token should always exist _exactly once_, meaning there is always one person holding the token, and everyone can see who has it.
++ As a pod owner, I want to insert an additional property to an existing resource in someone else's pod.
   For example, I transferred a picture and forgot to add a description.
-+ As a pod owner, I want to delete a property of an existing resource in someone elses pod.
-+ As a pod owner, I want to remove a resource in someone elses pod, so I don't see it anymore.
-  Essentially, I want to change my view over the resource.
++ As a pod owner, I want to delete a property of an existing resource in someone else's pod.
++ As a pod owner, I want to remove a resource in someone else's pod, so I don't see it anymore.
+  Essentially, I want to change my view of the resource.
   This could be achieved by using the Subweb Specification~@bib:subweb and adding a rule that makes me ignore the "virtually" deleted triple.
 + As a pod owner, I want to remove a resource in someone else's pod, so no one can see it.
-  I might want to send a suggestion in a notification collection of the targetted pod.
+  I might want to send a suggestion in a notification collection of the targeted pod.
 
-Besides access control problems and how to circomvent them, we also face the problem of backlinks.
+Besides access control problems and how to circumvent them, we also face the problem of backlinks.
 We already suggested the use of an `sgv:moved-to` predicate to prevent links from breaking,
 but it might be better to discover backlinks and alter them when a resource changes.
 
@@ -64,8 +64,8 @@ When we don't use @ldp, or use a different kind of interface, the question we tr
 
 There is merit to investigating different interfacing technologies because @ldp is far from perfect.
 By nature, @ldp restricts data consumers @bib:whats-in-pod.
-Even more so, much of the complexity of @sgv is resuired because of @ldp\s nature.
-Nevertheless it is unlikely that @ldp completly disapears because the low server complexity makes it very attractive for data providers. 
+Even more so, much of the complexity of @sgv is required because of @ldp\s nature.
+Nevertheless, it is unlikely that @ldp completely disappears because the low server complexity makes it very attractive for data providers. 
 
 Through @sgv, it would also be possible to create multiple interfaces on the same data.
 You could for example expose the raw data graph of a pod through a @sparql endpoint.
@@ -84,16 +84,16 @@ The consensus has thus been that we should just make sure most results are recei
 Recent work that uses completeness guarantees and the structured nature of some interfaces has shown that it is possible to speed up queries and be complete to a certain extent @bib:taelman-structure-assumptions.
 That early work uses type indexes to get structural descriptions, but the complexity could be increased to use shape trees or even @sgv.
 In this extension, @sgv can prove to be more valuable than shape trees because it expresses the underlying data flow better.
-For example, a collection that is derived from another should not be consulted if the canonical containers has already been consulted.
+For example, a collection that is derived from another should not be consulted if the canonical containers have already been consulted.
 
 == View Creation and Discovery
 
 The issues related to the document-based nature of the current Solid specification that have been described @bib:whats-in-pod can be solved by creating derived resources~@bib:vanherwergenderived.
 The work by #cite(<bib:vanherwergenderived>, form: "author") shows that derived resources are a way forward.
-Given the simularities between their work and @sgv\s derived resuorces, we are comfident that an implemntation is feasible.
+Given the similarities between their work and @sgv\s derived resources, we are confident that an implementation is feasible.
 In their work, they solve the issue of access control granularity.
 
-In our empirical evaluation we discover that the execution time of our queries heavily relies on our pod structures (@sec:choke-new-resource).
+In our empirical evaluation, we discover that the execution time of our queries heavily relies on our pod structures (@sec:choke-new-resource).
 We therefore expect that a smart server that knows what optimizations are possible by query engines could have significant execution time benefits.
 Such a server could create resources dynamically to facilitate query executions.
 The resources to create could be based on the usage metrics the server has.
@@ -113,12 +113,12 @@ Access control extraction could help create uniform access rules across multiple
 
 == SGV Integration with Existing Structure Ontologies
 
-The vocabulary described in this work has limitted interoperability with existing vocabularies.
+The vocabulary described in this work has limited interoperability with existing vocabularies.
 Since @sgv exists in the same domain as shape trees~@bib:shape-tree, it would make sense to adapt/ extend the vocabulary in such a way that it could be easily plugged into an existing shape tree environment.
 This alternative structure would likely be less expressive.
 
-In the same way, integration with @tree~@bib:tree would increase the vocabularies interoperability.
-It should however be noted that Tree could also be seen as "a kind of structured data you can store using @ldp and @sgv." 
+In the same way, integration with @tree~@bib:tree would increase the vocabulary's interoperability.
+It should, however, be noted that Tree could also be considered "a kind of structured data you can store using @ldp and @sgv." 
 
 == General Update Behaviour
 
@@ -128,9 +128,9 @@ That was not the only possible way of making updates easier.
 In this section, we list a few more possible improvements related to data updates.
 May it inspire anyone to work on these challenging topics.
 
-=== CRDT\s: The Eventual Consistency Approach
+=== CRDTs: The Eventual Consistency Approach
 
-Through Solid, many applications are working on the same data and each application likely has their own cache in place.
+Through Solid, many applications are working on the same data, and each application likely has their own cache in place.
 As a result, applications working on the same data all have their own local copy of the data, essentially creating a distributed system.
 It is important that one application does not just undo the work by another application.
 A @crdt is a data type with the properties that essentially chooses for eventual consistency on the @cap scale~@bib:cap.
@@ -154,4 +154,3 @@ When a single pod disconnects from the network, the data on that pod cannot be a
 We believe that this opens some space for research on stronger consistency requirements.
 
 The decision of what point in the @cap space we work with need not be done at pod level, but could be done on @http resource level. For example, one @http resource might support @crdt\s essentially choosing for availability over consistency. Another resource might introduce some locking mechanism, choosing consistency over availability.
-

@@ -39,5 +39,5 @@ Beyond their academic support, they have gone beyond what was expected of them a
 In my personal spheres, I would like to explicitly thank my parents and my girlfriend, as well as my friends.
 ]
 
-#let thesis-code = "https://github.com/jitsedesmet/sgv-update-engine/releases/tag/v0.0.1"
+#let thesis-code = "https://github.com/jitsedesmet/sgv-update-engine/releases/tag/v0.0.2"
 
