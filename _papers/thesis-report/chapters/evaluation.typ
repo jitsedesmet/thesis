@@ -39,7 +39,7 @@ To parse and validate our @shex descriptions, we use the
 #link("https://www.npmjs.com/package/rdf-validate-shacl")[rdf-validate-shacl library].
 This library is known to be quite inefficient and could be replaced by the faster
 #link("https://www.npmjs.com/package/shacl-engine")[SHACL engine library].
-Unfortunately, that library does not have type descriptions available making adoptions less desirable.
+Unfortunately, that library does not have type descriptions available, making adoptions less desirable.
 
 
 == Theoretical Evaluation
@@ -50,22 +50,22 @@ In @sec:hypotheses we hypothesize that the required number of @http queries of a
 
 === Insert Operation <sec:eval-insert>
 
-In this section, we analyse the cost of a simple insert operation as seen in @fig:insert-data-complete in the emperical evaluation.
+In this section, we analyse the cost of a simple insert operation as seen in @fig:insert-data-complete in the empirical evaluation.
 In @sec:flow-create-rdf-resource we analysed the steps required for this operation.
 
 ==== Fetch the Description
 
 The query engine should request the @sgv description.
-This accounts to one @http request, assuming the @api publishes it as a single @http resource.
+This accounts for one @http request, assuming the @api publishes it as a single @http resource.
 It should be noted that the @sgv description can easily be cached since it will not change a lot.
 
-Do note however that using an outated version can be detremental.
-Unfortunetly, since @ldp exposes a pod through multiple different @http resources,
+Do note however that using an outdated version can be detrimental.
+Unfortunately, since @ldp exposes a pod through multiple different @http resources,
 there is no way of checking whether your @sgv description has not grown outdated when you start updating data.
-For example, you could compute the change, than fetch the @sgv again using an
+For example, you could compute the change, then fetch the @sgv again using an
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since")[if-moified-since header] and recompute in case it did change.
 However, in between confirming you have the  latest value and writing the data, the
-@sgv could have been changed, causing you to write in an outdated way nevertheless.
+@sgv could have been changed, causing you to write in an outdated way, nevertheless.
 Because @ldp exposes multiple @http resources, using the
 #link("https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since")[If-Unmodified-Since] is not possible.
 // in conclusion, either expand a pod so it knows what it is, or get rid of ldp?
@@ -115,7 +115,7 @@ In case the `state required` condition is used, a whole @sparql query needs to b
 We will thus disregard that case here.
 The worst-case performance is listed below:
 - Always Stored: Constant
-- Prefer Other: linear search in list of eligible collections.
+- Prefer Other: linear search in a list of eligible collections.
 - Prefer Most Specific: linear scan trough eligible collections and distance function dependent cost for each collection. The distance could be cached.
 - Only stored when not redundant: linear scan through collections in case no collection is clear-cut
 - Never: constant
@@ -137,13 +137,13 @@ also accept SPARQL update queries.
 ==== Conclusion Resource Creation
 
 We now know that the resource creation takes 2 @http requests: reading @sgv and creating the resource.
-This is complient with our hypothesis.
+This is compliant with our hypothesis.
 
 === Update Resource, No Move Required
 
 This section theoretically analyses the cost of updating a resource when the resource needs not be moved.
 A general update flow can be found in @sec:flow-update-rdf-resource.
-An example update query is @fig:insert-where-tag in the emerical evaluation.
+An example update query is @fig:insert-where-tag in the empirical evaluation.
 
 ==== Fetch the Description and the Resource
 
@@ -180,7 +180,7 @@ two, non-parallel @http requests
 
 We can conclude that the cost of an @rdf resource update is three in the case of an update that only deletes or adds triples, and four in the case of an update that both deletes and updates.
 It should, however, be possible to do it using only three @http requests.
-Whith is valid with our hypothesis, since a non-@sgv query engine would require either two or three requests.
+Which is valid with our hypothesis, since a non-@sgv query engine would require either two or three requests.
 One to get the original resource, and one or two to update.
 
 === Update Resource, Move Required
@@ -197,13 +197,13 @@ As a result, our hypothesis is still valid.
 === Conclusion theoretical evaluation
 
 We can thus conclude that our hypothesis about the number of @http requests is valid.
-An @sgv client requires at most double the number of @http requests a non @sgv client require.
+An @sgv client requires at most double the number of @http requests a non @sgv client requires.
 
 == Empirical Evaluation
 
 // What do we want to measure?
 After a theoretical evaluation, we also evaluate the implementation in an empirical way.
-We perform time benchmarks for different queries, all following the our use case.
+We perform time benchmarks for different queries, all following our use case.
 The goal of this evaluation is to convince the reader the cost of @sgv on query execution is manageable.
 The hypothesis (@sec:hypotheses) is that the execution time for the same query is at most four times as high when using the @sgv enabled query engine.
 
@@ -217,15 +217,15 @@ In our evaluation, we will focus on the @rdf resource of a post.
 @fig:post-shex provides the @shex shape of a post.
 Different pods will have different ways of storing these posts, called fragmentation strategies.
 We will use four fragmentation strategies in our evaluation:
-+ Posts are grouped in files based on the creation date. Within that file they have a fragment based on the ID. (See @fig:frag-strat-creation-date)
-+ Posts are grouped in files based on the location. Within that file they have a fragment based on the ID. (See @fig:frag-strat-location)
-+ All posts are stored in one file. Within that file they have a fragment based on the ID. (See @fig:frag-strat-one-file)
++ Posts are grouped in files based on the creation date. Within that file, they have a fragment based on the ID. (See @fig:frag-strat-creation-date)
++ Posts are grouped in files based on the location. Within that file, they have a fragment based on the ID. (See @fig:frag-strat-location)
++ All posts are stored in one file. Within that file, they have a fragment based on the ID. (See @fig:frag-strat-one-file)
 + Each posed is stored in their own file based on the ID. (See @fig:frag-strat-own-file)
 
-In hignsight the scope of SolidBench was to big as it creates 1528 pods, but we will only query 4 of them.
-Each @sgv file contains approximetly 33 triples.
-For the writing data use case, the accessed data files are either empty, or in the case of the "one file" fragmentation strategty contain 2947 triples.
-When updating, we first prepare the file with the insertion of a single post, adding an additional 9 triples to each data file.
+In hindsight, the scope of SolidBench was too big as it creates 1528 pods, but we will only query 4 of them.
+Each @sgv file contains approximately 33 triples.
+For the writing data use case, the accessed data files are either empty, or in the case of the "one file" fragmentation strategy contain 2947 triples.
+When updating, we first prepare the file with the insertion of a single post, adding another 9 triples to each data file.
 
 #figure(
   text-example[
@@ -313,7 +313,7 @@ For completeness's sake, we briefly describe the system used in the benchmarking
 The benchmarks are performed on a `Dynabook Inc. Satallite Pro A50EC` with 16 GiB memory, an `Intel® Core™ i5-8250U x 8` processor and an `Intel® Graphic UHD Graphics 620 (KBL GT2)`.
 The installed operating system is a Fedora Workstation 39 (64-bit), and firmware version 2.70.
 It should further be noted that both the query engine and SolidBench run on this machine.
-As a result, our benchmark does not truelly capture the large delays an @http requist causes over a real network. 
+As a result, our benchmark does not truly capture the large delays an @http request causes over a real network. 
 
 === Choke Point Queries
 
@@ -553,9 +553,9 @@ The ratios of @sgv[-]operations over non-@sgv[-]operations per second are:
 - For @fig:res-delete-where-tags\: $#calc.round(7/15, digits: prec)$ ; $#calc.round(4/8, digits: prec)$ ; $#calc.round(7/15, digits: prec)$ ; and $#calc.round(7/15, digits: prec)$
 - For @fig:res-delete-data-tag\: $#calc.round(5/15, digits: prec)$ ; $#calc.round(3/8, digits: prec)$ ; $#calc.round(5/15, digits: prec)$ ; and $#calc.round(5/15, digits: prec)$
 
-Altough these ratios are still better then the hypothezized $0.25$, they are significantly worse then the previous section.
-That's to be expected because the @sgv enabled equery engine has to perform more steps now.
-Eventough it is worse accross the board, we still see that the fragmentation strategy plays a roll.
+Although these ratios are still better than the hypothesized $0.25$, they are significantly worse than the previous section.
+That's to be expected because the @sgv enabled a query engine has to perform more steps now.
+Even tough it is worse across the board, we still see that the fragmentation strategy plays a roll.
 
 #figure(
   insert-where-tag,
@@ -595,7 +595,7 @@ Clearly, the delay experienced from loading the large file in the case all posts
 
 #figure(
   delete-insert-id,
-  caption: [Average execution time of delete insert id query (@fig:delete-insert-id) over 100 runs]
+  caption: [Average execution time of delete insert ID query (@fig:delete-insert-id) over 100 runs]
 ) <fig:res-delete-insert-id>
 
 === Choke Point: Illegal Update Resource
@@ -613,12 +613,12 @@ These results confirm our hypotheses.
 
 #figure(
   insert-data-id,
-  caption: [Average execution time of insert data id query (@fig:insert-data-id) over 100 runs]
+  caption: [Average execution time of insert data ID query (@fig:insert-data-id) over 100 runs]
 ) <fig:res-insert-data-id>
 
 #figure(
   delete-data-id,
-  caption: [Average execution time of delete data id query (@fig:delete-data-id) over 100 runs]
+  caption: [Average execution time of delete data ID query (@fig:delete-data-id) over 100 runs]
 ) <fig:res-delete-data-id>
 
 
@@ -645,10 +645,11 @@ These ratios confirm our hypothesis.
 
 === Conclusion
 
-In conclusion, our hypothesis holds when we compare the execution time and @http reueqst count of an @sgv query engine to a non-@sgv engine that executes the same operations that the @sgv engine would take.
+In conclusion, our hypothesis holds when we compare the execution time and @http request count of an @sgv query engine to a non-@sgv engine that executes the same operations that the @sgv engine would take.
 Unfortunately, when a move of the @cbd of a resource is required,
-a developer cannot use a @sparql query engine since @sparql is not expressive enough to describe the @cbd.
+a developer cannot use a @sparql query engine, since @sparql is not expressive enough to describe the @cbd.
 In case such behaviour is desired, a manual interaction with the interface is required.
 
 A different approach might be to use the "DESCRIBE" query of @sparql that is sometimes implemented as the @cbd of a resource.
-However, since this choice is implementation specific, and is not required by the @sparql spec, using describe to get the @cbd is not advised.
+However, since this choice is implementation-specific, and is not required by the @sparql spec, using describe to get the @cbd is not advised.
+
