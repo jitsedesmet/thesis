@@ -6,12 +6,12 @@
 // Small resume
 In this work, we presented a vocabulary that allows smart clients to autonomously discover the location a created or updated resource should be stored.
 The vocabulary also introduces checks on whether a resource can be created or removed.
-Additionally, we proved that our vocabulary is indeed expressive by implementing a smart client that consumes it.
+Additionally, we proved that our vocabulary is indeed expressive enough by implementing a smart client that consumes it.
 
 We hypothesized that such a smart client would be a maximum of four times slower and would require a maximum of double the amount of @http requests.
 Through theoretical evaluation, we discover that the amount of @http requests is within those bound.
-Unfortunately, the execution time of a single query was slower than four times the execution time of the same query when not consuming the proposed vocabulary.
-We concluded that the execution time is less than four times slower in the case that the behavior of our solution could be modeled using a @sparql query.
+Using emperical evaluation we also validated that the execution time overhead is within the accepted range.
+Moreover, we saw that the some of @sgv\s behaviour cannot be modeled using a @sparql query.
 
 // Questions to myself
 In essence, @sgv tries to provide structure to a widely unstructured document store that is @ldp.

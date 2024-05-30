@@ -1,4 +1,5 @@
 /*
+Using same query
 ┌─────────┬──────────────────────────────────────────────┬─────────┬────────────────────┬──────────┬─────────┐
 │ (index) │ Task Name                                    │ ops/sec │ Average Time (ns)  │ Margin   │ Samples │
 ├─────────┼──────────────────────────────────────────────┼─────────┼────────────────────┼──────────┼─────────┤
@@ -11,6 +12,20 @@
 │ 6       │ 'delete insert id by creation location: SGV' │ '7'     │ 135774830.83999717 │ '±0.78%' │ 100     │
 │ 7       │ 'delete insert id by creation location: RAW' │ '32'    │ 30422259.46000166  │ '±3.14%' │ 100     │
 └─────────┴──────────────────────────────────────────────┴─────────┴────────────────────┴──────────┴─────────┘
+
+Same behaviour
+┌─────────┬──────────────────────────────────────────────┬─────────┬────────────────────┬──────────┬─────────┐
+│ (index) │ Task Name                                    │ ops/sec │ Average Time (ns)  │ Margin   │ Samples │
+├─────────┼──────────────────────────────────────────────┼─────────┼────────────────────┼──────────┼─────────┤
+│ 0       │ 'delete insert id by creation date: SGV'     │ '7'     │ 141940530.71999988 │ '±1.28%' │ 100     │
+│ 1       │ 'delete insert id by creation date: RAW'     │ '11'    │ 87113119.69999988  │ '±0.75%' │ 100     │
+│ 2       │ 'delete insert id all in one file: SGV'      │ '2'     │ 343690220.7800002  │ '±1.70%' │ 100     │
+│ 3       │ 'delete insert id all in one file: RAW'      │ '4'     │ 208930211.3800001  │ '±2.04%' │ 100     │
+│ 4       │ 'delete insert id own file: SGV'             │ '5'     │ 177991908.57000008 │ '±0.58%' │ 100     │
+│ 5       │ 'delete insert id own file: RAW'             │ '12'    │ 80729940.5800007   │ '±1.06%' │ 100     │
+│ 6       │ 'delete insert id by creation location: SGV' │ '7'     │ 133052120.67000103 │ '±0.60%' │ 100     │
+│ 7       │ 'delete insert id by creation location: RAW' │ '12'    │ 81066196.45000145  │ '±1.15%' │ 100     │
+└─────────┴──────────────────────────────────────────────┴─────────┴────────────────────┴──────────┴─────────┘
 */
 
 #let insert-data-complete = table(
@@ -18,14 +33,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [insert data complete by creation date: SGV], [22], [44582068.340000115], [±1.73%],
-  [insert data complete by creation date: RAW], [35], [27899513.780000415], [±2.07%],
-  [insert data complete all in one file: SGV], [6], [149415739.04000136], [±2.98%],
-  [insert data complete all in one file: RAW], [7], [134361192.54999822], [±8.66%],
-  [insert data complete own file: SGV], [10], [91851395.35000053], [±2.56%],
-  [insert data complete own file: RAW], [13], [76672217.40999986], [±3.07%],
-  [insert data complete by creation location: SGV], [23], [43005366.399997436], [±2.20%],
-  [insert data complete by creation location: RAW], [35], [28003949.459998112], [±2.53%],
+  [insert data complete by creation date: SGV], [22], [44582.068], [±1.73%],
+  [insert data complete by creation date: RAW], [35], [27899.513], [±2.07%],
+  [insert data complete all in one file: SGV], [6], [149415.739], [±2.98%],
+  [insert data complete all in one file: RAW], [7], [134361.192], [±8.66%],
+  [insert data complete own file: SGV], [10], [91851.395], [±2.56%],
+  [insert data complete own file: RAW], [13], [76672.217], [±3.07%],
+  [insert data complete by creation location: SGV], [23], [43005.366], [±2.20%],
+  [insert data complete by creation location: RAW], [35], [28003.949], [±2.53%],
 )
 
 #let delete-data-complete = table(
@@ -33,14 +48,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [delete data complete by creation date: SGV], [5], [177951642.12999925], [±0.53%],
-  [delete data complete by creation date: RAW], [14], [67166339.21999979], [±0.55%],
-  [delete data complete all in one file: SGV], [3], [298814885.4500032], [±0.94%],
-  [delete data complete all in one file: RAW], [8], [119370476.16999887], [±2.83%],
-  [delete data complete own file: SGV], [5], [176949144.21000051], [±0.33%],
-  [delete data complete own file: RAW], [14], [66844005.420002505], [±0.59%],
-  [delete data complete by creation location: SGV], [5], [178498626.96999976], [±0.30%],
-  [delete data complete by creation location: RAW], [15], [65565496.53999682], [±0.76%],
+  [delete data complete by creation date: SGV], [5], [177951.642], [±0.53%],
+  [delete data complete by creation date: RAW], [14], [67166.339], [±0.55%],
+  [delete data complete all in one file: SGV], [3], [298814.885], [±0.94%],
+  [delete data complete all in one file: RAW], [8], [119370.476], [±2.83%],
+  [delete data complete own file: SGV], [5], [176949.144], [±0.33%],
+  [delete data complete own file: RAW], [14], [66844.005], [±0.59%],
+  [delete data complete by creation location: SGV], [5], [178498.626], [±0.30%],
+  [delete data complete by creation location: RAW], [15], [65565.496], [±0.76%],
 )
 
 #let insert-where-tag = table(
@@ -48,14 +63,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [insert where tag by creation date: SGV], [7], [130209519.73000309], [±0.33%],
-  [insert where tag by creation date: RAW], [15], [64915564.9899994], [±1.29%],
-  [insert where tag all in one file: SGV], [4], [226277836.13999897], [±2.64%],
-  [insert where tag all in one file: RAW], [8], [122255749.08000185], [±2.96%],
-  [insert where tag own file: SGV], [7], [129497887.78000394], [±0.75%],
-  [insert where tag own file: RAW], [15], [65628874.43000043], [±1.45%],
-  [insert where tag by creation location: SGV], [7], [130342417.51999244], [±0.36%],
-  [insert where tag by creation location: RAW], [15], [64542496.22000149], [±1.33%],
+  [insert where tag by creation date: SGV], [7], [130209.519], [±0.33%],
+  [insert where tag by creation date: RAW], [15], [64915.564], [±1.29%],
+  [insert where tag all in one file: SGV], [4], [226277.836], [±2.64%],
+  [insert where tag all in one file: RAW], [8], [122255.749], [±2.96%],
+  [insert where tag own file: SGV], [7], [129497.887], [±0.75%],
+  [insert where tag own file: RAW], [15], [65628.874], [±1.45%],
+  [insert where tag by creation location: SGV], [7], [130342.417], [±0.36%],
+  [insert where tag by creation location: RAW], [15], [64542.496], [±1.33%],
 )
 
 #let insert-data-id = table(
@@ -63,14 +78,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [insert data id by creation date: SGV], [12], [80325290.78000924], [±0.66%],
-  [insert data id by creation date: RAW], [15], [63787431.610004276], [±0.58%],
-  [insert data id all in one file: SGV], [5], [184135528.4899927], [±0.71%],
-  [insert data id all in one file: RAW], [8], [122780884.01999092], [±2.99%],
-  [insert data id own file: SGV], [12], [79745654.40000734], [±0.62%],
-  [insert data id own file: RAW], [15], [63785574.410007104], [±0.58%],
-  [insert data id by creation location: SGV], [12], [80393959.2699986], [±0.86%],
-  [insert data id by creation location: RAW], [15], [63705068.34000349], [±0.66%],
+  [insert data id by creation date: SGV], [12], [80325.290], [±0.66%],
+  [insert data id by creation date: RAW], [15], [63787.431], [±0.58%],
+  [insert data id all in one file: SGV], [5], [184135.528], [±0.71%],
+  [insert data id all in one file: RAW], [8], [122780.884], [±2.99%],
+  [insert data id own file: SGV], [12], [79745.654], [±0.62%],
+  [insert data id own file: RAW], [15], [63785.574], [±0.58%],
+  [insert data id by creation location: SGV], [12], [80393.959], [±0.86%],
+  [insert data id by creation location: RAW], [15], [63705.068], [±0.66%],
 )
 
 #let insert-data-tag = table(
@@ -78,14 +93,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [insert data tag by creation date: SGV], [5], [178149073.97000468], [±0.70%],
-  [insert data tag by creation date: RAW], [15], [63309807.81999533], [±0.45%],
-  [insert data tag all in one file: SGV], [3], [289314253.0599935], [±0.77%],
-  [insert data tag all in one file: RAW], [8], [123444536.70999967], [±3.48%],
-  [insert data tag own file: SGV], [5], [178175593.0599908], [±0.28%],
-  [insert data tag own file: RAW], [15], [63045682.489996545], [±0.41%],
-  [insert data tag by creation location: SGV], [5], [178955959.07001406], [±0.54%],
-  [insert data tag by creation location: RAW], [15], [63363918.37999457], [±0.51%],
+  [insert data tag by creation date: SGV], [5], [178149.073], [±0.70%],
+  [insert data tag by creation date: RAW], [15], [63309.807], [±0.45%],
+  [insert data tag all in one file: SGV], [3], [289314.253], [±0.77%],
+  [insert data tag all in one file: RAW], [8], [123444.536], [±3.48%],
+  [insert data tag own file: SGV], [5], [178175.593], [±0.28%],
+  [insert data tag own file: RAW], [15], [63045.682], [±0.41%],
+  [insert data tag by creation location: SGV], [5], [178955.959], [±0.54%],
+  [insert data tag by creation location: RAW], [15], [63363.918], [±0.51%],
 )
 
 #let delete-insert-id = table(
@@ -93,14 +108,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [delete insert id by creation date: SGV], [6], [158251067.13999993], [±0.67%],
-  [delete insert id by creation date: RAW], [35], [28025100.910000037], [±1.89%],
-  [delete insert id all in one file: SGV], [2], [356617078.5399992], [±2.62%],
-  [delete insert id all in one file: RAW], [5], [186824229.88999984], [±10.48%],
-  [delete insert id own file: SGV], [5], [199237149.5699999], [±0.42%],
-  [delete insert id own file: RAW], [35], [27882776.099978946], [±0.89%],
-  [delete insert id by creation location: SGV], [6], [157357139.7299855], [±0.70%],
-  [delete insert id by creation location: RAW], [35], [28254209.500013385], [±1.36%],
+  [delete insert id by creation date: SGV], [7], [141940.530], [±1.28%],
+  [delete insert id by creation date: RAW], [11], [87113.119], [±0.75%],
+  [delete insert id all in one file: SGV], [2], [343690.220], [±1.70%],
+  [delete insert id all in one file: RAW], [4], [208930.211], [±2.04%],
+  [delete insert id own file: SGV], [5], [177991.908], [±0.58%],
+  [delete insert id own file: RAW], [12], [80729.940], [±1.06%],
+  [delete insert id by creation location: SGV], [7], [133052.120], [±0.60%],
+  [delete insert id by creation location: RAW], [12], [81066.196], [±1.15%],
 )
 
 #let delete-where-complete = table(
@@ -108,14 +123,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [delete where complete by creation date: SGV], [7], [132988158.56000409], [±0.46%],
-  [delete where complete by creation date: RAW], [15], [65584642.47000869], [±0.40%],
-  [delete where complete all in one file: SGV], [4], [213726655.93998972], [±1.36%],
-  [delete where complete all in one file: RAW], [8], [121148118.67999378], [±2.93%],
-  [delete where complete own file: SGV], [7], [130769232.5300118], [±0.43%],
-  [delete where complete own file: RAW], [14], [69931699.37000842], [±3.13%],
-  [delete where complete by creation location: SGV], [7], [130786473.60000758], [±0.62%],
-  [delete where complete by creation location: RAW], [15], [66160665.18999869], [±1.28%],
+  [delete where complete by creation date: SGV], [7], [132988.158], [±0.46%],
+  [delete where complete by creation date: RAW], [15], [65584.642], [±0.40%],
+  [delete where complete all in one file: SGV], [4], [213726.655], [±1.36%],
+  [delete where complete all in one file: RAW], [8], [121148.118], [±2.93%],
+  [delete where complete own file: SGV], [7], [130769.232], [±0.43%],
+  [delete where complete own file: RAW], [14], [69931.699], [±3.13%],
+  [delete where complete by creation location: SGV], [7], [130786.473], [±0.62%],
+  [delete where complete by creation location: RAW], [15], [66160.665], [±1.28%],
 )
 
 #let delete-where-tags = table(
@@ -123,14 +138,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [delete where tags by creation date: SGV], [7], [128534614.84000319], [±0.59%],
-  [delete where tags by creation date: RAW], [15], [64838515.5300051], [±1.26%],
-  [delete where tags all in one file: SGV], [4], [217007521.23001266], [±1.88%],
-  [delete where tags all in one file: RAW], [8], [115368001.48000708], [±2.43%],
-  [delete where tags own file: SGV], [7], [130018987.34001443], [±0.49%],
-  [delete where tags own file: RAW], [15], [64744311.01999711], [±1.37%],
-  [delete where tags by creation location: SGV], [7], [130569365.74000867], [±0.94%],
-  [delete where tags by creation location: RAW], [15], [64453229.869995266], [±1.25%],
+  [delete where tags by creation date: SGV], [7], [128534.614], [±0.59%],
+  [delete where tags by creation date: RAW], [15], [64838.515], [±1.26%],
+  [delete where tags all in one file: SGV], [4], [217007.521], [±1.88%],
+  [delete where tags all in one file: RAW], [8], [115368.001], [±2.43%],
+  [delete where tags own file: SGV], [7], [130018.987], [±0.49%],
+  [delete where tags own file: RAW], [15], [64744.311], [±1.37%],
+  [delete where tags by creation location: SGV], [7], [130569.365], [±0.94%],
+  [delete where tags by creation location: RAW], [15], [64453.229], [±1.25%],
 )
 
 #let delete-data-id = table(
@@ -138,14 +153,14 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [Delete data id by creation date: SGV], [12], [80141498.44999892], [±0.80%],
-  [Delete data id by creation date: RAW], [15], [63500094.67000374], [±0.43%],
-  [Delete data id all in one file: SGV], [5], [185053673.15999466], [±0.73%],
-  [Delete data id all in one file: RAW], [8], [121587804.55], [±2.94%],
-  [Delete data id own file: SGV], [12], [79697409.76997884], [±0.60%],
-  [Delete data id own file: RAW], [15], [63715705.30998986], [±0.92%],
-  [Delete data id by creation location: SGV], [12], [79515830.70000866], [±0.51%],
-  [Delete data id by creation location: RAW], [15], [63687341.049988754], [±0.77%],
+  [Delete data id by creation date: SGV], [12], [80141.498], [±0.80%],
+  [Delete data id by creation date: RAW], [15], [63500.094], [±0.43%],
+  [Delete data id all in one file: SGV], [5], [185053.673], [±0.73%],
+  [Delete data id all in one file: RAW], [8], [121587.804], [±2.94%],
+  [Delete data id own file: SGV], [12], [79697.409], [±0.60%],
+  [Delete data id own file: RAW], [15], [63715.705], [±0.92%],
+  [Delete data id by creation location: SGV], [12], [79515.830], [±0.51%],
+  [Delete data id by creation location: RAW], [15], [63687.341], [±0.77%],
 )
 
 #let delete-data-tag = table(
@@ -153,12 +168,12 @@
   table.header(
     [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
   ),
-  [delete data tag by creation date: SGV], [5], [174155254.35998338], [±0.71%],
-  [delete data tag by creation date: RAW], [15], [63248866.6999829], [±0.48%],
-  [delete data tag all in one file: SGV], [3], [292456437.1000091], [±1.42%],
-  [delete data tag all in one file: RAW], [8], [120948758.07001255], [±3.02%],
-  [delete data tag own file: SGV], [5], [176555335.81997967], [±0.61%],
-  [delete data tag own file: RAW], [15], [63792069.96001536], [±0.83%],
-  [delete data tag by creation location: SGV], [5], [175975652.34998706], [±0.31%],
-  [delete data tag by creation location: RAW], [15], [63362320.820009336], [±0.43%],
+  [delete data tag by creation date: SGV], [5], [174155.254], [±0.71%],
+  [delete data tag by creation date: RAW], [15], [63248.866], [±0.48%],
+  [delete data tag all in one file: SGV], [3], [292456.437], [±1.42%],
+  [delete data tag all in one file: RAW], [8], [120948.758], [±3.02%],
+  [delete data tag own file: SGV], [5], [176555.335], [±0.61%],
+  [delete data tag own file: RAW], [15], [63792.069], [±0.83%],
+  [delete data tag by creation location: SGV], [5], [175975.652], [±0.31%],
+  [delete data tag by creation location: RAW], [15], [63362.320], [±0.43%],
 )

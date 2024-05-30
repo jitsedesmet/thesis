@@ -583,12 +583,13 @@ Eventough it is worse accross the board, we still see that the fragmentation str
 
 This choke point is a vital one to defend @sgv as it is impossible to write a @sparql query that would show the same behaviour as the @sgv move.
 @sparql is unable to select the @cbd.
-Since a move moves the whole @cbd, potentially to a new @http document, this behaviour cannot be translated into a @sparql query.
-Because of this, the comparison between execution times is rather unfair.
-Additionally, the @sgv engine requires multiple additional @http requests, that are not performed in parallel because of the bug previously mentioned.
+Since a move moves the whole @cbd to a potentially new @http document, and @sparql is unable to select the @cbd, we required a different approach.
+We compare the @sgv query engine to the execution of two queries in parallel, one delete data query and one insert data query.
+
 @fig:res-delete-insert-id shows the execution times of query @fig:delete-insert-id.
-The ratios of operations are: $#calc.round(6/35, digits: prec)$ ; $#calc.round(2/5, digits: prec)$ ; $#calc.round(5/35, digits: prec)$ ; and $#calc.round(6/35, digits: prec)$
-We could conclude this breaks our hypothesis, but it should be noted that the non-@sgv client would have a slowdown if it was forced to create a new resource too. 
+The ratios of operations are:
+$#calc.round(7/11, digits: prec)$ ; $#calc.round(2/4, digits: prec)$ ; $#calc.round(5/12, digits: prec)$ ; and $#calc.round(7/12, digits: prec)$
+We can thus conclude that our hypothesis is still valid.
 Again, we highlight the difference between fragmentation strategies.
 Clearly, the delay experienced from loading the large file in the case all posts are stored in the same file is significant.
 
@@ -644,9 +645,10 @@ These ratios confirm our hypothesis.
 
 === Conclusion
 
-In conclusion, our hypothesis holds in case the @sgv\-engine behaviour could be modelled using a @sparql query.
-The hypothesis does however not hold in the case of the move choke point.
-Unfortunately, when a move of the @cbd of a resource is required, a developer cannot use a @sparql query engine since @sparql is not expressive enough to describe the @cbd. In case such behaviour is desired, a manual interaction with the interface is required.
+In conclusion, our hypothesis holds when we compare the execution time and @http reueqst count of an @sgv query engine to a non-@sgv engine that executes the same operations that the @sgv engine would take.
+Unfortunately, when a move of the @cbd of a resource is required,
+a developer cannot use a @sparql query engine since @sparql is not expressive enough to describe the @cbd.
+In case such behaviour is desired, a manual interaction with the interface is required.
 
 A different approach might be to use the "DESCRIBE" query of @sparql that is sometimes implemented as the @cbd of a resource.
 However, since this choice is implementation specific, and is not required by the @sparql spec, using describe to get the @cbd is not advised.
