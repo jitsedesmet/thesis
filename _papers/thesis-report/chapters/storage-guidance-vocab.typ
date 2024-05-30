@@ -8,8 +8,8 @@
 To empower automated clients to correctly store @rdf resources, we suggest the usage of a descriptive vocabulary.
 Existing structure definitions of data spaces like Type Index @bib:type-index and Shape Trees @bib:shape-tree focus on read queries and insufficiently support write queries.
 These structure definitions fail to express the underlying decision-making of why a resource is stored where it is.
-As an example we give a small list of questions that can not be answered by either data store descriptions:
-+ What if multiple directories match? Do I dublicate the resource?
+As an example, we give a small list of questions that cannot be answered by either data store descriptions:
++ What if multiple directories match? Do I duplicate the resource?
 + What should I do if no documents match?
 + How are resources grouped?
   + Can I infer that resources grouped by a property are always grouped by that property?
@@ -17,7 +17,7 @@ As an example we give a small list of questions that can not be answered by eith
 + What should I do when I update a resource?
   + Should I alter the data store description? 
   + Should I move the resource? (Assign a new named node?)
-+ Are all clients equal? Do they all abide the strctural information description?
++ Are all clients equal? Do they all abide the structural information description?
 
 
 To answer these questions, we develop a new vocabulary, namely, @sgv.
@@ -48,7 +48,7 @@ After explaining the two example flows, we will look into the details of @sgv.
 == Flow: A client wants to create an RDF-resource <sec:flow-create-rdf-resource>
 
 Inserts happen on a pod level, meaning you specify to the client what pod you'd want to insert a resource to.
-The client will then discover a fiting location for the resource.
+The client will then discover a fitting location for the resource.
 @fig:example-insert is an example query that would trigger the resource creation flow.
 
 An automated client is now required to discover the base (`<>`) of this query.
@@ -122,7 +122,7 @@ Firstly, a full arrow means that there can be a triple `?a ldp:contains ?b`.
 Secondly, the dotted arrow means that the destination has the same fields or more as the source.
 Finally, a diamond shaped arrow entails a link from the source to the destination, specifically, the destination can be considered a property of the source.
 @fig:example-sgv-description is provided as an example description to help clarify the vocabulary.
-For completeness we also provide the @shex description of the vocabulary in @fig:shex-descr-sgv.
+For completeness, we also provide the @shex description of the vocabulary in @fig:shex-descr-sgv.
 
 #figure(
   image("../static/sgv-graph-legend.png", width: 80%),
@@ -167,7 +167,7 @@ It has been proven that this tree structure limitation heavily restricts the int
 
 A `sgv:canonical-collection` is a structured collection (@sec:unstructured-collection) that stores @rdf resources.
 When entering a Solid pod, we check what canonical containers want to store the resource.
-The collections then individually decide where to store the resource given the other collections that are eligible to store.
+The collections then individually decide where to store the resource, given the other collections that are eligible to store.
 
 === Derived Collection <sec:derived-collection>
 
@@ -177,7 +177,7 @@ Existing work around derived resources in solid specifies a "template", "selecto
 The template describes where the resource should be stored, in @sgv this is done using the group strategy (@sec:group-strategy).
 The selector describes what resources are derived. In @sgv the selector is a combination of the Resource Description and Source in the "Derived from" node.
 As for the filter or projection, @sgv uses a construct query over the @rdf resource.
-This is different than the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources which contain multiple resources~@bib:vanherwergenderived.
+This is different from the work of #cite(<bib:vanherwergenderived>, form: "author") where the construct if performed on @http resources which contain multiple resources~@bib:vanherwergenderived.
 In case no filter is present, each resource is derived as a whole.
 A derived collection without a filter defined on a pod with the "one file one resource" flag, can use soft/ hard links, and thus has a very low cost.
 
@@ -242,12 +242,12 @@ The description is used to filter resources to be inserted in the pod, and could
 A structured collection should thus never contain a resource that does not match the shape description.
 Two popular choices for describing a resource are @shex and @shacl.
 
-Shape descriptions are powerful and allow expressing complicated expressions inclusing
+Shape descriptions are powerful and allow expressing complicated expressions including
 #link("https://www.w3.org/TR/shacl/#core-components-logical")[logical constraint components] and
 #link("https://www.w3.org/TR/shacl/#core-components-property-pairs")[property pair constraint components].
 Logical constraint components allow you to perform boolean operations on existing shapes, through: `sh:not`, `sh:and`, `sh:or`, and `sh:xone`.
-This allows you to split shapes in parts, these parts could be evaluated once and the result of the evaluation can be shared with other shapes.
-The sharing of evaluation effectivelly creates a cache.
+This allows you to split shapes into parts, these parts could be evaluated once and the result of the evaluation can be shared with other shapes.
+The sharing of evaluation effectively creates a cache.
 Property pair constraint components allow you to assert relations between two values present within the same shape.
 
 
@@ -302,7 +302,7 @@ ex:Alice a ex:Person ;
 
 The @uri template solution above, although simple in use, has the disadvantage that you can only access the @rdf resource itself.
 To accommodate this shortcoming, we also suggest the use of a @sparql query that can access the world if it pleases.
-We could, for example, create a SPARQL query that groups pictures in directories based on the creation date and the country a picture was taken in like `France-23-07-2023`.
+We could, for example, create a SPARQL query that groups pictures in directories based on the creation date and the country a picture was taken in, such as `France-23-07-2023`.
 When we assume an image only contains the city it was made in, we would need to discover the country the city is in.
 
 We suggest a SPARQL query that uses the variable `?key`.
@@ -369,7 +369,7 @@ This store condition indicates another collection takes precedence to store over
 I could, for example, have the canonical collections "family pictures" and "pictures".
 Instead of creating a complex shape description for my "pictures" that excludes the shape of "family pictures",
 I could just say that the "family picture" collection takes precedence over the "pictures" collection.
-This example is writen out in @fig:prefer-other.
+This example is written out in @fig:prefer-other.
 
 #figure(
 text-example[
@@ -391,7 +391,7 @@ ex:Pictures a sgv:canonical-collection ;
 
 This store condition specifies that this collection would only store in case its resource description is the most specific to the @rdf resource in focus.
 It uses a distance function to measure how good the resource description describes the resource.
-A distance function could be the inverce of "the number of triples a projection of the resource by the description would cover".
+A distance function could be the inverse of "the number of triples a projection of the resource by the description would cover".
 
 We clarify using an example.
 It's important to note that the example is by no means a "good" distance function, we just wish to mention it is possible.
@@ -630,3 +630,4 @@ the root resource collection would need to have a client control of "no control"
 
 // === Pitfalls of Shape Trees
 // text
+
