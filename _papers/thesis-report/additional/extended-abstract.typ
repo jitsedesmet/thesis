@@ -97,10 +97,11 @@ Users are in control of their data store, how they interact with the datastore a
 The effectiveness of reading data in a decentralized environment has been increased by abstracting data reads through a query abstraction layer, the query engine, by using query languages like GraphQL~@bib1:graphql and SPARQL~@bib1:sparql.
 In this work, we will similarly research how we can abstract data updates by using a query abstraction layer.
 The current (draft) Solid specification~@bib1:solid-spec describes each data store, or pod, as a document oriented interface where a user decides for each document who can access that document.
-Our goal is thus to create a query engine that effectively decides what document a resource should be stored in. Easily eliminating the access-path data dependency.
-We hypothesize that such a query engine has a 2x overhead in the number of HTTP requests and a 4x overhead in the execution time compared to a query engine that requires the user to configure the document explicitly. Such an overhead is acceptable since write speeds are, in contrast with read speeds, often not critical.
-
-#IRT[Can you in a few words explain why this overhead is acceptable?]
+Our goal is thus to create a query engine that effectively decides what document a resource should be stored in.
+Easily eliminating the access-path data dependency.
+We hypothesize that such a query engine has a 2x overhead in the number of HTTP requests and a 4x overhead in the execution time compared to a query engine that requires the user to configure the document explicitly.
+This overhead is often acceptable because applications are typically created in such a way that they synchronize local changes in the background, without disturbing the user.
+This acceptable delay of updates contrasts with reads because in the case of reading data, the user flow is often interrupted when information is transferred.
 
 
 = Related Work

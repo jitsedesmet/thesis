@@ -12,6 +12,24 @@ However, the existing specifications are not enough as solid faces numerous chal
 These challenges span across multiple domains like interface design, query engine design, access control, usage control, etc.
 To tackle these challenges, Solid creates some own specifications, but tries to keep them generic for different use cases. 
 
+== Positioning
+
+Troughout this work we approach the collection of all Solid data stores (pods) as a permissioned decentralized graph database.
+It's important to note that Solid differentiates itself from typical distributed data base systems in a variaty of ways.
+A distributed database will both replicate and shard its data~@bib:distributed-database-fundamentals.
+Replication means that the same data is stored on multiple machines and sharding means that one machine does not hold all data.
+We can thus view the data in a distributed database as a collection of shards, these shards are replicated a configurable amound of times and stored across different machines.
+The replication of data can happen in different configurations, each with their own considerations
+(the interested reader can read #cite(<bib:distributed-database-fundamentals>, form: "prose"), specifically section 24.1.2).
+One example consideration is the leader-follower configuration where each update is performed on the leader while reads are performed on both leades and followers.
+The leader is responible of syncronizing the data updates to the followers.
+Such a configuration chooses for availability before consistency on the @cap scale because it is possiible reads are outdated and thus inconsistent.
+The @cap theorem states that when desiging a system, you can only choose two of the three properties {Consistency, Availability, Partation tolerance}.
+
+Interestingly, Solid does not introduce any replication accross Solid pods.
+From a theoretical point of view, this means that we can view a single Solid pod as a single shard of our database, and each shard being self governed.
+As a result of not having data replication, the Solid specification does not position itself in the @cap space, choosing neither consistency nor availablility.
+
 
 == Access Control
 

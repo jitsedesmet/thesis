@@ -96,6 +96,7 @@ We hypothesize that the overhead such an intelligent client has, in comparison t
 Concretely, we expect a maximum execution time overhead of four times, and maximum double the @http requests.
 For applications that do not write too often, this is an acceptable overhead for the amount of complexity it takes away from developers.
 Even more so, write speeds are, in contrast to read speeds, typically not critical, since users often don't need them for interactivity.
+The reason being that applications are typically created in such a way that they synchronize local changes in the background, without disturbing the user.
 // If they would, a local first approach would have been chosen.
 
 == Outline
