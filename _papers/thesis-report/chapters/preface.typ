@@ -101,5 +101,25 @@ The reason being that applications are typically created in such a way that they
 
 == Outline
 
-#todo[describe outline when we are done]
+In the next chapter, we describe the Semantic Web, an idea launched by the inventor of the Web almost two decades ago.
+The semantic web is an enormous research domain, so we limit the discussion to what is required to understand this work.
+We therefore focus on data representation, data query language, data validation and data retrieval.
+
+We continue by discussing parts of the Solid specification and positioning it in the broader data storage field.
+
+In our fourth chapter, we shortly discuss the use case used throughout the examples of this work.
+
+After discussing the use case, we discuss our contributions in detail.
+To clearly explain the introduced vocabulary, we start by providing a high-level overview, after which we walk through some user flows.
+Only once those high-level views are explained will we delve into the details of the vocabulary.
+We conclude the chapter on our contributions by sketching three short configurations that handle a single use case.
+
+After explaining vocabulary, we continue to evaluate it.
+This evaluation knows both a theoretical and empirical faced.
+In the end, we will conclude that our hypothesis does indeed hold.
+
+Now that we proved our work heads in the right direction, we look onto to the future, discussing various research opportunities.
+Since this work is, to our knowledge, the first of its kind in this ecosystem, we see a lot of research avenues.
+
+We end in a conclusion where we look back at the presented work.
 

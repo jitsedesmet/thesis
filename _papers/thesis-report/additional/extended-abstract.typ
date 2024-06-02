@@ -1,6 +1,7 @@
 #import "../utils/review.typ": *
 #import "../utils/general.typ": *
 #import "../raw/consts.typ": *
+#import "../raw/evaluation-tables.typ": *
 
 // multiple bibliography issues: https://github.com/typst/typst/issues/1097
 // -> We will mymic a bibliography (and we dont't care about the title scope)
@@ -35,7 +36,7 @@
   }
 }
 
-#show figure.where(kind: "table"): set figure.caption(position: top)
+#show figure.where(kind: table): set figure.caption(position: top)
 #show figure.caption: set align(left)
 #show figure.where(kind: raw): set figure(kind: image)
 
@@ -351,13 +352,23 @@ These organization structures are then evaluated using queries that test five di
 + deleting a resource.
 ]
 
-#IRT[We definitely need to mention some results here in some way! E.g. via a figure or table. Feel free to shorten future work to make space for this.]
+Choke points 1 and 3 are most essential for SGV,
+we therefore provide the measure execution time for these in respectively @fig1:res-insert-data-complete and @fig1:res-delete-insert-id.
+The interested reader can find the other evaluations in the accompanying document.
 
-From these evaluations, we concluded that our hypothesis holds for all choke points except one.
-An SGV-aware query engine evaluating a query that does move the resource is slower than the same query evaluated by a non-SGV aware engine.
-Note that the other engine does not move the resource, and that a SPARQL query has no way of expressing a resource move because it cannot express the CBD.
+From evaluations, we concluded that our hypothesis holds when we compare the execution time of an SGV query engine to a non-SGV engine that executes the same
+operations.
+Note that using a non-SGV engine, one cannot express the resource move using a single SPARQL query because SPARQL cannot express the CBD.
 
-We can thus conclude from our benchmarks that the hypothesis holds only in case the SGV-query behaviour could be expressed using a SPARQL query.
+#figure(
+  insert-data-short,
+  caption: [Average execution time of inserting data (avg. of 100 runs)]
+) <fig1:res-insert-data-complete>
+
+#figure(
+  delete-insert-id-short,
+  caption: [Average execution time of moving a resource (avg. of 100 runs)]
+) <fig1:res-delete-insert-id>
 
 
 = Future Work

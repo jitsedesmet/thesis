@@ -1,3 +1,7 @@
+////////////////////////////////////////////////////////
+/////////////// TYPST VERSION: 0.11.1 //////////////////
+////////////////////////////////////////////////////////
+
 #import "@preview/drafting:0.2.0": set-page-properties // https://typst.app/universe/package/drafting
 // #import "@preview/exzellenz-tum-thesis:0.1.0": exzellenz-tum-thesis
 #import "@preview/hydra:0.4.0": hydra

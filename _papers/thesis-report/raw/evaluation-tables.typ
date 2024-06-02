@@ -42,6 +42,20 @@ Same behaviour
   [insert data complete by creation location: SGV], [23], [43005.366], [±2.20%],
   [insert data complete by creation location: RAW], [35], [28003.949], [±2.53%],
 )
+#let insert-data-short = table(
+  columns: (auto, auto, auto, auto),
+  table.header(
+    [*frag. Strat.*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
+  ),
+  [by date: SGV], [22], [44582.068], [±1.73%],
+  [by date: RAW], [35], [27899.513], [±2.07%],
+  [one file: SGV], [6], [149415.739], [±2.98%],
+  [one file: RAW], [7], [134361.192], [±8.66%],
+  [own file: SGV], [10], [91851.395], [±2.56%],
+  [own file: RAW], [13], [76672.217], [±3.07%],
+  [by location: SGV], [23], [43005.366], [±2.20%],
+  [by location: RAW], [35], [28003.949], [±2.53%],
+)
 
 #let delete-data-complete = table(
   columns: (auto, auto, auto, auto),
@@ -116,6 +130,20 @@ Same behaviour
   [delete insert id own file: RAW], [12], [80729.940], [±1.06%],
   [delete insert id by creation location: SGV], [7], [133052.120], [±0.60%],
   [delete insert id by creation location: RAW], [12], [81066.196], [±1.15%],
+)
+#let delete-insert-id-short = table(
+  columns: (auto, auto, auto, auto),
+  table.header(
+    [*Task*], [*ops/sec*], [*Average Time (ms)*], [*Margin*],
+  ),
+  [by date: SGV], [7], [141940.530], [±1.28%],
+  [by date: RAW], [11], [87113.119], [±0.75%],
+  [one file: SGV], [2], [343690.220], [±1.70%],
+  [one file: RAW], [4], [208930.211], [±2.04%],
+  [own file: SGV], [5], [177991.908], [±0.58%],
+  [own file: RAW], [12], [80729.940], [±1.06%],
+  [by location: SGV], [7], [133052.120], [±0.60%],
+  [by location: RAW], [12], [81066.196], [±1.15%],
 )
 
 #let delete-where-complete = table(
