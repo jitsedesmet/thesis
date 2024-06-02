@@ -34,3 +34,5 @@ This directory contains ideas that would pop up in my head.
 * Do you need meaningful shapes?
   Or should shape trees/ indices just be seen as some sort of index, 
   where a memory/ processing time consideration should be made,
+* Could Comunica parse functions that are made available as wasm over the web? They could be described as Function Ontology?
+* Comunica actor_parse_http_llm: you get raw html, no rdf, give it to llm giving you rdf and let comunica do the rest. (probably only usefull combined with source attribution)

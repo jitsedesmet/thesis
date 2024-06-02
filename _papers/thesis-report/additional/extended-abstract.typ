@@ -3,9 +3,7 @@
 #import "../raw/consts.typ": *
 
 // multiple bibliography issues: https://github.com/typst/typst/issues/1097
-// And title scope undesired... would scope titles
-// -> We will use a pdf concat :/
-// https://github.com/typst/templates/blob/main/charged-ieee/lib.typ
+// -> We will mymic a bibliography (and we dont't care about the title scope)
 
 // #set document(title: title, author: "Jitse De Smet")
 #set text(font: "Times New Roman", size: 10pt)
@@ -102,12 +100,12 @@ The current (draft) Solid specification~@bib1:solid-spec describes each data sto
 Our goal is thus to create a query engine that effectively decides what document a resource should be stored in. Easily eliminating the access-path data dependency.
 We hypothesize that such a query engine has a 2x overhead in the number of HTTP requests and a 4x overhead in the execution time compared to a query engine that requires the user to configure the document explicitly. Such an overhead is acceptable since write speeds are, in contrast with read speeds, often not critical.
 
-// TODO: Can you in a few words explain why this overhead is acceptable?"
+#IRT[Can you in a few words explain why this overhead is acceptable?]
 
 
 = Related Work
 
-// TODO: I'm missing related work around updates in distributed systems here, also CRDTs and so on. And I don't remember now, but do you mention these in the rest of your thesis?
+#IRT[I'm missing related work around updates in distributed systems here, also CRDTs and so on. And I don't remember now, but do you mention these in the rest of your thesis?]
 
 // Solid uses RDF & LDP 
 The Solid specification~@bib1:solid-spec builds on top of existing Semantic Web technologies such as RDF (Resource Description Framework)~@bib1:rdf and LDP (Linked Data Platform)~@bib1:ldp.
@@ -284,11 +282,6 @@ DELETE {
 ) <fig1:example-update>
 
 
-#todo[Skipping Details and use cases! -> \@RT: is it worth adding more given the 6p limit?]
-
-// TODO: What's here is fine by me.
-
-
 = Evaluation
 To verify our hypothesis, we implemented an SGV aware query engine and benchmarked it
 #footnote[Both the implementation, and the benchmark are available at:\ #link(thesis-code)[#thesis-code]].
@@ -357,7 +350,7 @@ These organization structures are then evaluated using queries that test five di
 + deleting a resource.
 ]
 
-// TODO: We definitely need to mention some results here in some way! E.g. via a figure or table. Feel free to shorten future work to make space for this.
+#IRT[We definitely need to mention some results here in some way! E.g. via a figure or table. Feel free to shorten future work to make space for this.]
 
 From these evaluations, we concluded that our hypothesis holds for all choke points except one.
 An SGV-aware query engine evaluating a query that does move the resource is slower than the same query evaluated by a non-SGV aware engine.
