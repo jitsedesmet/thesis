@@ -119,18 +119,18 @@ The collection of all Solid pods can be interpreted as one big permissioned dece
 A typical distributed database will both replicate and shard its data @bib1:distributed-database-fundamentals.
 Sharding data means that the collection of all data is divided into smaller shards, and each machine manages one or more shards.
 Sharding allows us to scale our data horizontally.
-Replication, on the other hand, makes sure that by replicating each shard on multiple machines, the system is partition tolerant~@bib1:cap.
+Each shard is then replicated on multiple machines, making the system partition tolerant~@bib1:cap.
 Different approaches exist to configure the shards and replications.
-Often times, each shard will have one leader replications, and the others are followers.
-Reads than happen to both leader and followers, while writes only happen to the leader.
+Often times, each shard will have one leader replication, and the other replications are followers.
+Reads then happen to both leader and followers, while writes only happen to the leader.
 The leader is responsible for synchronizing all changes to the followers.
 Such a configuration chooses reads to have eventual consistency~@bib1:distributed-database-fundamentals~@bib1:base,
 positioning itself on the CAP scale~@bib1:cap @bib1:continous-cap by choosing Availability and Partition Tolerance.
 
 The Solid specification builds on top of HTTP and therefore, links can break~@bib1:links-can-break.
-This essentially means that there is no partition tolerance, when a pod is disconnected, the data on that pod becomes unavailable.
+This essentially means that there is no partition tolerance. When a pod is disconnected, the data on that pod becomes unavailable.
 Solid thus only has sharding and no replication from a theoretical perspective.
-This is an interesting design choice because that means that Solid is jet to position itself on the CAP scale.
+This is an interesting design choice because it means that the Solid specification is yet to position itself on the CAP scale.
 
 == Concise Bounded Description
 In this work, we will try to store RDF resources, defined as the CBD (Concise Bounded Description)~@bib1:concise-bounded-description of a Named Node.
