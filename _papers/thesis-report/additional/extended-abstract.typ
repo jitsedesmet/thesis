@@ -88,18 +88,17 @@ This centralization of privacy causes social turbulence, since it centralizes th
 Luckily, legislative measures have been taken to protect society from this centralization~@bib1:gdpr @bib1:ccpa.
 As a response, centralization technologies are being developed, such as Solid~@bib1:solid, Bluesky~@bib1:bluesky, Mastodon~@bib1:mastodon and various blockchain-based initiatives~@bib1:nakamoto2008bitcoin.
 
-The Solid initiative achieves centralization by creating a standard building on top of existing Web standards.
+The Solid initiative achieves decentralization by creating a standard building on top of existing Web standards.
 This approach allows for interoperability and easier workflow adaptation by leveraging existing expertise.
 Nevertheless, the re-decentralization of the Web comes with various challenges ranging from efficient and effective read and write operations, to expressing and enforcing access and usage control policies.
 Reading data in this context has already gained some scientific attention @bib1:hartig2016walking @bib1:taelman-structure-assumptions, but effectively writing data remains rather unexplored.
 
-Data decentralization initiatives such as Solid and Bluesky decentralize data by providing each user with a data store governed by the user.
+Data decentralization initiatives such as Solid and Bluesky decentralize data by providing each user with a self-governed data store.
 Users are in control of their data store, how they interact with the datastore and who they share their data with.  
 The effectiveness of reading data in a decentralized environment has been increased by abstracting data reads through a query abstraction layer, the query engine, by using query languages like GraphQL~@bib1:graphql and SPARQL~@bib1:sparql.
 In this work, we will similarly research how we can abstract data updates by using a query abstraction layer.
 The current (draft) Solid specification~@bib1:solid-spec describes each data store, or pod, as a document oriented interface where a user decides for each document who can access that document.
-Our goal is thus to create a query engine that effectively decides what document a resource should be stored in.
-Easily eliminating the access-path data dependency.
+Our goal is thus to create a query engine that effectively decides what document a resource should be stored in, liminating the access-path data dependency.
 We hypothesize that such a query engine has a 2x overhead in the number of HTTP requests and a 4x overhead in the execution time compared to a query engine that requires the user to configure the document explicitly.
 This overhead is often acceptable because applications are typically created in such a way that they synchronize local changes in the background, without disturbing the user.
 This acceptable delay of updates contrasts with reads because in the case of reading data, the user flow is often interrupted when information is transferred.
@@ -107,14 +106,31 @@ This acceptable delay of updates contrasts with reads because in the case of rea
 
 = Related Work
 
-#IRT[I'm missing related work around updates in distributed systems here, also CRDTs and so on. And I don't remember now, but do you mention these in the rest of your thesis?]
-
 // Solid uses RDF & LDP 
 The Solid specification~@bib1:solid-spec builds on top of existing Semantic Web technologies such as RDF (Resource Description Framework)~@bib1:rdf and LDP (Linked Data Platform)~@bib1:ldp.
 LDP is a set of rules that is used to create a document oriented interface acceptable through HTTP.
 Such an interface essentially exposes a file system over HTTP, it creates directories, called Containers,
 that group together data documents and directories.
 Each of the exposed HTTP resources has their own access control policy declared through either WAC~@bib1:wac or ACP~@bib1:acp.
+
+== Theoretical positioning of Solid
+
+The collection of all Solid pods can be interpreted as one big permissioned decentralized graph database with some interesting properties.
+A typical distributed database will both replicate and shard its data @bib1:distributed-database-fundamentals.
+Sharding data means that the collection of all data is divided into smaller shards, and each machine manages one or more shards.
+Sharding allows us to scale our data horizontally.
+Replication, on the other hand, makes sure that by replicating each shard on multiple machines, the system is partition tolerant~@bib1:cap.
+Different approaches exist to configure the shards and replications.
+Often times, each shard will have one leader replications, and the others are followers.
+Reads than happen to both leader and followers, while writes only happen to the leader.
+The leader is responsible for synchronizing all changes to the followers.
+Such a configuration chooses reads to have eventual consistency~@bib1:distributed-database-fundamentals~@bib1:base,
+positioning itself on the CAP scale~@bib1:cap @bib1:continous-cap by choosing Availability and Partition Tolerance.
+
+The Solid specification builds on top of HTTP and therefore, links can break~@bib1:links-can-break.
+This essentially means that there is no partition tolerance, when a pod is disconnected, the data on that pod becomes unavailable.
+Solid thus only has sharding and no replication from a theoretical perspective.
+This is an interesting design choice because that means that Solid is jet to position itself on the CAP scale.
 
 == Concise Bounded Description
 In this work, we will try to store RDF resources, defined as the CBD (Concise Bounded Description)~@bib1:concise-bounded-description of a Named Node.
@@ -421,31 +437,31 @@ Configuring an access policy in a certain document can thus be translated to wha
 Extracting policies based on the data can be useful when derived resources come into play.
 For example, it could be inferred when you have access to some resource in a canonical collection, that you should also have access to that resource in a derived collection given no data enrichment happened when the derived resource was created.
 
-== Update Behaviour
-
-In this work we created a client that autonomously created an RDF resource without requiring to specify a URI. 
-To achieve this, we used a query engine that abstracts complex operations.
-A query engine, just like any update API, has the power to choose where to position themselves within the CAP (Consistency, Availability, Partition tolerance) space~@bib1:cap. CAP essentially says you can only have two of three properties of {C, A, P} with the choice of a distributed system either being the ACID~@bib1:acid or BASE~@bib1:base properties.
-
-When choosing the BASE properties, a user chooses to drop consistency.
-One way of doing so is by creating CRDTs (Conflict-free Replicated Data Types)~@bib1:crdt.
-Essentially, when multiple people are using the same resource, they will all have their own local copy of the resource.
-When the resource is edited, a CRDT will edit the local copy and synchronize the state later.
-This means that the user does not always have the latest state of a resource, thus sacrificing consistency.
-When synchronizing the resource, however, the synchronization should not just undo changes made by others.
-Instead, both changes should be considered when updating the canonical resource.
-A query engine that implements a CRDTs helps developers to create faster software.
-
-Another approach is to choose the ACID properties.
-These properties are widely used in the form of relational database transactions.
-They are not only expected by developers, but many applications are unable to operate without the consistency guarantees ACID brings.
-We therefore believe that we should examine the possibility of ACID transaction within the decentralized data storage research.
-This does not mean that we completely drop the availability property, as the inventors of the CAP theorem later describe~@bib1:continous-cap.
-Furthermore, we believe that within the CAP space, Web technologies take on an interesting position.
-Namely, the Web intentionally does not break when links do~@bib1:links-can-break.
-in the context of distributed data spaces, this means that when a data store is unavailable, so is the data managed by that store.
-This is in sharp contrast to a distributed database that duplicates data across many nodes so that all data remains accessible when a node goes offline.
-Related to the CAP theorem, that means that data spaces do not have strong Partition Tolerance requirements, allowing us to devote more attention to consistency and availability.
+// == Update Behaviour
+// 
+// In this work we created a client that autonomously created an RDF resource without requiring to specify a URI. 
+// To achieve this, we used a query engine that abstracts complex operations.
+// A query engine, just like any update API, has the power to choose where to position themselves within the CAP (Consistency, Availability, Partition tolerance) space~@bib1:cap. CAP essentially says you can only have two of three properties of {C, A, P} with the choice of a distributed system either being the ACID~@bib1:acid or BASE~@bib1:base properties.
+// 
+// When choosing the BASE properties, a user chooses to drop consistency.
+// One way of doing so is by creating CRDTs (Conflict-free Replicated Data Types)~@bib1:crdt.
+// Essentially, when multiple people are using the same resource, they will all have their own local copy of the resource.
+// When the resource is edited, a CRDT will edit the local copy and synchronize the state later.
+// This means that the user does not always have the latest state of a resource, thus sacrificing consistency.
+// When synchronizing the resource, however, the synchronization should not just undo changes made by others.
+// Instead, both changes should be considered when updating the canonical resource.
+// A query engine that implements a CRDTs helps developers to create faster software.
+// 
+// Another approach is to choose the ACID properties.
+// These properties are widely used in the form of relational database transactions.
+// They are not only expected by developers, but many applications are unable to operate without the consistency guarantees ACID brings.
+// We therefore believe that we should examine the possibility of ACID transaction within the decentralized data storage research.
+// This does not mean that we completely drop the availability property, as the inventors of the CAP theorem later describe~@bib1:continous-cap.
+// Furthermore, we believe that within the CAP space, Web technologies take on an interesting position.
+// Namely, the Web intentionally does not break when links do~@bib1:links-can-break.
+// in the context of distributed data spaces, this means that when a data store is unavailable, so is the data managed by that store.
+// This is in sharp contrast to a distributed database that duplicates data across many nodes so that all data remains accessible when a node goes offline.
+// Related to the CAP theorem, that means that data spaces do not have strong Partition Tolerance requirements, allowing us to devote more attention to consistency and availability.
 
 = Conclusion
 // Small resume
@@ -474,9 +490,7 @@ Additionally, since one server interface is used by many decentralized clients, 
 
 = References
 
-#[
-  #include "../utils/EA-bib.typ"
-]
+#[#include "../utils/EA-bib.typ"]
 
 // #bibliography(title: none, "../items.bib")
 
