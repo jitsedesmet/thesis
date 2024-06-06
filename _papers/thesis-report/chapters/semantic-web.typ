@@ -137,7 +137,7 @@ Additionally, a query specifies the operation used, like `SELECT`.
 
 #figure(
 text-example[
-```turtle
+```SPARQL
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?name ?mbox WHERE {
   ?x foaf:name ?name .
@@ -262,7 +262,7 @@ This technical complexity together with a potentially large computational cost o
 
 #figure(
 text-example[
-```sparql
+```SPARQL
 SELECT ?s ?p ?o WHERE {
   ?s ?p ?o
 }
