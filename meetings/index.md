@@ -9,3 +9,4 @@ From now on, I will try to make them more documented.
 1. [21 November 2023](meeting_ruben_taelman_21_11_2023.md) 
 2. [7 December 2023](meeting_ruben_taelman_07_12_2023.md)
 3. [15 February 2024](intermediate_defence)
+4. [20 June 2024](final_defence)

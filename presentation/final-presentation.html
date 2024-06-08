@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Thesis Jitse De Smet</title>
+
+    <link rel="stylesheet" href="/static/revieljs/dist/reset.css">
+    <link rel="stylesheet" href="/static/revieljs/dist/reveal.css">
+    <link rel="stylesheet" href="/static/revieljs/dist/theme/white.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <!--		<link rel="stylesheet" href="plugin/highlight/monokai.css">-->
+    <link rel="stylesheet" href="/static/revieljs/plugin/highlight/default.min.css">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+
+<!-- mik op ~20 minuten. En dan ~20 minuten voor vragen. -->
+<!-- Focus vooral op motivatie, research question, oplossing, resultaten, en conclusies. -->
+
+
+<section data-auto-animate>
+    <H3>Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment</H3>
+    <p>
+        Jitse De Smet
+    </p>
+    <aside class="notes" data-markdown>
+        **Hi everyone**, and welcome to my final thesis defense.
+
+        This presentation is part of a larger [website of my thesis](/).
+        A [more formal format of my thesis](/solution/report.pdf) is available in the form of a pdf.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3>Abstracting Data Updates over a Document-oriented interface of a Permissioned Decentralized Environment</h3>
+    <ul>
+        <li>Motivation</li>
+        <li>Research Question and Hypothesis</li>
+        <li>Proposed Solution</li>
+        <li>Results</li>
+        <li>Conclusion</li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+        I will present my work in the following order.
+        First I will **motivate** my work, by positioning it in the current landscape and explaining the problem at hand.
+        Secondly, I will present the research question and hypothesis that guided me through the discovery of the solution.
+        Thirdly, I will present the proposed solution, the solution contains quite some details.
+        I will present the solution from a high level view and walk through a few work flows.
+        Fourthly, I will present the results of my work, shortly discussing our solution both theoretically and empirically.
+        Lastly, I will share my conclusions and look at possible future work.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h1>Motivation</h1>
+    <p>Data is the New Gold(?)</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr;">
+<!--        https://www2.deloitte.com/us/en/pages/real-estate/articles/future-real-estate-data-new-gold.html -->
+        <a href="https://www2.deloitte.com/content/dam/Deloitte/us/Documents/technology/us-ai-institute-data-as-a-strategic-asset.pdf">
+            <picture>
+                <img src="/presentation/final-assets/deloitte-strategic-asset.png" alt="Deloitte states data is a Strategic asset">
+            </picture>
+        </a>
+        <a href="https://www.forbes.com/sites/forbestechcouncil/2023/03/27/how-to-make-use-of-the-new-gold-data/">
+            <picture>
+                <img src="/presentation/final-assets/forbes-gold.png" alt="Forbes: How To Make Use Of The New Gold: Data">
+            </picture>
+        </a>
+        <a href="https://www.imec.be/nl/articles/data-mogen-niet-het-nieuwe-goud-zijn">
+            <picture>
+                <img src="/presentation/final-assets/imec-view-on-gold.png" alt="Imec: Data mogen niet het nieuwe goud zijn">
+            </picture>
+        </a>
+        <a href="https://www.dataiq.global/articles/articles/data-is-not-the-new-oil-say-prof-sir-nigel-shadbolt-and-sir-tim-berners-lee">
+            <picture>
+                <img src="/presentation/final-assets/data-not-oil-berners-lee.png" alt="Data is not the new oil say Prof Sir Nigel Shadbolt and Sir Tim Berners-Lee">
+            </picture>
+        </a>
+    </div>
+
+
+    <aside class="notes" data-markdown>
+        Data is very valuable.
+        You often hear that data is the new gold.
+        I gathered a few articles that state their own opinion on this.
+
+        We have Deloitte stating that viewing data as a strategic asset is essential
+        and that companies should organize their information system in such a way that the data they gather can be used as fuel.
+
+        We also see Forbes comparing data to raw materials.
+        They state that data acts as the raw building block for producing digital products.
+
+        imec then states that data shouldn't be the new gold.
+        Unlike gold, data can be shared by multiple parties at the same time.
+        They therefore suggest that we should create data spaces instead of data silos so multiple people can benefit from data.
+
+        Prof Sir Nigel Shadbolt and Sir Tim Berners-Lee share this vision stating that data should not be the new oil.
+        Instead, it should be viewed as basic need, just like water.
+
+        We can thus conclude that yes, data is essential, but that data should not be controlled by massive companies.
+        This not only holds from an economic point of view, but also a social point of view.
+        Where we see that the centralization of data in big centralized silos causes privacy related issues and social turbulence.
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h1>Motivation</h1>
+    <p>Decentralization initiatives</p>
+    <ul>
+        <li><a href="https://solidproject.org/">Solid</a></li>
+        <li><a href="https://bsky.app/profile/bsky.app">Bluesky</a></li>
+        <li><a href="https://mastodon.social/">Mastodon</a></li>
+        <li><a href="https://bitcoin.org/en/bitcoin-paper">Blockchain</a> based initiatives</li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+        In response to social turbulence, privacy issues, and legislative means, various decentralization initiatives have been created.
+        We list a few of these initiatives.
+        All of them are unique in their own right, but we will be focussing on the first initiative since the flemish government heavily invests in it.
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h1>Solid</h1>
+    <ul>
+        <li>
+            Heterogeneity
+            <ul>
+                <li>of Interfaces</li>
+                <li>of Data</li>
+                <li>of Structure</li>
+                <li>(of Governance)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="situate">Situate Thesis</span></h3>
+    <ul>
+        <li>Decentralization Efforts
+            (like <a href="https://solidproject.org/">Solid</a>
+            <img style="height: 1em; transform: translate(0, 0.5em)" src="https://solidproject.org/assets/img/solid-emblem.svg" alt="Solid project icon">
+            )
+            <ul>
+                <li>Heterogeneity of Interfaces<br>(SPARQL-endpoint, LDP, ...)</li>
+                <li>Heterogeneity of Data<br>(I might have a smartwatch, you might not)</li>
+                <li>Heterogeneity of Structure<br>(I sort pictures by date, you by location)</li>
+            </ul>
+        </li>
+        <li><span data-id="SPARQL">Query Processing using SPARQL</span></li>
+    </ul>
+    <aside class="notes" data-markdown>
+        As of right now, data on the Web is **increasingly centralized** in organizations like Google and Amazon.
+        This centralization is at the root of privacy scandals and acts as a **vendor lock-in for consumers**.
+        **Legislation** like GDPR opens the path for the adoption of decentralization initiatives.
+        One of the initiatives is Solid,
+        and this initiative in particular is the talk of the town since the **Flemish government heavily invests** in it.
+        Solid allows users to host their own data through something called a Solid Pod.
+        Rooted in the Solid project is the belief that we should build upon the existing web technologies.
+        A single Solid pod can thus be seen as a node in a decentralized graph database, where each link in a pod can be any URI.
+        Of course, users don't want just anyone to see all their data, and thus we need to add permission management,
+        leaving us with a permisioned decentralized graph database.
+        Since different users have **different requirements**, of their storage, different kinds of heterogeneity arise.
+        In no particular order, we have the heterogeneity in interfaces, the heterogeneity of data and the heterogeneity of Structure.
+
+        The **sentiment of supporting heterogeneity** is what sparked the creation of the Comunica query engine developed within this research unit.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="situate">Situate Thesis</span>: <span data-id="SPARQL">Query Processing using SPARQL</span></h3>
+    <div>
+        Heterogeneity is hard for developers
+    </div>
+    <br>
+    <div class="r-stack">
+        <div class="fragment fade-out" data-fragment-index="1">
+            <div>
+                Example: SPARQL Query for my selfies with Alice
+            </div>
+            <pre><code class="language-plaintext">
+SELECT * where
+{
+    ?picture a ex:picture ;
+             ex:contains ex:Alice, ex:Bob ;
+             ex:taken-by ex:Bob .
+}
+        </code></pre>
+        </div>
+        <div class="fragment fade-in" data-fragment-index="1">
+            <div>
+                Example: SPARQL Query to add my selfie
+            </div>
+            <pre><code class="language-plaintext">
+INSERT DATA
+{
+    # a ex:picture ;
+      ex:contains ex:Alice, ex:Bob ;
+      ex:taken-by ex:Bob .
+}
+        </code></pre>
+        </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+        To ease the development experience, **efforts exist to enable SPARQL queries** over
+        permisioned decentralized graph databases.
+        An example of such a query can be seen on screen.
+        The focus of that research is on read-queries, and there exists no research enabling update-queries.
+
+        **The purpose of my thesis** is thus,
+        to allow the following update-query in such a system regardless of the interface or the structure of the data.
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h3><span data-id="situate">Situate Thesis</span>: Solid Spec</h3>
+    <ul>
+        <li>Interface: <a href="https://www.w3.org/TR/ldp/">LDP</a> (RESTful)</li>
+        <li>Index:
+            <ul>
+                <li><a href="https://solid.github.io/type-indexes/">Type Index</a></li>
+                <li><a href="https://shapetrees.org/">Shape Trees</a></li>
+            </ul>
+        </li>
+        <li>Access Control:
+            <ul>
+                <li><a href="https://solidproject.org/TR/wac">WAC</a></li>
+                <li><a href="https://solidproject.org/TR/acp">ACP</a></li>
+            </ul>
+        </li>
+    </ul>
+    <aside class="notes" data-markdown>
+        To **narrow the scope** of my thesis I focus on the LDP interface because the Solid spec heavily relies on it.
+
+        We also need **indexing**, without it data-consumers would need to **hard-code** their required **data locations**.
+        To avoid this, the Solid spec describes two ways of indexing the data in a pod.
+        One is the type index, the other one is shape trees.
+        To retrieve data, you access the index giving you a list of locations that are of interest to you.
+
+        Solid also defines two ways of **handling access control**, but those can be **ignored for this presentation**.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3>Research Question and Hypothesis</h3>
+    <p>
+        "How to
+        <span class="fragment highlight-current-red" data-fragment-index="1">
+abstract data updates
+</span> in a
+        <span class="fragment highlight-current-red" data-fragment-index="2">
+permissioned
+</span>
+        <span class="fragment highlight-current-red" data-fragment-index="3">
+decentralized environment
+</span>
+        behind a
+        <span class="fragment highlight-red" data-fragment-index="4">
+query abstraction layer
+</span>?"
+    </p>
+    <div class="r-stack fragment fade-in" data-fragment-index="1" style="border: red solid 2px; margin-top: 20px">
+        <p class="fragment fade-in-then-out" data-fragment-index="1">
+            Data consumers don't interact with the interfaces directly.
+        </p>
+        <p class="fragment fade-in-then-out" data-fragment-index="2">
+            Data stores can reject the actions of data consumers.
+        </p>
+        <p class="fragment fade-in-then-out" data-fragment-index="3">
+            Data stores are small, distributed, and the owner is in control.
+        </p>
+        <p class="fragment fade-in" data-fragment-index="4">
+            We use a query language (think SPARQL, SQL, ...) to add the abstraction.
+        </p>
+    </div>
+
+    <aside class="notes" data-markdown>
+        I therefore **ask the question**: "How to abstract data updates in a permissioned decentralized environment behind a query abstraction layer?"
+        Let's investigate that question, in more detail ...
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h3>Research Question and Hypothesis</h3>
+    <ol style="font-size: 0.6em">
+        <li>
+            The efforts of a developer to update data in a <b>single data store</b>
+            can be significantly lowered by adding a query abstraction layer.
+        </li>
+        <li>
+            The efforts of a developer to update data in <b>two data stores separately</b>,
+            where data stores have the <b>same interface</b>,
+            but <b>different structures</b> can be significantly lowered by adding a query abstraction layer.
+        </li>
+        <li>
+            The efforts of a developer to perform a <b>cross-data-store</b> update where data stores can have <b>different interfaces</b>
+            and <b>different structures</b>, can be significantly lowered by adding a query abstraction layer.
+        </li>
+        <li>
+            The number of <b>additional http requests</b>,
+            compared to manually performing POST the required resources,
+            required by an update-query engine will be small <b>(<5)</b>.
+        </li>
+    </ol>
+
+
+    <aside class="notes" data-markdown>
+        **My hypothesis is...**
+
+<!--        I will explain the metrics and measurements that I will use to validate or contradict the hypothesis in the section about the future.-->
+    </aside>
+</section>
+
+<section data-visibility="hidden" data-auto-animate>
+    <h3><span data-id="past">The Past:</span> step-by-step</h3>
+    <ol>
+        <li class="fragment">Start by leaving the original idea</li>
+        <li class="fragment">Read about querying</li>
+        <li class="fragment">Think you will work on query optimization based on structural knowledge</li>
+        <li class="fragment">Write shape descriptions for SolidBench</li>
+        <li class="fragment">Read about it</li>
+        <li class="fragment">Meet with promoter, get the "update query" hint</li>
+        <li class="fragment">Read about update queries</li>
+        <li class="fragment">Solidify the idea</li>
+        <li class="fragment">Read some more specs</li>
+        <li class="fragment">Get to work</li>
+    </ol>
+
+    <aside class="notes" data-markdown>
+        Just quickly go over the step-by-step plan.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="past">The Past:</span> Getting to Work</h3>
+
+    <ul>
+        <li>What is LDP?</li>
+        <li>Can we use Shape Trees for updates?</li>
+    </ul>
+
+    <div class="r-stack" style="font-size: 0.6em">
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-out" data-fragment-index="1">
+            Example: LDP Container
+            <pre style="margin-top: 0;"><code class="language-plaintext">
+&lthttp://example.org/c1/&gt
+   a ldp:BasicContainer;
+   dcterms:title "A very simple container";
+   ldp:contains &ltr1>, &ltr2&gt, &ltr3&gt.
+            </code></pre>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out" data-fragment-index="1">
+            Example: LDP Structure
+            <div style="display: grid; grid-gap: 5px; grid-template-columns: 1fr 1fr">
+            <pre style="margin-top: 0; padding: 20px">
+pictures/
+  |- Valencia/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- Ghent/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- Paris/
+  |  |- one.ttl
+  |  |- two.ttl
+  |  |- three.ttl
+  |- missing.ttl
+            </pre>
+            <pre style="margin-top: 0; padding: 20px">
+pictures/
+  |- 30-01-2024/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- 14-02-2024/
+  |  |- one.ttl
+  |  |- two.ttl
+  |- 17-05-2023/
+  |  |- one.ttl
+  |  |- two.ttl
+  |  |- three.ttl
+  |  |- four.ttl
+            </pre>
+            </div>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: SHACL Shape Description
+            <pre style="margin-top: 0;"><code class="language-plaintext" style="padding: 0 20px; margin: 0; overflow-y: clip">
+ex:PictureShape
+    a sh:NodeShape;
+    sh:targetClass ex:Picture ;
+    sh:property [
+       sh:path ex:depicts ;
+       sh:minCount 1 ;
+       sh:maxCount 1 ;
+       sh:datatype xsd:string ;
+    ] ;
+    sh:property [
+        sh:path ex:contains ;
+        sh:nodeKind sh:IRI ;
+    ] .
+            </code></pre>
+        </div>
+        <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out">
+            Example: Shape Trees
+            <pre style="margin-top: 0;"><code class="language-plaintext" style="padding: 0 20px; margin: 0; overflow-y: clip">
+<#PicturesTree>
+  a st:ShapeTree ;
+  st:expectsType st:Container ;
+  st:shape ex:PicturesShape ;
+  st:contains <#PicturesByCityTree> .
+
+<#PicturesByCityTree>
+  a st:ShapeTree ;
+  st:expectsType st:Container ;
+  st:shape ex:PicturesByCityShape ;
+  st:contains <#PictureTree> .
+
+<#PictureTree>
+  a st:ShapeTree ;
+  st:expectsType st:Resource ;
+  st:shape ex:PictureShape .
+            </code></pre>
+        </div>
+        <div style="width: 100%;" class="fragment fade-in-then-out">
+            Is this enough?
+            <br>
+            To check that,
+            I listed some <a href="https://thesis.jitsedesmet.be/user-stories/stories.html#functional-requirements">
+            functional requirements and user stories</a>.
+            <br>
+            The answer: <b>NO</b>.
+            <br>
+        </div>
+    </div>
+
+
+    <aside class="notes" data-markdown>
+        As I've mentioned before, to limit the scope of my thesis, I focus on the current tech stack of Solid.
+        Solid uses the **LDP interface** and **adds structural information** through Shape Trees used as an index.
+        LDP provides some nice interface to essentially model a file system using Linked Data.
+
+        Such a **file system can structure files in a variety of ways**.
+        With the help of Shape Trees we can understand the structure.
+        Shape Trees use shape descriptions like SHACL, or ShEx to describe resources.
+        Put plainly, Shape trees are the **natural extension of shape descriptions to LDP**.
+        Since "Shape Trees" provide structural information for read queries,
+        they might be a good start to discover where we should write data.
+
+        **Is this enough?**
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="past">The Past:</span> Getting to Work</h3>
+
+    <div>
+        <ol style="column-count: 2; padding: 5px; font-size: 20pt; list-style-position: inside">
+            <li>What if multiple directories match?
+                <ul>
+                    <li>Do I duplicate?</li>
+                    <li>Is one canonical and the other one links to the resource saved in the canonical?</li>
+                    <li>And how do I decide which one is canonical?</li>
+                </ul>
+            </li>
+            <li>What if no directories match?</li>
+            <li>How are resources grouped?
+                <ul>
+                    <li>Can I just infer that picture-by-date example is just that?</li>
+                    <li>What if I need to create a new date directory?</li>
+                </ul>
+            </li>
+
+            <li>
+                Is that new directory I created a leaf?
+                <ul>
+                    <li>Or should I make even more directories? (Can be inferred from Shape Tree)</li>
+                </ul>
+            </li>
+            <li>What to do if a resource is changed?
+                <ul>
+                    <li>Should I alter the Shape Tree?</li>
+                    <li>Should I move the resource?</li>
+                    <li>Do I have a distance metric, and do I move when the distance is to great?</li>
+                </ul>
+            </li>
+            <li>Should all clients abide to the structural information?</li>
+        </ol>
+    </div>
+    <div class="fragment fade-in">
+        Introducing:
+        <a href="https://thesis.jitsedesmet.be/solution/storage-guidance-vocabulary/">
+            Storage Guidance Vocabulary (SGV)
+        </a>
+    </div>
+
+    <aside class="notes" data-markdown>
+        If I want to insert a resource, I can **see what Shape Tree would match** and put it there, **but...**
+
+        Click on the SGV link.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3><span data-id="future">The Future:</span> Overview</h3>
+
+    <ul>
+        <li>Adapt <a href="https://comunica.dev/">Comunica</a> to allow update queries by interpreting SGV</li>
+        <li>Alter <a href="https://github.com/SolidBench/SolidBench.js">SolidBench</a>, so we can measure</li>
+        <li>Feedback Loop: Measure and Adapt</li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3 data-id="eval"><span data-id="future">The Future:</span> Evaluation</h3>
+
+    <div style="text-align: left">
+        Experiments using SolidBench:
+        <ul>
+            <li>Extend SolidBench with SGV descriptions</li>
+            <li>Implement manual update scripts for each structure</li>
+            <li>Reason how to generalize the different scripts</li>
+            <li>Evaluate updating a single pod using queries</li>
+            <li>Evaluate updating multiple pods using queries</li>
+        </ul>
+    </div>
+
+    <aside class="notes" data-markdown>
+        **SolidBench** is an existing Benchmark that can **generate many data stores with different structures**.
+        For the different structures, **I will add the SGV**.
+        I will then perform multiple experiments.
+    </aside>
+</section>
+
+<section data-auto-animate>
+    <h3 data-id="eval"><span data-id="future">The Future:</span> Evaluation</h3>
+
+    <div style="text-align: left">
+        Possible metrics:
+        <ul>
+            <li>Execution time</li>
+            <li>Number of http requests</li>
+            <li>String difference between queries that want the same modification over different data stores</li>
+            <li>What ratio of queries leaves the data store inconsistent when introducing random server failures</li>
+        </ul>
+    </div>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
+
+<section data-auto-animate>
+    <h3>Time for Questions</h3>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<script src="/static/revieljs/dist/reveal.js"></script>
+<script src="/static/revieljs/plugin/notes/notes.js"></script>
+<script src="/static/revieljs/plugin/markdown/markdown.js"></script>
+<script src="/static/revieljs/plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+        controlsTutorial: true,
+        showSlideNumber: "print",
+        showNotes: false,
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+    // Reveal.configure({ showNotes: true });
+    Reveal.configure({ showNotes: true  });
+</script>
+</body>
+</html>
