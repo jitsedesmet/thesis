@@ -1,0 +1,12 @@
+.fragment.current-bold {
+    &.current-fragment {
+        font-weight: bold;
+    }
+}
+
+.fragment.out-bold {
+    font-weight: bold;
+    &.visible {
+        font-weight: normal;
+    }
+}
