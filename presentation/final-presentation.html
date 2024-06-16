@@ -462,11 +462,79 @@ posts/
 <section data-auto-animate>
     <h3>Empirical Evaluation</h3>
 
-    Our tables, concluding it does indeed verify the hypothesis.
+    Create Resource
+    <table style="font-size: 0.8em">
+        <tr>
+            <th>frag. Strat.</th><th>ops/sec</th><th>Average Time (ms)</th><th>Margin</th>
+        </tr>
+        <tr>
+            <td>by date: SGV</td><td>22</td><td>44582.068</td><td>±1.73%</td>
+        </tr>
+        <tr>
+            <td>by date: RAW</td><td>35</td><td>27899.513</td><td>±2.07%</td>
+        </tr>
+        <tr>
+            <td>one file: SGV</td><td>6</td><td>149415.739</td><td>±2.98%</td>
+        </tr>
+        <tr>
+            <td>one file: RAW</td><td>7</td><td>134361.192</td><td>±8.66%</td>
+        </tr>
+        <tr>
+            <td>own file: SGV</td><td>10</td><td>91851.395</td><td>±2.56%</td>
+        </tr>
+        <tr>
+            <td>own file: RAW</td><td>13</td><td>76672.217</td><td>±3.07%</td>
+        </tr>
+        <tr>
+            <td>by location: SGV</td><td>23</td><td>43005.366</td><td>±2.20%</td>
+        </tr>
+        <tr>
+            <td>by location: RAW</td><td>35</td><td>28003.949</td><td>±2.53%</td>
+        </tr>
+    </table>
 
     <aside class="notes" data-markdown>
     </aside>
 </section>
+
+<section data-auto-animate>
+    <h3>Empirical Evaluation</h3>
+
+    Move Resource
+    <table style="font-size: 0.8em">
+        <tr>
+            <th>frag. Strat.</th><th>ops/sec</th><th>Average Time (ms)</th><th>Margin</th>
+        </tr>
+        <tr>
+            <td>by date: SGV</td><td>7</td><td>141940.530</td><td>±1.28%</td>
+        </tr>
+        <tr>
+            <td>by date: RAW</td><td>11</td><td>87113.119</td><td>±0.75%</td>
+        </tr>
+        <tr>
+            <td>one file: SGV</td><td>2</td><td>343690.220</td><td>±1.70%</td>
+        </tr>
+        <tr>
+            <td>one file: RAW</td><td>4</td><td>208930.211</td><td>±2.04%</td>
+        </tr>
+        <tr>
+            <td>own file: SGV</td><td>5</td><td>177991.908</td><td>±0.58%</td>
+        </tr>
+        <tr>
+            <td>own file: RAW</td><td>12</td><td>80729.940</td><td>±1.06%</td>
+        </tr>
+        <tr>
+            <td>by location: SGV</td><td>7</td><td>133052.120</td><td>±0.60%</td>
+        </tr>
+        <tr>
+            <td>by location: RAW</td><td>12</td><td>81066.196</td><td>±1.15%</td>
+        </tr>
+    </table>
+
+    <aside class="notes" data-markdown>
+    </aside>
+</section>
+
 
 <section data-auto-animate>
     <h3>Conclusion</h3>
