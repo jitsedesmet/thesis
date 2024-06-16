@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="/static/revieljs/dist/reset.css">
     <link rel="stylesheet" href="/static/revieljs/dist/reveal.css">
     <link rel="stylesheet" href="/static/revieljs/dist/theme/white.css">
-    <link rel="stylesheet" href="/presentation/final-assets/custom.css">
 
     <!-- Theme used for syntax highlighted code -->
-    <!--		<link rel="stylesheet" href="plugin/highlight/monokai.css">-->
-    <link rel="stylesheet" href="/static/revieljs/plugin/highlight/default.min.css">
+<!--    <link rel="stylesheet" href="/static/revieljs/plugin/highlight/monokai.css">-->
+<!--    <link rel="stylesheet" href="/static/revieljs/plugin/highlight/zenburn.css">-->
+
+    <link rel="stylesheet" href="/presentation/final-assets/custom.css">
 </head>
 <body>
 <div class="reveal">
@@ -49,11 +50,11 @@
 
     <aside class="notes" data-markdown>
         I will present my work in the following order.
-        First I will **motivate** my work, by positioning it in the current landscape and explaining the problem at hand.
+        First I will motivate my work, by positioning it in the current landscape and explaining the problem at hand.
         Secondly, I will present the research question and hypothesis that guided me through the discovery of the solution.
         Thirdly, I will present the proposed solution, the solution contains quite some details.
-        I will present the solution from a high level view and walk through a few work flows.
-        Fourthly, I will present the results of my work, shortly discussing our solution both theoretically and empirically.
+        I will present the solution from a **high level view** and walk through a few work flows.
+        Fourthly, I will present the results of my work, shortly discussing our solution both **theoretically and empirically**.
         Lastly, I will share my conclusions and look at possible future work.
     </aside>
 </section>
@@ -87,8 +88,7 @@
 
 
     <aside class="notes" data-markdown>
-        Data is very valuable.
-        You often hear that data is the new gold.
+        Data is very valuable, even more so, you often hear that "data is the new gold".
         I gathered a few articles that state their own opinion on this.
 
         We have Deloitte stating that viewing data as a strategic asset is essential
@@ -132,27 +132,30 @@
 <section data-auto-animate>
     <h1>Solid</h1>
     <ul>
-        <li>Build on Existing Web Technologies (like RDF)</li>
+        <li>Use Existing Web Technologies</li>
         <li>Self Governed Data Store</li>
         <li>
             Heterogeneity
             <ul>
-                <li>of Interface (SPARQL-endpoint, LDP, ...)</li>
-                <li>of Data (I might have a smartwatch, you might not)</li>
-                <li>of Structure (I sort pictures by date, you by location)</li>
+                <li>of Interface</li>
+                <li>of Data</li>
+                <li>of Structure</li>
             </ul>
-        </li>
-        <li>
-            Theoretically: It's a permissioned decentralized graph database.
-<!--            in which a single shard is self governed and no replication exists from a specification point of view.-->
         </li>
     </ul>
 
+    <p class="fragment fade-in">Theoretically: Permissioned decentralized graph database</p>
+    <!--            in which a single shard is self governed and no replication exists from a specification point of view.-->
+
+
     <aside class="notes" data-markdown>
-        Solid has some key ideas, it's a Web specification building ontop of existsing Web technologies.
+        Solid has some key ideas, it's a Web specification building on top of existing Web technologies.
         It providers every user with their own self governed data store.
-        Given it's decentraliced nature, it needs to handle various kinds of heterogeinity.
-        We can recognise three kinds: the heterogeinity of interface, of data and of structure.
+        Given it's decentralized nature, it needs to handle various kinds of heterogeneity.
+        We can recognise three kinds:
+        1. The heterogeneity of interface - you can use a SPARQL-endpoint, LDP, ... or something else.
+        2. The heterogeneity of data - I might have a smartwatch, you might not
+        3. The heterogeneity of Structure - I sort pictures by date, you by location
 
         The collection of all solid data stores can be viewed as a large permissioned decentralized graph database.
         Unlike a distributed database that typically shards and replicates its data across multiple machines.
@@ -162,6 +165,9 @@
 
 <section data-auto-animate>
     <h3>Research Question and Hypothesis</h3>
+
+    TODO: schematic overview of our idea: alice -> engine -> processing -> pod
+
     <p>
         "How can we
         <span class="fragment highlight-current-red" data-fragment-index="1">
@@ -181,36 +187,27 @@ decentralized environment
 query abstraction layer
 </span>?"
     </p>
-    <div class="r-stack fragment fade-in" data-fragment-index="1" style="border: red solid 2px; margin-top: 20px">
-        <p class="fragment fade-in-then-out" data-fragment-index="1">
-            We aim to abstract the query process, so a developer does
-            not need to interact with the pod interfaces directly.
-        </p>
-        <p class="fragment fade-in-then-out" data-fragment-index="2">
-            The interface we interact with exposes data through HTTP documents.
-            (The Solid specification describes the use of such an interface through LDP.)
-        </p>
-        <p class="fragment fade-in-then-out" data-fragment-index="3">
-            Each HTTP resource has access rights configured, these rights can
-            either grant or deny access to resources for specific users.
-        </p>
-        <p class="fragment fade-in-then-out" data-fragment-index="4">
-            Each pod is self governed and limited rules apply to the system. A
-            loosely defined system allows data publisher to be opinionated
-        </p>
-        <p class="fragment fade-in-then-out" data-fragment-index="5">
-            We want the abstraction to happen through a declarative
-            query. In this work we use the SPARQL query language but others could be used like GraphQL.
-        </p>
-        <p class="fragment fade-in" data-fragment-index="6">
-            We hypothesize that we can create an automated client capable of deciding where to store a resource given a pod.
-            Such a client should have maximum execution time overhead of four times, and maximum double the HTTP requests.
-        </p>
-    </div>
 
     <aside class="notes" data-markdown>
         I therefore **ask the question**: "How can we abstract data updates over a document oriented interface of a permissioned decentralized environment behind a query abstraction layer?"
-        Let's investigate that question, in more detail ...
+        Let's investigate that question, in more detail:
+
+        We aim to abstract the query process, so a developer does not need to interact with the pod interfaces directly.
+
+        The interface we interact with exposes data through HTTP documents.
+        (The Solid specification describes the use of such an interface through LDP.)
+
+        Each HTTP resource has access rights configured, these rights can
+        either grant or deny access to resources for specific users.
+
+        Each pod is self governed and limited rules apply to the system. A
+        loosely defined system allows data publisher to be opinionated
+
+        We want the abstraction to happen through a declarative
+        query. In this work we use the SPARQL query language but others could be used like GraphQL.
+
+        We hypothesize that we can create an automated client capable of deciding where to store a resource given a pod.
+        Such a client should have maximum execution time overhead of four times, and maximum double the HTTP requests.
     </aside>
 </section>
 
@@ -233,7 +230,23 @@ query abstraction layer
             <br/>
             Example: SHACL Shape Description of a social media post.
             <pre style="margin-top: 0;"><code class="language-plaintext" style="padding: 0 20px; margin: 0; overflow-y: clip">
-Wow such a nice social media example
+:postShape a sh:NodeShape ;
+  sh:property [
+    sh:path rdf:type ;
+    sh:hasValue ldbc:Post ;
+  ] ;
+  sh:property [
+    sh:path ldbc:creationDate ;
+    sh:datatype xsd:dateTime ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] ;
+  sh:property [
+    sh:path ldbc:id ;
+    sh:datatype xsd:long ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+  ] .
             </code></pre>
         </div>
         <div style="width: 100%; border: red solid 2px;" class="fragment fade-in-then-out" data-fragment-index="1">
@@ -323,36 +336,13 @@ posts/
     <h3>What are we missing?</h3>
 
     <div>
-        <ol style="column-count: 2; padding: 5px; font-size: 20pt; list-style-position: inside">
-            <li>What if multiple directories match?
-                <ul style="display: inline-block">
-                    <li>Do I duplicate?</li>
-                    <li>Is one canonical and the other one links to the resource saved in the canonical?</li>
-                    <li>And how do I decide which one is canonical?</li>
-                </ul>
-            </li>
+        <ol style="column-count: 2; padding: 5px; list-style-position: inside">
+            <li>What if multiple directories match?</li>
             <li>What if no directories match?</li>
-            <li>How are resources grouped?
-                <ul style="display: inline-block">
-                    <li>Can I just infer that picture-by-date example is just that?</li>
-                    <li>What if I need to create a new date directory?</li>
-                </ul>
-            </li>
-
-            <li>
-                Is that new directory I created a leaf?
-                <ul style="display: inline-block">
-                    <li>Or should I make even more directories? (Can be inferred from Shape Tree)</li>
-                </ul>
-            </li>
-            <li>What to do if a resource is changed?
-                <ul style="display: inline-block">
-                    <li>Should I alter the Shape Tree?</li>
-                    <li>Should I move the resource?</li>
-                    <li>Do I have a distance metric, and do I move when the distance is to great?</li>
-                </ul>
-            </li>
-            <li>Should all clients abide to the structural information?</li>
+            <li>How are resources grouped?</li>
+            <li>Am I creating a leaf directory?</li>
+            <li>Can I update? Does it stay where it is?</li>
+            <li>Do all clients follow the same rules?</li>
         </ol>
     </div>
     <div class="fragment fade-in">
@@ -363,7 +353,26 @@ posts/
     </div>
 
     <aside class="notes" data-markdown>
-        If I want to insert a resource, I can **see what Shape Tree would match** and put it there, **but...**
+        If I want to insert a resource, I can **see what Shape Tree would match** and put it there, **but...**:
+
+        1. What if multiple directories match?
+            1. Do I duplicate?
+            2. Is one canonical and the other one links to the resource saved in the canonical?
+            3. And how do I decide which one is canonical?
+        2. What if no directories match?
+        3. How are resources grouped?
+            1. Can I just infer that picture-by-date example is just that?
+            2. What if I need to create a new date directory?
+        4. Is that new directory I created a leaf?
+            1. Or should I make even more directories? (Can be inferred from Shape Tree)
+        5. What to do if a resource is changed?
+            1. Should I alter the Shape Tree?
+            2. Should I move the resource?
+            3. Do I have a distance metric, and do I move when the distance is too great?
+        6. Should all clients abide to the structural information?
+
+
+
 
         Click on the SGV link.
     </aside>
@@ -372,10 +381,18 @@ posts/
 <section data-auto-animate>
     <h3>Storage Guidance Vocabulary</h3>
 
-    <picture>
-        <img src="final-assets/sgv-graph.png" style="max-height: 600px; max-width: 700px; object-fit: contain"
-             alt="Schematic overview of the Storage Guidance Vocabulary">
-    </picture>
+    <ol style="column-count: 2; column-gap: 70px">
+        <li>Resource Collection</li>
+        <li class="fragment fade-in">Unstructured Collection</li>
+        <li class="fragment fade-in">Structured Collection</li>
+        <li class="fragment fade-in">Canonical Collection</li>
+        <li class="fragment fade-in">Derived Collection</li>
+        <li class="fragment fade-in">Resource Description</li>
+        <li class="fragment fade-in">Group Strategy</li>
+        <li class="fragment fade-in">Store Condition</li>
+        <li class="fragment fade-in">Update Condition</li>
+        <li class="fragment fade-in">Client Control</li>
+    </ol>
 
     <aside class="notes" data-markdown>
         - *Resource Collection*: Corresponds to a group of RDF resources.
@@ -454,19 +471,26 @@ posts/
 <section data-auto-animate>
     <h3>Conclusion</h3>
 
-    <ul>
-        <li>Automated Client with limited overhead is possible.</li>
-        <li>Lack of server-side control - Inherent problem</li>
-        <li>Inter-pod Updates - What if I want to move data between pods?</li>
-        <li>Other Interfaces - Is document oriented the best?</li>
-        <li>View Creation and Discovery - Structure has a high influence on execution time</li>
-        <li>Smart Access control - Now that we know what a document is, can we guess what AC means?</li>
-        <li>CAP / ACID - transaction / BASE - CRDTs</li>
-    </ul>
+    <ol>
+        <li>Automated Client with limited overhead is possible</li>
+        <li>Lack of server-side control</li>
+        <li>Inter-pod Updates</li>
+        <li>Investigate Other Interfaces</li>
+        <li>Structure has a high influence on execution time</li>
+        <li>Smart Access Control</li>
+        <li>CAP / ACID / BASE</li>
+    </ol>
 
     <aside class="notes" data-markdown>
         Related to other interfaces we have a [blog post of Ruben Verborgh challenging REST and other interfaces](https://ruben.verborgh.org/blog/2024/05/30/the-webs-data-triad/).
 
+
+        * Lack of server-side control - Inherent problem
+        * Inter-pod Updates - What if I want to move data between pods?
+        * Investigate Other Interfaces - Is document oriented the best?
+        * View Creation and Discovery - Structure has a high influence on execution time
+        * Smart Access control - Now that we know what a document is, can we guess what AC means?
+        * CAP / ACID - transaction / BASE - CRDTs
     </aside>
 </section>
 

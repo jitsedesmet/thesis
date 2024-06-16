@@ -10,3 +10,10 @@
         font-weight: normal;
     }
 }
+
+.reveal .slides ul {
+    list-style-type: none;
+}
+.reveal .slides ul ul {
+    list-style-type: none;
+}
