@@ -30,13 +30,15 @@
 /*    L500,-10, 640,-10 */
 /*    offset-path: path('M20,20 H400 Q450 -40, 500 -10');*/
 /*     https://yqnn.github.io/svg-path-editor/ */
-    offset-path: path('M 20 20 H 400 L 500 -10 L 640 -10');
-    animation: move 5000ms infinite forwards linear;
+    z-index: 99;
+    offset-path: path('M -65,68 625,68  625,10');
+    offset-rotate: 0deg;
+    animation: move 5000ms infinite forwards ease-in-out;
 }
 
 @keyframes move {
     0% {
-        offset-distance: 0%;
+        offset-distance: 0;
     }
     100% {
         offset-distance: 100%;
