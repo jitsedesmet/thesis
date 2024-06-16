@@ -17,3 +17,28 @@
 .reveal .slides ul ul {
     list-style-type: none;
 }
+
+.animated-message {
+    position: fixed;
+    height: 30px;
+    width: 30px;
+    background: #bfbfbf;
+    transform: translate(40px, 20px);
+    box-shadow: 3px 3px 3px black;
+/*path('M20,20 C20,100 200,0 200,100')*/
+/*    https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths */
+/*    L500,-10, 640,-10 */
+/*    offset-path: path('M20,20 H400 Q450 -40, 500 -10');*/
+/*     https://yqnn.github.io/svg-path-editor/ */
+    offset-path: path('M 20 20 H 400 L 500 -10 L 640 -10');
+    animation: move 5000ms infinite forwards linear;
+}
+
+@keyframes move {
+    0% {
+        offset-distance: 0%;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}
