@@ -33,6 +33,9 @@
     z-index: 99;
     offset-path: path('M -65 68 H 500 Q 625 68 625 10');
     offset-rotate: 0deg;
+}
+
+.animated-message.visible {
     animation: move 5000ms infinite forwards ease-in-out;
 }
 
