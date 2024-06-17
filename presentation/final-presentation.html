@@ -183,7 +183,7 @@ decentralized environment
         behind a
         <span class="fragment highlight-current-red" data-fragment-index="6">
 query abstraction layer
-</span>?"
+</span>?"<span class="fragment fade-in" data-fragment-index="7"></span>
     </p>
 
     <div style="display: flex; flex-direction: row; gap: 5px; align-items: center">
@@ -218,18 +218,18 @@ query abstraction layer
         I therefore **ask the question**: "How can we abstract data updates over a document oriented interface of a permissioned decentralized environment behind a query abstraction layer?"
         Let's investigate that question, in more detail:
 
-        We aim to abstract the query process, so a developer does not need to interact with the pod interfaces directly.
+        Abstract data updates - We aim to abstract the query process, so a developer does not need to interact with the pod interfaces directly.
 
-        The interface we interact with exposes data through HTTP documents.
+        Document oriented interface - The interface we interact with exposes data through HTTP documents.
         (The Solid specification describes the use of such an interface through LDP.)
 
-        Each HTTP resource has access rights configured, these rights can
+        Permissioned - Each HTTP resource has access rights configured, these rights can
         either grant or deny access to resources for specific users.
 
-        Each pod is self governed and limited rules apply to the system. A
+        Decentralized environment - Each pod is self governed and limited rules apply to the system. A
         loosely defined system allows data publisher to be opinionated
 
-        We want the abstraction to happen through a declarative
+        Query abstraction layer - We want the abstraction to happen through a declarative
         query. In this work we use the SPARQL query language but others could be used like GraphQL.
 
         We hypothesize that we can create an automated client capable of deciding where to store a resource given a pod.
@@ -347,14 +347,18 @@ posts/
 
     <aside class="notes" data-markdown>
         To create an automated client, we essentially need to figure out what files hold what data and why.
+        For this, we look back at two heterogeneity that we need to handle.
+        First the heterogeneity of data, we can tackle this by describing our data.
+        In the context of the semantic web, there are two possible ways of doing that, either through ShEx, or through SHACL.
+        We provide an example SHACL shape description of a social media post.
 
+        The other kind is the heterogeneity of structure.
+        As you can see here, we provide two totally reasonable ways of structuring your social media posts.
 
-        Such a **file system can structure files in a variety of ways**.
-        With the help of Shape Trees we can understand the structure.
-        Shape Trees use shape descriptions like SHACL, or ShEx to describe resources.
-        Put plainly, Shape trees are the **natural extension of shape descriptions to LDP**.
-        Since "Shape Trees" provide structural information for read queries,
-        they might be a good start to discover where we should write data.
+        To describe such in Solid, you can use either Type Indexes or Shape Trees.
+        Shape Trees act like the natural extension of shape descriptions to file structure,
+        specifically to the system used by Solid, namely LDP.
+        We provide an example shape trees example.
 
         **Is this enough?**
     </aside>
@@ -524,6 +528,7 @@ posts/
     </table>
 
     <aside class="notes" data-markdown>
+        The ratios are in respective order: 0.629 ; 0.857 ; 0.769 ; and 0.65
     </aside>
 </section>
 
@@ -562,6 +567,7 @@ posts/
     </table>
 
     <aside class="notes" data-markdown>
+        The ratios are in respective order: 0.636 ; 0.5 ; 0.417 ; and 0.583
     </aside>
 </section>
 
@@ -580,15 +586,39 @@ posts/
     </ol>
 
     <aside class="notes" data-markdown>
-        Related to other interfaces we have a [blog post of Ruben Verborgh challenging REST and other interfaces](https://ruben.verborgh.org/blog/2024/05/30/the-webs-data-triad/).
-
-
-        * Lack of server-side control - Inherent problem
+        * Lack of server-side control - Inherent problem.
+            Since there is no server side control, a client need not follow the SGV description.
+            This means that they can easily break the structure.
         * Inter-pod Updates - What if I want to move data between pods?
+            As of right now, updates need to happen in one pod.
+            Expanding this mechanism to multiple pods, so we could for example move a resource is interesting and not trivial.
+            For example, can the broad system have two copies of the same resource?
+            So is there an "at least once", "exactly once" or "at most once" existence policy?
         * Investigate Other Interfaces - Is document oriented the best?
+            Using document oriented interface we basically got the permissions for free because we just have permissions on documents.
+            However, to create an automated update client, SGV is needed just to derive resource locations.
+            Furthermore, they come with some drawbacks too (see [blog post of Ruben Verborgh challenging REST and other interfaces](https://ruben.verborgh.org/blog/2024/05/30/the-webs-data-triad/))
         * View Creation and Discovery - Structure has a high influence on execution time
+            We saw that the structure of the storage structure is large factor for execution times,
+            I think it would be interesting to have a server that creates derived resources on the fly when it notices that certain access patterns can increase productivity.
         * Smart Access control - Now that we know what a document is, can we guess what AC means?
-        * CAP / ACID - transaction / BASE - CRDTs
+            I wonder whether when we sufficiently describe resources contained in a document and their heritage,
+            it might be possible to derive what it means to put certain access rights on a document.
+            Such an access control derivation could be usefully for example when one data store is exposed through multiple interfaces.
+        * CAP / ACID - transaction / BASE - CRDTs:
+            I think there is merit in investigating ACID transaction in the context of a Solid pod.
+            Application developers are used to transactions, and we should look at whether we can enable them in the context of Solid.
+            For example, a certain resource could be annotated in such a way that clients know the resource supports transactions.
+            \
+            In the same way, it also makes sense to investigate CRDTs in order to create fast applications.
+            Both of these systems can be abstracted by a query engine.
+            I think that when we are able to add these systems, developing for Solid will be so easy, developers might even yearn for it.
+            \
+            It's also important to note that Solid does not have built in partition tolerance, so we have some room for playing around in the CAP space.
+
+        Note: [Noel De Martin](https://noeldemartin.com/) presented a CRDT vocabulary on the [2nd Solid Symposium](https://events.vito.be/sosy2024).
+        He explains his work on [YouTube](https://www.youtube.com/watch?v=vYQmGeaQt8E).
+        His work is a step in the right direction but lacks logical clocks.
     </aside>
 </section>
 
