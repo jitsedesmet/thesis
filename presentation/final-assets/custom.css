@@ -43,11 +43,11 @@
 }
 
 .animated-message.visible {
-    animation: move 5000ms infinite forwards ease-in-out;
+    animation: move 6000ms infinite forwards ease-in-out;
 }
 
 .animated-message.visible .boxy {
-    animation: mover 5000ms infinite forwards step-end;
+    animation: mover 6000ms infinite forwards step-end;
 }
 
 @keyframes mover {
