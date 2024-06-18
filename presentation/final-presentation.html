@@ -144,7 +144,7 @@
         </li>
     </ul>
 
-    <p class="fragment fade-in">Theoretically: Permissioned decentralized graph database</p>
+<!--    <p class="fragment fade-in">Theoretically: Permissioned decentralized graph database</p>-->
     <!--            in which a single shard is self governed and no replication exists from a specification point of view.-->
 
 
@@ -156,10 +156,58 @@
         1. The heterogeneity of interface - you can use a SPARQL-endpoint, LDP, ... or something else.
         2. The heterogeneity of data - I might have a smartwatch, you might not
         3. The heterogeneity of Structure - I sort pictures by date, you by location
-
+    </aside>
+<!--
         The collection of all solid data stores can be viewed as a large permissioned decentralized graph database.
         Unlike a distributed database that typically shards and replicates its data across multiple machines.
         The "Solid database" so to speak only shards it's data.
+-->
+</section>
+
+<section data-auto-animate>
+    <h3>Handling Heterogeneity</h3>
+
+    <div style="display: flex; flex-direction: row; gap: 5px; align-items: center">
+        <img src="final-assets/nadenken%202.png" style="height: 150px; margin: 0">
+        <img src="final-assets/weggeven.png" style="transform: scaleX(-1); height: 150px; margin: 0">
+
+
+        <div style="height: 150px; width: 200px">
+            <div class="animated-message fragment fade-in-then-out" style="z-index: 100; opacity: 0.99" data-fragment-index="1">
+                <img src="final-assets/taart.png" style="transform: translate(-0.5px, -15px); z-index: -1">
+                <div class="boxy"></div>
+            </div>
+            <div style="height: 100%; width: 100%; background: black; clip-path: polygon(0% 40%, 60% 40%, 60% 30%, 100% 50%, 60% 70%, 60% 60%, 0% 60%);">
+            </div>
+        </div>
+
+        <img src="final-assets/gears.png" style="height: 150px; margin: 0">
+
+        <div style="height: 150px; width: 200px">
+            <!--            <div style="position: fixed; height: 30px; width: 30px; background: #bfbfbf; transform: translate(40px, 20px); box-shadow: 3px 3px 3px black"></div>-->
+            <div style="height: 100%; width: 100%; background: black; clip-path: polygon(0% 40%, 60% 40%, 60% 30%, 100% 50%, 60% 70%, 60% 60%, 0% 60%);">
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; justify-items: center">
+            <img src="final-assets/boeken%20in%20boekenkast.png" style="height: 100px; margin: 0">
+            <img src="final-assets/ijskast%20open%203.png" style="height: 100px; margin: 0">
+            <img src="final-assets/kast%20speel%20en%20lees%20set.png" style="height: 100px; margin: 0">
+            <img src="final-assets/taalspelletjes%20kast.png" style="height: 100px; margin: 0">
+        </div>
+
+    </div>
+
+    <aside class="notes" data-markdown>
+        We can handle the heterogeneity of our system by using an abstraction layer.
+        For example, say, I want to store something, but I don't really know what.
+        I would ask the abstraction layer "please store this thing".
+        The abstraction layer would than discover that we wish to store a pie, and that a pie should be stored in a fridge.
+        The layer would than proceed to store the pie in that location.
+
+        In this analogy we would replace the pie with a query engine and ta-da.
+
+        CC by: Sclera (https://www.sclera.be/nl/vzw/home)
     </aside>
 </section>
 
@@ -186,37 +234,6 @@ query abstraction layer
 </span>?"<span class="fragment fade-in" data-fragment-index="7"></span>
     </p>
 
-    <div style="display: flex; flex-direction: row; gap: 5px; align-items: center">
-        <img src="final-assets/nadenken%202.png" style="height: 150px; margin: 0">
-        <img src="final-assets/weggeven.png" style="transform: scaleX(-1); height: 150px; margin: 0">
-
-
-        <div style="height: 150px; width: 200px">
-            <div class="animated-message fragment fade-in-then-out" style="z-index: 100; opacity: 0.99" data-fragment-index="1">
-                <img src="final-assets/taart.png" style="transform: translate(-0.5px, -15px); z-index: -1">
-                <div class="boxy"></div>
-            </div>
-            <div style="height: 100%; width: 100%; background: black; clip-path: polygon(0% 40%, 60% 40%, 60% 30%, 100% 50%, 60% 70%, 60% 60%, 0% 60%);">
-            </div>
-        </div>
-
-        <img src="final-assets/gears.png" style="height: 150px; margin: 0">
-
-        <div style="height: 150px; width: 200px">
-<!--            <div style="position: fixed; height: 30px; width: 30px; background: #bfbfbf; transform: translate(40px, 20px); box-shadow: 3px 3px 3px black"></div>-->
-            <div style="height: 100%; width: 100%; background: black; clip-path: polygon(0% 40%, 60% 40%, 60% 30%, 100% 50%, 60% 70%, 60% 60%, 0% 60%);">
-            </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; justify-items: center">
-            <img src="final-assets/boeken%20in%20boekenkast.png" style="height: 100px; margin: 0">
-            <img src="final-assets/ijskast%20open%203.png" style="height: 100px; margin: 0">
-            <img src="final-assets/kast%20speel%20en%20lees%20set.png" style="height: 100px; margin: 0">
-            <img src="final-assets/taalspelletjes%20kast.png" style="height: 100px; margin: 0">
-        </div>
-
-    </div>
-
     <aside class="notes" data-markdown>
         I therefore **ask the question**: "How can we abstract data updates over a document oriented interface of a permissioned decentralized environment behind a query abstraction layer?"
         Let's investigate that question, in more detail:
@@ -237,8 +254,6 @@ query abstraction layer
 
         We hypothesize that we can create an automated client capable of deciding where to store a resource given a pod.
         Such a client should have maximum execution time overhead of four times, and maximum double the HTTP requests.
-
-        CC by: Sclera (https://www.sclera.be/nl/vzw/home)
     </aside>
 </section>
 
