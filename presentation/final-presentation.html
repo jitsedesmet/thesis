@@ -252,7 +252,7 @@ query abstraction layer
         Query abstraction layer - We want the abstraction to happen through a declarative
         query. In this work we use the SPARQL query language but others could be used like GraphQL.
 
-        We hypothesize that we can create an automated client capable of deciding where to store a resource given a pod.
+        **We hypothesize** that we can create an automated client capable of deciding where to store a resource given a pod.
         Such a client should have maximum execution time overhead of four times, and maximum double the HTTP requests.
     </aside>
 </section>
@@ -623,7 +623,7 @@ posts/
             I wonder whether when we sufficiently describe resources contained in a document and their heritage,
             it might be possible to derive what it means to put certain access rights on a document.
             Such an access control derivation could be usefully for example when one data store is exposed through multiple interfaces.
-        * CAP / ACID - transaction / BASE - CRDTs:
+        * CAP / ACID - transaction / BASE - CRDTs (conflict-free replicated data type):
             I think there is merit in investigating ACID transaction in the context of a Solid pod.
             Application developers are used to transactions, and we should look at whether we can enable them in the context of Solid.
             For example, a certain resource could be annotated in such a way that clients know the resource supports transactions.
